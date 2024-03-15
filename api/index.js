@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User.js');
+const Product = require('./models/Product.js');
+
 const cookieParser = require('cookie-parser');
 
 require('dotenv').config();
@@ -36,6 +38,21 @@ app.post('/register', async (req, res) => {
         res.status(422).json(e);
     }
 
+});
+app.post('/products', async (req, res) => {
+    const {name, description, photo, price } = req.body;
+    try {
+        const newProduct = await Product.create({
+            name,
+            description,
+            photo,
+            price
+        })
+        res.json(newProduct)
+
+    } catch (e) {
+        res.status(422).json(e)
+    }
 });
 app.post('/login', async (req, res) => {
     mongoose.connect(process.env.MONGO_URL);
