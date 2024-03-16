@@ -1,13 +1,35 @@
-import { useContext, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../components/UserContext";
 import { Navigate, Link, useParams } from "react-router-dom";
 import axios from 'axios';
+import ProductList from "../components/ProductList";
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProductsSuccess } from '../actions/productActions'; // Import the action creator
+
+
 
 export default function AccountPage() {
+    const dispatch = useDispatch();
     const { ready, user, setUser } = useContext(UserContext);
     const [redirect, setRedirect] = useState(false);
+    // const [products, setProducts] = useState(null);
+    const products = useSelector(state => state.products);
+    const [loading, setLoading] = useState(true);
+
+    // console.log(products)
 
     let {subpage} = useParams();
+
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/products`).then(({ data }) => {
+            dispatch(fetchProductsSuccess(data)); // Dispatch the action with fetched products
+            setLoading(false)
+        }).catch(error => {
+            console.log(error);
+            setLoading(false)
+        });
+    }, []);
+
     if (subpage === undefined) {
         subpage = 'profile';
     }
@@ -25,7 +47,7 @@ export default function AccountPage() {
         }
         return classes
     }
-
+    
     async function logOut() {
         axios.post(`${import.meta.env.VITE_SERVER_URL}/logout`);
         setUser(null);
@@ -42,9 +64,7 @@ export default function AccountPage() {
              <div className="flex justify-center">
 
              {/* <nav className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 flex justify-around mt-16 mb-12"> */}
-             <nav className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 flex justify-evenly sm:justify-between mt-16 mb-12">
-
-
+                <nav className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 flex justify-evenly sm:justify-between mt-16 mb-12">
                     <Link 
                         className={linkClasses('profile')}
                         to={'/account'}>
@@ -72,10 +92,16 @@ export default function AccountPage() {
                 </nav>
 
             </div>
-            { subpage === 'profile' && (
-                <div className="text-center max-w-lg mx-auto mt-10">
-                    Logged in as {user.name}, {user.email}
-                    <button className="primaryBlue mt-5" onClick={logOut}>Logout</button>
+            {subpage === 'profile' && (
+                <div className="flex flex-col text-center">
+                    {!loading && (
+                        <ProductList products={products} />
+                    )}
+                    
+                    <div className="text-center max-w-lg mx-auto mt-10">
+                        Logged in as {user.name}, {user.email}
+                        <button className="primaryBlue mt-5" onClick={logOut}>Logout</button>
+                    </div>
                 </div>
             )}
         </div>
