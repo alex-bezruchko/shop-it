@@ -9,7 +9,6 @@ export function UserContextProvider({children}) {
     useEffect(() => {
         if(!user) {
             axios.get(`${import.meta.env.VITE_SERVER_URL}/profile`).then(({data}) => {
-                console.log('ahahah', data)
                 setUser(data);
                 setReady(true);
             }).catch(error => {

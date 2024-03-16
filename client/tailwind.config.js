@@ -1,5 +1,6 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+const withMT = require("@material-tailwind/react/utils/withMT");
+
+module.exports = withMT({
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -12,9 +13,9 @@ export default {
         primaryWhite: '#f9f7f3',
         primaryBeige: '#eddea4',
         primaryOrange: '#f7a072',
-      }
+      },
+      // Additional theme customizations specific to Material Tailwind can be added here
     },
   },
   plugins: [],
-}
-
+});
