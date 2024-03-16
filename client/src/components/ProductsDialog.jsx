@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
     Button,
@@ -10,6 +11,8 @@ import {
    
 
 export default function ProductsDialog() {
+    const dispatch = useDispatch();
+
     const [open, setOpen] = useState(false);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
@@ -23,7 +26,7 @@ export default function ProductsDialog() {
         let body = { name, description, photo, price };
         try {
             await axios.post(`${import.meta.env.VITE_SERVER_URL}/products`, body).then(({data})=> {
-                console.log('product', data)
+                dispatch({ type: 'ADD_PRODUCT', payload: data });
                 setName('');
                 setDescription('');
                 setPhoto('');
@@ -34,6 +37,7 @@ export default function ProductsDialog() {
             console.log(e)
         }
     }
+    
     
     return (
         <>
