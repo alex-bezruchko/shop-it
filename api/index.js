@@ -39,6 +39,15 @@ app.post('/register', async (req, res) => {
     }
 
 });
+app.get('/products', async (req, res) => {
+    try {
+      const products = await Product.find();
+      res.json(products);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+});
 app.post('/products', async (req, res) => {
     const {name, description, photo, price } = req.body;
     try {
