@@ -21,7 +21,7 @@ export default function AccountPage() {
     let {subpage} = useParams();
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/products`).then(({ data }) => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/products-all`).then(({ data }) => {
             dispatch(fetchProductsSuccess(data)); // Dispatch the action with fetched products
             setLoading(false);
         }).catch(error => {
