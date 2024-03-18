@@ -110,14 +110,17 @@ export default function CurrentList() {
                     </div>
                     <ul>
                         {currentList.products?.map(product => (
-                        <div key={product._id} className={`flex items-center justify-between bg-white rounded-lg shadow-md p-4 mb-4 border-2 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}>
+                        <div key={product._id} className={`flex items-center justify-between bg-white rounded-lg shadow-md p-3 mb-4 border-2 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}>
                             <div className="flex items-center w-full justify-between">
-                            <div className="mr-4">
-                                <h3 className="text-left text-lg font-medium lora">{product.product.name}</h3>
-                                <p className="text-left text-sm lora">{product.product.description}</p>
-                                <p className="text-left text-sm lora">{product.product.price}</p>
-                            </div>
-                            <img src={product.product.photo} alt="Product Photo" className="w-24 h-auto pr-4"/>
+                                <div className="mr-4 flex flex-col justify-between">
+                                
+                                    <h3 className="text-left text-lg font-medium lora self-start">{product.product.name}</h3>
+                                    <div className="pt-3">
+                                        <p className="text-left text-sm nunito">{product.product.description}</p>
+                                        <p className="text-left text-sm nunito">${product.product.price}</p>
+                                    </div>
+                                </div>
+                                <img src={product.product.photo} alt="Product Photo" className="w-24 h-auto pr-4"/>
                             </div>
                             <div>
                                 {product.completed === true && (<svg className="primaryBlue text-primaryBlue w-10 h-10" onClick={() => checkItemFromList(product._id)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
