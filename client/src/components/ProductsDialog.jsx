@@ -54,7 +54,7 @@ export default function ProductsDialog() {
         }
     }
     async function categorySelect(option) {
-        setCategory(option._id)
+        setCategory(option)
     }
     
     return (
