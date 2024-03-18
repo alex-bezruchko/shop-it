@@ -49,10 +49,9 @@ export default function ProductsDialog() {
                 </svg>
             </button>
             <Dialog open={open} handler={handleOpen}>
-                <h2 className="text-center font-bold text-xl pt-4">New Product</h2>
-                <DialogBody>
+                <h2 className="nunito text-3xl pb-5 text-black text-center pt-5">New Product</h2>
+                <DialogBody className="pt-0">
                     <form>
-
                         <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 grid-cols-1">
                             <div className="sm:col-span-3">
                                 <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Name</label>
@@ -105,24 +104,15 @@ export default function ProductsDialog() {
                                     autoComplete="given-name"
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue sm:text-sm sm:leading-6"/>
                                 </div>
-                            </div>
-                            
+                            </div>    
                         </div>
                     </form>
                 </DialogBody>
                 <DialogFooter>
-
-                    <Button
-                        variant="text"
-                        color="red"
-                        onClick={handleOpen}
-                        className="mr-1"
-                    >
-                        <span>Cancel</span>
-                    </Button>
-                    <Button variant="gradient" color="green" onClick={createProduct}>
-                        <span>Confirm</span>
-                    </Button>
+                <div className="flex justify-end">
+                    <button className="primaryOrange mt-5 nunito font-medium text-xl flex-grow" onClick={handleOpen}>Cancel</button>
+                    <button className="primaryBlue mt-5 nunito font-medium text-xl flex-grow flex-shrink-0 ml-2" onClick={createProduct}>Create</button>
+                </div>
                 </DialogFooter>
             </Dialog>
         </>
