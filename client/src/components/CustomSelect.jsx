@@ -1,17 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-function CustomSelect({ options, handleSelect }) {
+function CustomSelect({ options, handleSelect, selectedOption: externalSelectedOption }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+
+  useEffect(() => {
+    if (externalSelectedOption && externalSelectedOption) {
+      setSelectedOption(externalSelectedOption);
+    }
+  }, [externalSelectedOption]);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
   const handleOptionClick = (option) => {
-    setSelectedOption(option);
+    setSelectedOption(option._id);
     setIsOpen(false);
-    handleSelect(option)
+    handleSelect(option._id);
   };
 
   return (
@@ -21,7 +27,7 @@ function CustomSelect({ options, handleSelect }) {
         type="button"
         className="w-full bg-white border border-gray-300 rounded-md shadow-sm px-4 py-2 text-left flex items-center justify-between"
       >
-        <span className="block truncate">{selectedOption ? selectedOption.name : 'Select an option'}</span>
+        <span className="block truncate">{selectedOption ? options.find(opt => opt._id === selectedOption)?.name : 'Select an option'}</span>
         <svg
           className={`w-4 h-4 ml-2 transition-transform ${isOpen ? 'transform rotate-180' : ''}`}
           viewBox="0 0 20 20"
@@ -40,7 +46,7 @@ function CustomSelect({ options, handleSelect }) {
             <li key={option._id}>
               <button
                 onClick={() => handleOptionClick(option)}
-                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                className={`block w-full px-4 py-2 text-left ${selectedOption === option._id ? 'bg-gray-100' : 'hover:bg-gray-100'}`}
               >
                 {option.name}
               </button>
