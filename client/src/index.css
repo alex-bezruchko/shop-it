@@ -11,3 +11,6 @@ button.primaryBlue {
 button.secondaryBlue {
     @apply bg-secondaryBlue p-2 w-full text-white rounded;
 }
+button.primaryOrange {
+    @apply bg-primaryOrange p-2 w-full text-white rounded;
+}
