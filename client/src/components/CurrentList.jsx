@@ -9,27 +9,25 @@ export default function CurrentList() {
     // const dispatch = useDispatch();
 
     const {user} = useContext(UserContext);
+    const [ifNotEditing, setIfNotEditing] = useState(false);
+    const [newName, setNewName] = useState('');
     let { listId } = useParams();
     const [currentList, setCurrentList] = useState({});
     const [selectedListId, setSelectedListId] = useState('');
     
     useEffect(() => {
         let url = '';
-        console.log('before', url)
         if (listId === 'recent' || listId === '' || listId === undefined) {
             url = `${import.meta.env.VITE_SERVER_URL}/shoppinglists/recent`;
         } else {
             url = `${import.meta.env.VITE_SERVER_URL}/shoppinglists/${listId}`
         }
-        console.log('after', url)
 
         axios.get(url).then(({ data }) => {
-            // dispatch(fetchProductsSuccess(data)); // Dispatch the action with fetched products
-            // setLoading(false)
-            console.log('data', data)
             if (data.data) {
                 setSelectedListId(data.data._id);
-                setCurrentList(data.data)
+                setNewName(data.data.name);
+                setCurrentList(data.data);
             }
         }).catch(error => {
             console.log(error);
@@ -37,67 +35,38 @@ export default function CurrentList() {
     }, []);
 
     async function checkItemFromList(itemId) {
-        console.log('PRODUCT ID', itemId);
-        console.log('SELECTED LIST ID', selectedListId);
-        console.log('before updatedList', currentList);
-
-        // Find the index of the product within the products array
+ 
         const itemIndex = currentList.products.findIndex(item => item._id === itemId);
         
-        if (itemIndex !== -1) { // Ensure the product is found
-            // Toggle the 'complete' boolean of the product
+        if (itemIndex !== -1) { 
+
             currentList.products[itemIndex].completed = !currentList.products[itemIndex].completed;
 
             try {
-                // Update backend with the updated shopping list
-                const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/shoppinglists/${selectedListId}`, { products: currentList.products });
-                console.log('Shopping list updated successfully', response.data);
+                const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/shoppinglists/${selectedListId}`, { name: currentList.name, products: currentList.products });
                 // Update local state with the updated list
                 setCurrentList({ ...currentList }); // Trigger re-render by creating a new object reference
-                console.log('currentList', currentList)
             } catch (error) {
                 console.error('Error updating shopping list:', error);
             }
         } else {
             console.log('Product not found in the list.');
         }
-        // const listId = selectedListId;
-        // console.log('PRODUCT ID', itemId)
-        // console.log('SELECTED LIST ID', selectedListId)
-        // console.log('before updatedList', currentList)
-        // const updatedLists = currentList.products.map(list => {
-        //     if (list._id === listId) {
-        //         const updatedItems = list.products.map(item => {
-        //             if (item.product._id === itemId) {
-        //                 return {
-        //                     ...item,
-        //                     complete: !item.complete
-        //                 };
-        //             }
-        //             return item;
-        //         });
-        //         return {
-        //             ...list,
-        //             products: updatedItems
-        //         };
-        //     }
-        //     return list;
-        // });
-    
-        // console.log('after updatedLists', updatedLists)
-
-        // try {
-        //     // Update backend with the updated shopping list
-        //     let response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/shoppinglists/${listId}`, { products: updatedLists });
-        //     console.log('Shopping list updated successfully', response);
-        //     // Update local state with the updated list
-        //     setCurrentList(updatedLists);
-        // } catch (error) {
-        //     console.error('Error updating shopping list:', error);
-        // }
     }
 
-    console.log('currentList', currentList)
+    async function toggleEditing() {
+        setIfNotEditing(!ifNotEditing);
+        if (ifNotEditing) {
+            try {
+                const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/shoppinglists/${selectedListId}`, { name: newName, products: currentList.products });
+                // Update local state with the updated name
+                setCurrentList({ ...currentList, name: newName }); // Update the name in the current list state
+            } catch (error) {
+                console.error('Error updating shopping list name:', error);
+            }
+        }
+    }
+
     return (
         <div className="flex flex-col">
           
@@ -111,7 +80,34 @@ export default function CurrentList() {
         )
         } <div className="flex flex-col text-center justify-center">
                 <div className="w-full">
-                    <h2 className="nunito text-3xl pb-5">{currentList.name}</h2>
+                    <div className="flex justify-center items-center  pb-5">
+                        {!ifNotEditing && (<><h2 className="nunito text-3xl">
+                            {currentList.name}
+                        </h2>
+                        <svg onClick={toggleEditing} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 self-center ml-2">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                        </svg></>)}
+                        {ifNotEditing && (
+                            <div className="sm:col-span-3">
+                                {/* <label htmlFor="name" className="block nunito text-3xl pb-5">Name</label> */}
+                                <div className="mt-0 flex justify-center items-center">
+                                    <input 
+                                    type="text"
+                                    name="name"
+                                    value={newName}
+                                    onChange={e => setNewName(e.target.value)}
+                                    id="name"
+                                    className="editInline block w-full nunito text-3xl rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue text-center"
+                                    />
+                                    <svg onClick={toggleEditing} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7 ml-1">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12" />
+                                    </svg>
+
+                                </div>
+                            </div>
+                        )}
+                        
+                    </div>
                     <ul>
                         {currentList.products?.map(product => (
                         <div key={product._id} className={`flex items-center justify-between bg-white rounded-lg shadow-md p-4 mb-4 border-2 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}>
