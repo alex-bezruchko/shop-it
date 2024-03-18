@@ -54,7 +54,6 @@ app.get('/products-all', async (req, res) => {
 
 app.get('/product/:id', async (req, res) => {
     const productId = req.params.id;
-    console.log(productId)
     try {
         const product = await Product.findById(productId);
 
@@ -64,7 +63,6 @@ app.get('/product/:id', async (req, res) => {
 
         res.json(product);
     } catch (error) {
-        console.error('Error fetching product:', error);
         res.status(500).json({ message: 'Internal server error' });
     }
 });
@@ -88,7 +86,6 @@ app.post('/products', async (req, res) => {
 
 app.put('/products/:id', async (req, res) => {
     const productId = req.params.id;
-    console.log(req.body.formData)
     const { name, description, photo, price, category } = req.body.formData;
     try {
         const updatedProduct = await Product.findByIdAndUpdate(productId, {
