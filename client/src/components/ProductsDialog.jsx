@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-
+import CustomSelect from "./CustomSelect";
 import {
     Button,
     Dialog,
@@ -14,21 +14,37 @@ export default function ProductsDialog() {
     const dispatch = useDispatch();
 
     const [open, setOpen] = useState(false);
+    const [categories, setCategories] = useState([]);
+
     const [name, setName] = useState('');
+    const [category, setCategory] = useState('');
     const [description, setDescription] = useState('');
     const [photo, setPhoto] = useState('');
     const [price, setPrice] = useState('');
     const handleOpen = () => setOpen(!open);
 
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_SERVER_URL}/categories`).then(({ data }) => {
+            let options = data.map(item => ({
+                _id: item._id,
+                name: item.name
+            }))
+            setCategories(options);
+
+        }).catch(error => {
+            console.log(error);
+        });
+    }, []);
+
     async function createProduct(e) {
-        console.log('createProduct')
         e.preventDefault();
-        let body = { name, description, photo, price };
+        let body = { name, description, photo, price, category };
         try {
             await axios.post(`${import.meta.env.VITE_SERVER_URL}/products`, body).then(({data})=> {
                 dispatch({ type: 'ADD_PRODUCT', payload: data });
                 setName('');
                 setDescription('');
+                setCategory('');
                 setPhoto('');
                 setPrice('');
                 setOpen(false);
@@ -37,7 +53,9 @@ export default function ProductsDialog() {
             console.log(e)
         }
     }
-    
+    async function categorySelect(option) {
+        setCategory(option._id)
+    }
     
     return (
         <>
@@ -66,6 +84,11 @@ export default function ProductsDialog() {
                                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue sm:text-sm sm:leading-6"/>
                                 </div>
                             </div>
+
+                            <div className="sm: col-span-3">
+                                {categories.length > 0 && (<CustomSelect handleSelect={categorySelect} options={categories}/>)}
+                            </div>
+                            
                             <div className="sm:col-span-3">
                                 <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                 <div className="mt-2">
