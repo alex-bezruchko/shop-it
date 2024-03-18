@@ -13,6 +13,7 @@ module.exports = withMT({
         primaryWhite: '#f9f7f3',
         primaryBeige: '#eddea4',
         primaryOrange: '#f7a072',
+        primaryRed: '#ad2831'
       },
       // Additional theme customizations specific to Material Tailwind can be added here
     },

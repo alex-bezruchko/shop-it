@@ -42,7 +42,7 @@ app.post('/register', async (req, res) => {
     }
 
 });
-app.get('/products', async (req, res) => {
+app.get('/products-all', async (req, res) => {
     try {
       const products = await Product.find();
       res.json(products);
@@ -51,14 +51,31 @@ app.get('/products', async (req, res) => {
       res.status(500).json({ message: 'Internal server error' });
     }
 });
+
+app.get('/product/:id', async (req, res) => {
+    const productId = req.params.id;
+    try {
+        const product = await Product.findById(productId);
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        res.json(product);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
 app.post('/products', async (req, res) => {
-    const {name, description, photo, price } = req.body;
+    const {name, description, photo, price, category } = req.body;
     try {
         const newProduct = await Product.create({
             name,
             description,
             photo,
-            price
+            price,
+            category
         })
         res.json(newProduct)
 
@@ -66,6 +83,47 @@ app.post('/products', async (req, res) => {
         res.status(422).json(e)
     }
 });
+
+app.put('/products/:id', async (req, res) => {
+    const productId = req.params.id;
+    const { name, description, photo, price, category } = req.body.formData;
+    try {
+        const updatedProduct = await Product.findByIdAndUpdate(productId, {
+            name,
+            description,
+            photo,
+            price,
+            category
+        }, { new: true });
+
+        if (!updatedProduct) {
+            return res.status(404).json({ message: "Product not found" });
+        }
+
+        res.json(updatedProduct);
+    } catch (e) {
+        res.status(422).json(e);
+    }
+});
+
+app.delete('/products/:id', async (req, res) => {
+    const productId = req.params.id;
+    try {
+        const deletedProduct = await Product.findByIdAndDelete(productId);
+        console.log('deletedProduct', deletedProduct)
+        if (!deletedProduct) {
+            res.status(404).json({ message: "Product not found" });
+        } else {
+            res.json({ message: "Product deleted successfully", deletedProduct });
+
+        }
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 app.post('/login', async (req, res) => {
     mongoose.connect(process.env.MONGO_URL);
 
@@ -204,6 +262,7 @@ app.get('/shoppinglists/owner/:ownerId', async (req, res) => {
 });
 
 app.get('/products/search', async (req, res) => {
+    console.log('hello');
     try {
       const query = req.query.query; // Assuming the query parameter is named 'name'
       if (!query) {
@@ -222,6 +281,7 @@ app.get('/products/search', async (req, res) => {
       res.status(500).json({ message: 'Server Error' });
     }
 });
+
 
 app.post('/categories', async (req, res) => {
     try {

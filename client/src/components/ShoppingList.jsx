@@ -4,7 +4,6 @@ import axios from 'axios';
 import ProductList from "../components/ProductList";
 import { useNavigate } from "react-router-dom";
 
-
 // import { useDispatch, useSelector } from 'react-redux';
 
 export default function ShoppingList() {
@@ -24,11 +23,9 @@ export default function ShoppingList() {
             owner: user._id,
             completed: false
         }
-        console.log('body', body)
         
         try {
             await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/${body.owner}/shoppinglist`, body).then(({data})=> {
-                console.log(data)
                 navigate(`/account/current/${data.shoppingList._id}`)
                 setList({name: '', products: []})
             });
@@ -37,7 +34,6 @@ export default function ShoppingList() {
         }
     }
     function removeFromList(selectedProduct) {
-            // If it's not a duplicate, update the state with the new product added
         const updatedProducts = selectedProducts.products.filter(product => product._id !== selectedProduct._id);
 
         setSelectedProducts(prevState => ({
@@ -63,14 +59,37 @@ export default function ShoppingList() {
             await axios.get(`${import.meta.env.VITE_SERVER_URL}/products/search/?query=${body}`).then(({ data }) => {
                 setProducts(data)
             }).catch(error => {
-                console.log(error);
+                if (error) {
+                    setProducts([])
+                }
             });
         } catch(e) {
             console.log(e)
         }
     }
-    
-    
+
+    async function handleUpdateProducts(formData) {
+        let product = formData.formData;
+        product._id = '';
+        product._id = formData._id;
+
+        let updatedProducts = [...products.products];
+        let findIndex = updatedProducts.findIndex(item => item._id === product._id);
+        
+        // If the product is found, update it in the copy of the products array
+        if (findIndex !== -1) {
+            updatedProducts[findIndex] = product;
+            // Update the state with the new products array
+            setProducts({ ...products, products: updatedProducts });
+        } 
+    }
+
+    async function deleteProductFromList(id) {
+        console.log(id)
+        let updatedProducts = [...products.products];
+        let newList = updatedProducts.filter(item => item._id !== id);
+        setProducts({ ...products, products: newList });
+    }
     return (
         <div className="flex flex-col">
             <div className="sm:col-span-3">
@@ -91,32 +110,32 @@ export default function ShoppingList() {
             
             <div className="flex flex-col text-center justify-center">
                 <label htmlFor="name" className="block nunito text-3xl pt-5">Products</label>
-
-                    <div className="w-full">
-                        <ul>
-                            {selectedProducts.products.map(product => (
-                            <div key={product._id} className="flex items-center justify-between bg-white rounded-lg shadow-md p-4 mb-4">
-                                <div className="flex items-center w-full justify-between">
-                                <div className="mr-4">
-                                    <h3 className="text-left text-lg font-medium lora">{product.name}</h3>
-                                    <p className="text-left text-sm lora">{product.description}</p>
-                                    <p className="text-left text-sm lora">{product.price}</p>
+                <div className="w-full">
+                    <ul>
+                        {selectedProducts.products.map(product => (
+                        <div key={product._id} className="flex items-center justify-between bg-white rounded-lg shadow-md p-3 mb-4">
+                            <div className="flex items-center w-full justify-between">
+                                <div className="mr-4 flex flex-col justify-between">
+                                
+                                    <h3 className="text-left text-lg font-medium lora self-start">{product.name}</h3>
+                                    <div className="pt-3">
+                                        <p className="text-left text-sm nunito">{product.description}</p>
+                                        <p className="text-left text-sm nunito">${product.price}</p>
+                                    </div>
                                 </div>
                                 <img src={product.photo} alt="Product Photo" className="w-24 h-auto pr-4"/>
-                                </div>
-                                <div onClick={() => removeFromList(product)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                    </svg>
-                                </div>
                             </div>
-                            ))}
-                        </ul>
-                    </div>
+                            <div onClick={() => removeFromList(product)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </div>
+                        </div>
+                        ))}
+                    </ul>
                 </div>
-            {/* <ProductList products={products} addToList={addToList}/> */}
+            </div>
 
-            
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 grid-cols-1">
                 <div className="sm:col-span-3">
                     <div className="flex">
@@ -137,7 +156,7 @@ export default function ShoppingList() {
                     
                 </div>
             </div>
-            <ProductList noHeader={true} products={products} addToList={addToList}/>
+            <ProductList handleUpdateProducts={handleUpdateProducts} deleteProduct={deleteProductFromList} noHeader={true} products={products} addToList={addToList}/>
             <button className="primaryBlue mt-5 nunito text-xl" onClick={createShoppingList}>Create List</button>
 
             {}

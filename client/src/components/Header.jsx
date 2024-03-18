@@ -15,9 +15,7 @@ export default function Header() {
                 <span className="font-bold text-xl">Shop-it</span>
             </Link>
             <div className="flex gap-2 border border-blue-200 rounded-full p-2 px-3 shadow-md shadow-gray-300">
-                
-            <ProductsDialog></ProductsDialog>
-
+                <ProductsDialog/>
             </div>
             <Link to={user?'/account':'/login'} className="flex items-center gap-2 border border-blue-200 rounded-full p-2 px-3 shadow-md shadow-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

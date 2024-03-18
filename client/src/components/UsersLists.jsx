@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import axios from 'axios';
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import { useDispatch, useSelector } from 'react-redux';
 
 export default function UsersLists({sendTo, currentLink}) {
@@ -10,16 +10,12 @@ export default function UsersLists({sendTo, currentLink}) {
     const {user} = useContext(UserContext);
     const [currentLists, setCurrentLists] = useState([]);
     const [selectedListId, setSelectedListId] = useState('');
-    let navigate = useNavigate();
-    console.log(user._id)
     let url = `${import.meta.env.VITE_SERVER_URL}/shoppinglists/owner/${user._id}`;
 
-    console.log(url)
     useEffect(() => {
         axios.get(url).then(({ data }) => {
             // dispatch(fetchProductsSuccess(data)); // Dispatch the action with fetched products
             // setLoading(false)
-            console.log('data', data)
             if (data.shoppingLists) {
                 currentLink(data.shoppingLists[0]._id)
                 setCurrentLists(data.shoppingLists)
@@ -31,49 +27,8 @@ export default function UsersLists({sendTo, currentLink}) {
 
     async function viewList(id) {
         sendTo(id)
-        // navigate(`/account/current/${id}`)
     }
-    // async function checkItemFromList(itemId) {
 
-
-    // async function checkItemFromList(itemId) {
-    //     const listId = selectedListId;
-    //     console.log('PRODUCT ID', itemId)
-    //     console.log('SELECTED LIST ID', selectedListId)
-    //     console.log('before updatedLists', currentLists)
-    //     const updatedLists = currentLists[0].products.map(list => {
-    //         if (list._id === listId) {
-    //             const updatedItems = list.products.map(item => {
-    //                 if (item.product._id === selectedListId) {
-    //                     return {
-    //                         ...item,
-    //                         complete: !item.complete
-    //                     };
-    //                 }
-    //                 return item;
-    //             });
-    //             return {
-    //                 ...list,
-    //                 products: updatedItems
-    //             };
-    //         }
-    //         return list;
-    //     });
-    
-    //     console.log('after updatedLists', updatedLists)
-
-    //     try {
-    //         // Update backend with the updated shopping list
-    //         let response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/shoppinglists/${listId}`, { products: updatedLists });
-    //         console.log('Shopping list updated successfully', response);
-    //         // Update local state with the updated list
-    //         setCurrentLists(updatedLists);
-    //     } catch (error) {
-    //         console.error('Error updating shopping list:', error);
-    //     }
-    // }
-
-    console.log('currentLists', currentLists)
     return (
         <div className="flex flex-col">
           
@@ -120,34 +75,8 @@ export default function UsersLists({sendTo, currentLink}) {
                         ))}
                     </ul>
                 </div>
-                {/* <button className="primaryBlue mt-5" onClick={createShoppingList}>Create List</button> */}
             </div>
-            {/* <ProductList products={products} addToList={addToList}/> */}
 
-            
-            {/* <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 grid-cols-1">
-                <div className="sm:col-span-3">
-                    <div className="mt-2 flex">
-                        <input 
-                        type="text"
-                        name="name"
-                        onChange={searchProducts}
-                        id="name"
-                        placeholder="Search"
-                        autoComplete="given-name"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue sm:text-sm sm:leading-6"/>
-                        <button style={{marginLeft: '-35px'}}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                            </svg>
-                        </button>
-                    </div>
-                    
-                </div>
-            </div>
-            <ProductList noHeader={true} products={products} addToList={addToList}/>
-            {}
-             */}
         </div>
     )
 }
