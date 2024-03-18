@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User.js');
 const Product = require('./models/Product.js');
+const ShoppingList = require('./models/ShoppingList.js');
 
 const cookieParser = require('cookie-parser');
 
@@ -70,7 +71,6 @@ app.post('/login', async (req, res) => {
 
     try {
         const userInfo = await User.findOne({email});
-        console.log(userInfo);
         if (userInfo) {
             const passOk = bcrypt.compareSync(password, userInfo.password);
             if (passOk) {
@@ -107,6 +107,118 @@ app.get('/profile', (req, res) => {
         res.json(null);
     }
 })
+
+app.post('/user/:userId/shoppinglist', async (req, res) => {
+    try {
+        const { name, products, owner, completed } = req.body;
+        const userId = owner;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found.' });
+        }
+        const productIds = products.map(product => ({ product: product._id, completed: product.completed }));
+
+        // Create shopping list object
+        const shoppingList = new ShoppingList({
+            name: name,
+            owner: userId,
+            products: productIds,
+            completed: completed
+        });
+    
+        // Save shopping list to database
+        await shoppingList.save();
+    
+        res.status(201).json({ message: 'Shopping list created successfully.', shoppingList });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server Error' });
+    }
+});
+app.get('/shoppinglists/:listId', async (req, res) => {
+    try {
+        const listId = req.params.listId;
+        
+        if (listId === 'recent' || listId == '' || listId == undefined) {
+            // Fetch the most recent shopping list from the database
+            const mostRecentList = await ShoppingList.findOne().sort({ createdAt: -1 }).populate('products.product');
+            res.status(200).json({ message: 'Most recent shopping list fetched successfully', data: mostRecentList });
+        } else {
+            // Fetch the shopping list by its ID
+            const shopList = await ShoppingList.findById(listId).populate('products.product');
+            res.status(200).json({ message: 'Shopping list fetched successfully', data: shopList });
+        }
+    } catch(error) {
+        console.error('Error updating shopping list:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+
+});
+
+app.put('/shoppinglists/:listId', async (req, res) => {
+    try {
+        const listId = req.params.listId;
+        const { products } = req.body;
+
+        const shopList = await ShoppingList.findById(listId);
+        let productIds = products.filter(product => product.completed === true);
+
+        if (productIds?.length === products.length) {
+            shopList.completed = true;
+        } else {
+            shopList.completed = false;
+        }
+        shopList.products = products;
+        await shopList.save();
+
+        // Send back a success response
+        res.status(200).json({ message: 'Shopping list updated successfully', data: shopList });
+    } catch (error) {
+        // Handle errors
+        console.error('Error updating shopping list:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+app.get('/shoppinglists/owner/:ownerId', async (req, res) => {
+    try {
+        const ownerId = req.params.ownerId;
+        const { completed } = req.query;
+
+        const query = { owner: ownerId };
+
+        if (completed && completed.toLowerCase() === 'true') {
+            query.completed = true;
+        }
+
+        const shoppingLists = await ShoppingList.find(query).sort({ createdAt: -1 });
+
+        res.json({ shoppingLists });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server Error' });
+    }
+});
+
+
+app.get('/products/search', async (req, res) => {
+    try {
+      const query = req.query.query; // Assuming the query parameter is named 'name'
+      if (!query) {
+        return res.status(400).json({ message: 'Name query parameter is required.' });
+      }
+  
+      const products = await Product.find({ name: { $regex: new RegExp(query, 'i') } });
+  
+      if (products.length === 0) {
+        return res.status(404).json({ message: 'No products found matching the name query.' });
+      }
+  
+      res.json({ products });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server Error' });
+    }
+  });
 
 app.post('/logout', (req, res) => {
     res.cookie('token', '').json(true);
