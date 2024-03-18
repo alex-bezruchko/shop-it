@@ -6,6 +6,8 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/User.js');
 const Product = require('./models/Product.js');
 const ShoppingList = require('./models/ShoppingList.js');
+const Category = require('./models/Category.js');
+
 
 const cookieParser = require('cookie-parser');
 
@@ -158,7 +160,7 @@ app.get('/shoppinglists/:listId', async (req, res) => {
 app.put('/shoppinglists/:listId', async (req, res) => {
     try {
         const listId = req.params.listId;
-        const { products } = req.body;
+        const { products, name } = req.body;
 
         const shopList = await ShoppingList.findById(listId);
         let productIds = products.filter(product => product.completed === true);
@@ -169,6 +171,7 @@ app.put('/shoppinglists/:listId', async (req, res) => {
             shopList.completed = false;
         }
         shopList.products = products;
+        shopList.name = name;
         await shopList.save();
 
         // Send back a success response
@@ -179,6 +182,7 @@ app.put('/shoppinglists/:listId', async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 });
+
 app.get('/shoppinglists/owner/:ownerId', async (req, res) => {
     try {
         const ownerId = req.params.ownerId;
@@ -199,7 +203,6 @@ app.get('/shoppinglists/owner/:ownerId', async (req, res) => {
     }
 });
 
-
 app.get('/products/search', async (req, res) => {
     try {
       const query = req.query.query; // Assuming the query parameter is named 'name'
@@ -218,7 +221,28 @@ app.get('/products/search', async (req, res) => {
       console.error(err);
       res.status(500).json({ message: 'Server Error' });
     }
-  });
+});
+
+app.post('/categories', async (req, res) => {
+    try {
+        const { name } = req.body;
+        const newCategory = await Category.create({name})
+        res.json(newCategory)
+
+    } catch(e) {
+        res.json(e)
+    }
+})
+
+app.get('/categories', async (req, res) => {
+    try {
+        const categories = await Category.find()
+        res.json(categories)
+
+    } catch(e) {
+        res.json(e)
+    }
+})
 
 app.post('/logout', (req, res) => {
     res.cookie('token', '').json(true);
