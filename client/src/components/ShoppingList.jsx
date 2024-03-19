@@ -1,19 +1,22 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { UserContext } from "./UserContext";
 import axios from 'axios';
 import ProductList from "../components/ProductList";
 import { useNavigate } from "react-router-dom";
 
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export default function ShoppingList() {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const {user} = useContext(UserContext);
     const [list, setList] = useState('');
     const [products, setProducts] = useState({});
     const [selectedProducts, setSelectedProducts] = useState({products: []});
     const navigate = useNavigate();
+
+    dispatch({ type: 'REMOVE_ALERT', payload: {message: null, alert: null} });
+    
 
     async function createShoppingList(e) {
         e.preventDefault();
@@ -28,6 +31,7 @@ export default function ShoppingList() {
             await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/${body.owner}/shoppinglist`, body).then(({data})=> {
                 navigate(`/account/current/${data.shoppingList._id}`)
                 setList({name: '', products: []})
+                dispatch({ type: 'SET_ALERT', payload: {message: 'Shopping list create successfully', alertType: 'primaryGreen'} });
             });
         } catch(e) {
             console.log(e)

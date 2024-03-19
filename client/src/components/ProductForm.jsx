@@ -102,7 +102,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
         <>
             {/* Render the modal only if isModalOpen is true */}
             <button onClick={() => handleOpen(product)} className="text-primaryBlue p-1 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 self-center ml-2">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 self-center mx-2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                 </svg>
             </button>
@@ -178,7 +178,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                 <DialogFooter>
                 <div className="w-full flex justify-between">
                     <div>
-                        <button className="primaryRed mt-5 nunito font-medium text-xl flex-grow" onClick={handleOpenDelete}>Delete</button>
+                        <button className="primaryRed mt-5 nunito font-medium text-xl flex-grow p-2" onClick={handleOpenDelete}>Delete</button>
                     </div>
                     <div className="flex justify-end">
                         <button className="primaryOrange mt-5 nunito font-medium text-xl flex-grow" onClick={handleOpen}>Cancel</button>
@@ -194,7 +194,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                 <DialogFooter>
                     <div className="flex justify-end">
                         <button className="primaryOrange mt-5 nunito font-medium text-xl flex-grow" onClick={handleOpenDelete}>Cancel</button>
-                        <button className="primaryRed mt-5 nunito font-medium text-xl flex-grow flex-shrink-0 ml-2" onClick={deleteProduct}>Delete</button>
+                        <button className="primaryRed mt-5 nunito font-medium text-xl flex-grow flex-shrink-0 ml-2 p-2" onClick={deleteProduct}>Delete</button>
                     </div>
                 </DialogFooter>
             </Dialog>

@@ -15,3 +15,17 @@
 .secondaryBlue {
   stroke: #b5e2fa;
 }
+
+.primaryGreen {
+  stroke: #6a994e;
+}
+
+.primaryRed {
+  stroke: '#ad2831'
+}
+.border-primaryGreen {
+  border-color: #6a994e;
+}
+.border-primaryRed {
+  border-color: #ad2831;
+}

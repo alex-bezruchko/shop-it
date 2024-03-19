@@ -8,7 +8,8 @@ import ShoppingList from "../components/ShoppingList";
 import CompleteList from "../components/CompleteList";
 import CurrentList from "../components/CurrentList";
 import UsersLists from "../components/UsersLists";
-
+// import { connect } from 'react-redux';
+// import { setAlert } from '../../src/actions/alertActions';
 
 export default function AccountPage() {
     const dispatch = useDispatch();
@@ -50,6 +51,8 @@ export default function AccountPage() {
     
     async function logOut() {
         axios.post(`${import.meta.env.VITE_SERVER_URL}/logout`);
+        dispatch({ type: 'SET_ALERT', payload: {message: 'Logged out successfully', alertType: 'primaryGreen'} });
+
         setUser(null);
         setRedirect('/');
     }
@@ -71,7 +74,7 @@ export default function AccountPage() {
              <div className="flex justify-center">
 
              {/* <nav className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 flex justify-around mt-16 mb-12"> */}
-                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-16 mb-12">
+                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-10 mb-12">
                     <Link 
                         className={linkClasses('profile')}
                         to={'/account'}>
@@ -108,7 +111,7 @@ export default function AccountPage() {
                 </nav>
 
             </div>
-            <div className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-center mt-0 mb-1 mx-auto">
+            <div className="flex flex-col w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-center mt-0 mb-1 mx-auto">
                 <div className="w-full">
                     {subpage === 'profile' && (
                     <div className="flex flex-col text-center">

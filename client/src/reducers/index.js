@@ -1,9 +1,11 @@
 // reducers/index.js
 import { combineReducers } from 'redux';
-import productReducer from './productReducer'; // Assume you have a product reducer defined
+import productReducer from './productReducer';
+import alertstReducer from './alertsReducer';
 
 const rootReducer = combineReducers({
-  products: productReducer
+  products: productReducer,
+  alert: alertstReducer
 });
 
 export default rootReducer;
