@@ -42,6 +42,7 @@ app.post('/register', async (req, res) => {
     }
 
 });
+
 app.get('/products-all', async (req, res) => {
     try {
       const products = await Product.find();
@@ -124,6 +125,23 @@ app.delete('/products/:id', async (req, res) => {
     }
 });
 
+app.delete('/shoppinglists/:id', async (req, res) => {
+    const listId = req.params.id;
+    try {
+        const deleteList = await ShoppingList.findByIdAndDelete(listId);
+        if (!deleteList) {
+            res.status(404).json({ message: "List not found" });
+        } else {
+            res.json({ message: "List deleted successfully", deleteList });
+
+        }
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 app.post('/login', async (req, res) => {
     mongoose.connect(process.env.MONGO_URL);
 
@@ -150,9 +168,11 @@ app.post('/login', async (req, res) => {
     }
 
 })
+
 app.get('/test', (req, res) => {
     res.json('it`s okay')
 })
+
 app.get('/profile', (req, res) => {
     mongoose.connect(process.env.MONGO_URL);
 
@@ -212,7 +232,6 @@ app.get('/shoppinglists/:listId', async (req, res) => {
         console.error('Error updating shopping list:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
-
 });
 
 app.put('/shoppinglists/:listId', async (req, res) => {
@@ -281,7 +300,6 @@ app.get('/products/search', async (req, res) => {
       res.status(500).json({ message: 'Server Error' });
     }
 });
-
 
 app.post('/categories', async (req, res) => {
     try {
