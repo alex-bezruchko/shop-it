@@ -10,15 +10,12 @@ export default function CompleteList({sendTo}) {
     const {user} = useContext(UserContext);
     const [currentLists, setCurrentLists] = useState([]);
     const [selectedListId, setSelectedListId] = useState('');
-    let navigate = useNavigate();
-    console.log(user._id)
+    // let navigate = useNavigate();
     let url = `${import.meta.env.VITE_SERVER_URL}/shoppinglists/owner/${user._id}?completed=true`;
-    console.log(url)
     useEffect(() => {
         axios.get(url).then(({ data }) => {
             // dispatch(fetchProductsSuccess(data)); // Dispatch the action with fetched products
             // setLoading(false)
-            console.log('data', data)
             if (data.shoppingLists) {
                 setCurrentLists(data.shoppingLists)
             }
@@ -29,49 +26,9 @@ export default function CompleteList({sendTo}) {
 
     async function viewList(id) {
         sendTo(id)
-        // navigate(`/account/current/${id}`)
     }
-    // async function checkItemFromList(itemId) {
 
 
-    // async function checkItemFromList(itemId) {
-    //     const listId = selectedListId;
-    //     console.log('PRODUCT ID', itemId)
-    //     console.log('SELECTED LIST ID', selectedListId)
-    //     console.log('before updatedLists', currentLists)
-    //     const updatedLists = currentLists[0].products.map(list => {
-    //         if (list._id === listId) {
-    //             const updatedItems = list.products.map(item => {
-    //                 if (item.product._id === selectedListId) {
-    //                     return {
-    //                         ...item,
-    //                         complete: !item.complete
-    //                     };
-    //                 }
-    //                 return item;
-    //             });
-    //             return {
-    //                 ...list,
-    //                 products: updatedItems
-    //             };
-    //         }
-    //         return list;
-    //     });
-    
-    //     console.log('after updatedLists', updatedLists)
-
-    //     try {
-    //         // Update backend with the updated shopping list
-    //         let response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/shoppinglists/${listId}`, { products: updatedLists });
-    //         console.log('Shopping list updated successfully', response);
-    //         // Update local state with the updated list
-    //         setCurrentLists(updatedLists);
-    //     } catch (error) {
-    //         console.error('Error updating shopping list:', error);
-    //     }
-    // }
-
-    console.log('currentLists', currentLists)
     return (
         <div className="flex flex-col">
           
