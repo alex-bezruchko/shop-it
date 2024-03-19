@@ -1,8 +1,10 @@
 import {Link} from "react-router-dom";
 import { useState } from "react";
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 export default function RegisterPage() {
+    const dispatch = useDispatch();
     
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -11,9 +13,12 @@ export default function RegisterPage() {
         e.preventDefault();
         let body = { name, email, password };
         try {
-            await axios.post(`${import.meta.env.VITE_SERVER_URL}/register`, body);
+            let response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/register`, body);
+            if (response) {
+                dispatch({ type: 'SET_ALERT', payload: {message: 'Registered successfully', alertType: 'primaryGreen'} });
+            }
         } catch(e) {
-
+            dispatch({ type: 'SET_ALERT', payload: {message: ' Unable to register', alertType: 'primaryRed'} });
         }
 
     }
