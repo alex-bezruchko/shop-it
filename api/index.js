@@ -22,11 +22,6 @@ app.use(cors({
     origin: 'http://localhost:5174',
     credentials: true
 }));
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://shop-it-stfo.onrender.com');
-    // You may need to adjust other CORS headers like Access-Control-Allow-Methods, etc. based on your requirements.
-    next();
-});
 
 mongoose.connect(process.env.MONGO_URL);
 app.options('*', cors()); // Handle preflight requests for all routes
