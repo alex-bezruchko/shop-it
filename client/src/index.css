@@ -20,4 +20,6 @@ button.primaryRed {
 input.editInline {
     @apply p-0 m-0
 }
-
+button.primaryGreen {
+    @apply bg-primaryGreen text-white rounded;
+}
