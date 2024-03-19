@@ -14,7 +14,6 @@ export default function ShoppingList() {
     const [products, setProducts] = useState({});
     const [selectedProducts, setSelectedProducts] = useState({products: []});
     const navigate = useNavigate();
-    removeAlert('Shopping list create successfully', 'SET_ALERT');
 
     dispatch({ type: 'REMOVE_ALERT', payload: {message: null, alert: null} });
     
