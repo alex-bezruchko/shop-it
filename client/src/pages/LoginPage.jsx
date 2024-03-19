@@ -1,9 +1,13 @@
 import {Link, Navigate} from "react-router-dom";
 import { useContext, useState } from "react";
 import { UserContext } from "../components/UserContext";
+import { useDispatch } from 'react-redux';
+
 import axios from 'axios';
 
 export default function LoginPage() {
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
@@ -17,6 +21,8 @@ export default function LoginPage() {
             setUser(data)
             setRedirect(true)
         } catch(e) {
+            dispatch({ type: 'SET_ALERT', payload: {message: 'Invalid credentials', alertType: 'primaryRed'} });
+
             console.log(e)
         }
     }
