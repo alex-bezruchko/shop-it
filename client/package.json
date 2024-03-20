@@ -13,6 +13,8 @@
     "@material-tailwind/react": "^2.1.9",
     "@reduxjs/toolkit": "^2.2.1",
     "axios": "^1.6.7",
+    "dotenv": "^16.4.5",
+    "google-auth-library": "^9.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
