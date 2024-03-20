@@ -17,9 +17,11 @@ export default function LoginPage() {
         e.preventDefault();
         let body = { email, password };
         try {
-            const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/login`, body, {withCredentials: true});
-            setUser(data)
-            setRedirect(true)
+            const {data} = await axios.post(`${import.meta.env.VITE_SERVER_URL}/login`, body);
+            setUser(data);
+            setRedirect(true);
+            dispatch({ type: 'REMOVE_ALERT', payload: {} });
+
         } catch(e) {
             dispatch({ type: 'SET_ALERT', payload: {message: 'Invalid credentials', alertType: 'primaryRed'} });
 
