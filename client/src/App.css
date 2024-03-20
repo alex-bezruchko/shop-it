@@ -29,3 +29,9 @@
 .border-primaryRed {
   border-color: #ad2831;
 }
+.bg-lightRed {
+  background: rgba(255, 0, 0, .1);
+}
+.bg-lightGreen {
+  background: rgba(0, 255, 0, .1);
+}

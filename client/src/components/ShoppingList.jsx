@@ -140,6 +140,8 @@ export default function ShoppingList() {
                 </div>
             </div>
 
+            <button className="primaryBlue mt-5 nunito text-xl" onClick={createShoppingList}>Create List</button>
+
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 grid-cols-1">
                 <div className="sm:col-span-3">
                     <div className="flex">
@@ -160,10 +162,8 @@ export default function ShoppingList() {
                     
                 </div>
             </div>
-            <ProductList handleUpdateProducts={handleUpdateProducts} deleteProduct={deleteProductFromList} noHeader={true} products={products} addToList={addToList}/>
-            <button className="primaryBlue mt-5 nunito text-xl" onClick={createShoppingList}>Create List</button>
 
-            {}
+            <ProductList handleUpdateProducts={handleUpdateProducts} deleteProduct={deleteProductFromList} noHeader={true} products={products} addToList={addToList}/>
             
         </div>
     )
