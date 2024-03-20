@@ -12,7 +12,7 @@ import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 
 axios.defaults.baseURL = import.meta.env.VIVITE_SERVER_URL;
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
       <UserContextProvider>
         <Routes>
           <Route path="/" element={<Layout/>}>
-            <Route index element={<IndexPage/>}/>
+            <Route index element={<AccountPage/>}/>
             <Route path="/login" element={<LoginPage/>}/>
             <Route path="/register" element={<RegisterPage/>}/>
             <Route path="/account/:subpage?" element={<AccountPage/>}/>
@@ -28,7 +28,7 @@ function App() {
           </Route>
         </Routes>
       </UserContextProvider>
-      </Provider>
+    </Provider>
   )
 }
 
