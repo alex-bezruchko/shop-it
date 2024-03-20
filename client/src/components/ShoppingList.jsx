@@ -15,9 +15,6 @@ export default function ShoppingList() {
     const [selectedProducts, setSelectedProducts] = useState({products: []});
     const navigate = useNavigate();
 
-    dispatch({ type: 'REMOVE_ALERT', payload: {message: null, alert: null} });
-    
-
     async function createShoppingList(e) {
         e.preventDefault();
         let body = {
