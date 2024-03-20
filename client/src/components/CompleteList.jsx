@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 // import { useDispatch, useSelector } from 'react-redux';
 
 export default function CompleteList({sendTo}) {
@@ -33,72 +33,39 @@ export default function CompleteList({sendTo}) {
         <div className="flex flex-col">
           
         {currentLists.length < 1 && (
-            <h2 className="flex text-center justify-center mt-2">
-                Nothing completed...let's complete some
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 ml-2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                </svg>
-            </h2>
+            <div className="flex justify-center items-center">
+                <h2 className="flex text-center nunito text-2xl justify-center mt-2">Nothing completed...let's complete some</h2>
+                
+                <Link to={'/account'}>
+                    <svg className="primaryBlue text-primaryBlue w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path stroke="0fa3b1" fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
+                    </svg>
+                </Link>
+            </div>
         )
         } <div className="flex flex-col text-center justify-center">
                 <div className="w-full">
-                    <h2 className="nunito text-3xl pb-5">Completed</h2>
+                    {currentLists.length !== 0 && (<h2 className="nunito text-3xl">Completed</h2>) }
                     <ul>
                         {currentLists.map(list => (
                             <div onClick={() => viewList(list._id)} key={list._id} className={`flex items-center justify-between bg-white rounded-lg shadow-md p-4 mb-4 border-2 ${list.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}>
                                 <div className="flex items-center w-full justify-between">
                                     <div className="mr-4">
                                         <h2 className="text-left text-xl lora font-medium">{list.name}</h2>
-
-                                        {/* <p className="text-left text-sm">{product.product.description}</p> */}
-                                        {/* <p className="text-left text-sm">{product.product.price}</p> */}
                                     </div>
-                                    {/* <img src={product.product.photo} alt="Product Photo" className="w-24 h-auto pr-4"/> */}
-                                    </div>
+                                </div>
                                 <div>
-                                    {list.completed == true && (
-                                        // <svg  onClick={() => checkItemFromList(list._id)} xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" strokeWidth="1.5"  stroke="0fa3b1" className="primaryBlue text-primaryBlue w-10 h-10">
-                                        //     <path strokeLinecap="round" strokeLinejoin="round" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" />
-                                        // </svg>
-                                        <svg className="primaryBlue text-primaryBlue w-10 h-10" onClick={() => checkItemFromList(product._id)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                {list.completed == true && (
+                                    <svg className="primaryBlue text-primaryBlue w-10 h-10" onClick={() => checkItemFromList(product._id)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                         <path stroke="0fa3b1" fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
                                     </svg>
-                                    )
-                                    }
-                                   
+                                )}
                                 </div>
                             </div>
                         ))}
                     </ul>
                 </div>
-                {/* <button className="primaryBlue mt-5" onClick={createShoppingList}>Create List</button> */}
             </div>
-            {/* <ProductList products={products} addToList={addToList}/> */}
-
-            
-            {/* <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 grid-cols-1">
-                <div className="sm:col-span-3">
-                    <div className="mt-2 flex">
-                        <input 
-                        type="text"
-                        name="name"
-                        onChange={searchProducts}
-                        id="name"
-                        placeholder="Search"
-                        autoComplete="given-name"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue sm:text-sm sm:leading-6"/>
-                        <button style={{marginLeft: '-35px'}}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                            </svg>
-                        </button>
-                    </div>
-                    
-                </div>
-            </div>
-            <ProductList noHeader={true} products={products} addToList={addToList}/>
-            {}
-             */}
         </div>
     )
 }
