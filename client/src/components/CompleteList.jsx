@@ -45,7 +45,7 @@ export default function CompleteList({sendTo}) {
         )
         } <div className="flex flex-col text-center justify-center">
                 <div className="w-full">
-                    {currentLists.length !== 0 && (<h2 className="nunito text-3xl">Completed</h2>) }
+                    {currentLists.length !== 0 && (<h2 className="nunito text-3xl pb-5">Completed</h2>) }
                     <ul>
                         {currentLists.map(list => (
                             <div onClick={() => viewList(list._id)} key={list._id} className={`flex items-center justify-between bg-white rounded-lg shadow-md p-4 mb-4 border-2 ${list.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}>
