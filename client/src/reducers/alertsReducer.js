@@ -7,8 +7,6 @@ const initialState = {
 };
 
 const alertReducer = (state = initialState, action) => {
-  console.log('state', state)
-  console.log('action', action)
 
   switch (action.type) {
     case SET_ALERT:
