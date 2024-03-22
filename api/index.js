@@ -19,9 +19,7 @@ const jwtSecret = 'pass123';
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+    origin: 'http://localhost:5174',
     credentials: true
 }));
 
