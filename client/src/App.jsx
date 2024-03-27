@@ -11,8 +11,8 @@ import IndexPage from './pages/IndexPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 
-axios.defaults.baseURL = import.meta.env.VIVITE_SERVER_URL;
-axios.defaults.withCredentials = true;
+axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
+// axios.defaults.withCredentials = true;
 
 function App() {
   return (

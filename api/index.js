@@ -19,12 +19,12 @@ const jwtSecret = 'pass123';
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: 'http://localhost:5174',
+    origin: 'http://localhost:5173',
     credentials: true
 }));
 
 mongoose.connect(process.env.MONGO_URL);
-app.options('*', cors()); // Handle preflight requests for all routes
+// app.options('*', cors()); // Handle preflight requests for all routes
 
 
 app.post('/register', async (req, res) => {
@@ -281,7 +281,6 @@ app.get('/shoppinglists/owner/:ownerId', async (req, res) => {
 });
 
 app.get('/products/search', async (req, res) => {
-    console.log('hello');
     try {
       const query = req.query.query; // Assuming the query parameter is named 'name'
       if (!query) {

@@ -24,6 +24,6 @@ dist-ssr
 *.sw?
 # Ignore .env file
 .env
-# .api/.env
-# /api/.env
-# api/.env
+.api/.env
+/api/.env
+api/.env

@@ -75,13 +75,18 @@ export default function ShoppingList() {
         product._id = formData._id;
 
         let updatedProducts = [...products.products];
+        let selProducts = [...products.products];
+
         let findIndex = updatedProducts.findIndex(item => item._id === product._id);
+        let findSelected = selProducts.findIndex(item => item._id === product._id);
         
-        // If the product is found, update it in the copy of the products array
         if (findIndex !== -1) {
             updatedProducts[findIndex] = product;
-            // Update the state with the new products array
             setProducts({ ...products, products: updatedProducts });
+        } 
+        if (findSelected !== -1) {
+            selProducts[findSelected] = product;
+            setSelectedProducts({ ...products, products: selProducts });
         } 
     }
 
@@ -124,7 +129,15 @@ export default function ShoppingList() {
                                         <p className="text-left text-sm nunito">${product.price}</p>
                                     </div>
                                 </div>
-                                <img src={product.photo} alt="Product Photo" className="w-24 h-auto pr-4"/>
+                                {product.photo && (
+                                    <img src={product.photo} alt="Product Photo" className="min-w-32 min-h-32 w-32 h-32 mr-4"/>)
+                                }
+
+                                {product.photo == ''  && (
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"  className="min-w-32 min-h-32 w-32 h-32 pr-2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                    </svg>
+                                )}
                             </div>
                             <div onClick={() => removeFromList(product)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
