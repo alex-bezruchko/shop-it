@@ -29,15 +29,15 @@ const ProductList = ({ products, addToList, noHeader, handleUpdateProducts, dele
             <div className="flex items-center w-full justify-between">
               <div className="w-full flex justify-between mt-0">
                 <div className="flex items-center w-full justify-between">
-                                <div className="mr-4 flex flex-col justify-between">
-                                
-                                    <h3 className="text-left text-lg font-medium lora self-start">{product.name}</h3>
-                                    <div className="pt-3">
-                                        <p className="text-left text-sm nunito">{product.description}</p>
-                                        <p className="text-left text-sm nunito">${product.price}</p>
-                                    </div>
-                                </div>
-                            </div>
+                    <div className="mr-4 flex flex-col justify-between">
+                    
+                        <h3 className="text-left text-lg font-medium lora self-start">{product.name}</h3>
+                        <div className="pt-3">
+                            <p className="text-left text-sm nunito">{product.description}</p>
+                            <p className="text-left text-sm nunito">${product.price}</p>
+                        </div>
+                    </div>
+                </div>
                 <div className="flex">
                   <ProductForm 
                     className="self-center" 
@@ -48,7 +48,7 @@ const ProductList = ({ products, addToList, noHeader, handleUpdateProducts, dele
                   </div>
               </div>
               
-              <img src={product.photo} alt="Product Photo" className="w-24 h-auto pr-4"/>
+              <img src={product.photo} alt="Product Photo" className="min-w-32 min-h-32 w-32 h-32 mr-4"/>
             </div>
             
             <div onClick={() => handleAddToList(product)}>

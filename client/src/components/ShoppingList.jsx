@@ -124,7 +124,7 @@ export default function ShoppingList() {
                                         <p className="text-left text-sm nunito">${product.price}</p>
                                     </div>
                                 </div>
-                                <img src={product.photo} alt="Product Photo" className="w-24 h-auto pr-4"/>
+                                <img src={product.photo} alt="Product Photo" className="min-w-32 min-h-32 w-32 h-32 mr-4"/>
                             </div>
                             <div onClick={() => removeFromList(product)}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">

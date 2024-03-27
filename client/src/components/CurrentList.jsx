@@ -236,7 +236,7 @@ export default function CurrentList() {
                                             updateProduct={updateProduct}
                                         />
                                         </div>
-                                    <img src={product.product.photo} alt="Product Photo" className="w-24 h-auto pr-4"/>
+                                    <img src={product.product.photo} alt="Product Photo" className="min-w-32 min-h-32 w-32 h-32 pr-2"/>
                                 </div>
                                 <div>
                                     {product.completed === true && (<svg className="primaryBlue text-primaryBlue w-10 h-10" onClick={() => checkItemFromList(product._id)} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
