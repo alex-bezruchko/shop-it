@@ -24,7 +24,6 @@ export default function LoginPage() {
 
         } catch(e) {
             dispatch({ type: 'SET_ALERT', payload: {message: 'Invalid credentials', alertType: 'primaryRed'} });
-
             console.log(e)
         }
     }

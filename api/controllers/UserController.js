@@ -33,7 +33,11 @@ exports.login = async (req, res) => {
 
         if (passOk) {
             const token = jwt.sign({ email: user.email, id: user._id }, jwtSecret);
-            res.cookie('token', token).json(user);
+            // Set the cookie with an expiration time (e.g., 7 days)
+            res.cookie('token', token, { 
+                httpOnly: true, 
+                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
+            }).json(user);
         } else {
             res.status(422).json({ message: 'Password incorrect' });
         }
