@@ -57,7 +57,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
     };
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/categories`).then(({ data }) => {
+        axios.get(`/categories`).then(({ data }) => {
             let options = data.map(item => ({
                 _id: item._id,
                 name: item.name
@@ -74,7 +74,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
         let body = { formData };
 
         try {
-            const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/products/${product._id}`, body);
+            const response = await axios.put(`/products/${product._id}`, body);
             // Update local state with the updated name
             let newItem = { formData };
             newItem._id = product._id;

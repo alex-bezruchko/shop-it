@@ -1,10 +1,15 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState } from "react"; // Importing useState
 import { UserContext } from "./UserContext";
 import ProductsDialog from "./ProductsDialog";
 
 export default function Header() {
-    const {user} = useContext(UserContext);
+    const { user } = useContext(UserContext);
+    const [showDropdown, setShowDropdown] = useState(false); // State for dropdown visibility
+
+    const toggleDropdown = () => {
+        setShowDropdown(!showDropdown);
+    };
 
     return (
         <header className="flex justify-between">
@@ -14,25 +19,36 @@ export default function Header() {
                 </svg>
                 <span className="font-bold text-xl">Shop-it</span>
             </Link>
+
             {user && (
                 <div className="flex gap-2 border border-blue-200 rounded-full p-2 px-3 shadow-md shadow-gray-300">
                     <ProductsDialog/>
                 </div>
             )}
             
-            <Link to={user?'/account':'/login'} className="flex items-center gap-2 border border-blue-200 rounded-full p-2 px-3 shadow-md shadow-gray-300">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
-                <div className="bg-primaryBlue rounded-full text-white border border-primaryBlue overflow-hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                        <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
-                    </svg>
+            {user && (
+                <div className="relative">
+                    <button className="flex gap-2 border border-blue-200 rounded-full p-2 px-3 shadow-md shadow-gray-300 focus:outline-none">
+                        <svg onClick={toggleDropdown} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                        </svg>
+                        <div className="bg-primaryBlue rounded-full text-white border border-primaryBlue overflow-hidden">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
+                                <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
+                            </svg>
+                        </div>
+                        {!!user && (
+                            <div>{user.name}</div>
+                        )}
+                    </button>
+                    {showDropdown && (
+                        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                            <Link to="/friends" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Friends</Link>
+                            <Link to="/stores" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Find Stores</Link>
+                        </div>
+                    )}
                 </div>
-                {!!user && (
-                    <div>{user.name}</div>
-                )}
-            </Link>
+            )}
         </header>
     )
 }

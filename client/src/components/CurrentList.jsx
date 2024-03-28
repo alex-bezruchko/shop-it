@@ -113,17 +113,19 @@ export default function CurrentList() {
         e.preventDefault();
         let body = e.target.value;
         try {
-            await axios.get(`${import.meta.env.VITE_SERVER_URL}/products/search/?query=${body}`).then(({ data }) => {
-                setProducts(data)
+            await axios.get(`/products/search?query=${body}`).then(({ data }) => {
+                console.log('data', data)
+                setProducts(data); // Assuming data is in the format { products: [...] }
             }).catch(error => {
                 if (error) {
-                    setProducts([])
+                    setProducts([]);
                 }
             });
         } catch(e) {
-            console.log(e)
+            console.log(e);
         }
     }
+    
     async function handleUpdateProducts(formData) {
         let product = formData.formData;
         product._id = '';

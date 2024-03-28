@@ -46,7 +46,7 @@ import {
             dispatch({ type: 'ADD_PRODUCT', payload: data });
             clearForm();
             setOpen(false);
-            dispatch({ type: 'SET_ALERT', payload: {message: 'Product updated successfully', alertType: 'primaryGreen'} });
+            dispatch({ type: 'SET_ALERT', payload: {message: 'Product created successfully', alertType: 'primaryGreen'} });
 
         } catch (error) {
             console.log(error);

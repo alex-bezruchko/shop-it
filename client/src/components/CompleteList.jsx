@@ -2,16 +2,16 @@ import { useState, useContext, useEffect } from "react";
 import { UserContext } from "./UserContext";
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function CompleteList({sendTo}) {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     const {user} = useContext(UserContext);
     const [currentLists, setCurrentLists] = useState([]);
     const [selectedListId, setSelectedListId] = useState('');
     // let navigate = useNavigate();
-    let url = `${import.meta.env.VITE_SERVER_URL}/shoppinglists/owner/${user._id}?completed=true`;
+    let url = `/shoppinglists/owner/${user._id}?completed=true`;
     useEffect(() => {
         axios.get(url).then(({ data }) => {
             // dispatch(fetchProductsSuccess(data)); // Dispatch the action with fetched products
@@ -30,7 +30,7 @@ export default function CompleteList({sendTo}) {
 
     async function deleteList(id) {
         try {
-            const response = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/shoppinglists/${id}`);
+            const response = await axios.delete(`/shoppinglists/${id}`);
             // Update local state with the updated name
             let newList = currentLists.filter(list => list._id !== id);
             setCurrentLists(newList);
