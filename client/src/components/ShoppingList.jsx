@@ -25,10 +25,10 @@ export default function ShoppingList() {
         }
         
         try {
-            await axios.post(`${import.meta.env.VITE_SERVER_URL}/user/${body.owner}/shoppinglist`, body).then(({data})=> {
+            await axios.post(`/shoppinglists/${body.owner}`, body).then(({data})=> {
                 navigate(`/account/current/${data.shoppingList._id}`)
                 setList({name: '', products: []})
-                dispatch({ type: 'SET_ALERT', payload: {message: 'Shopping list create successfully', alertType: 'primaryGreen'} });
+                dispatch({ type: 'SET_ALERT', payload: {message: 'Shopping list created successfully', alertType: 'primaryGreen'} });
             });
         } catch(e) {
             console.log(e)
