@@ -10,6 +10,20 @@ export default function Header() {
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
+    async function logOut() {
+        axios.post(`/users/logout`)
+        .then(res => {
+            console.log(res)
+            dispatch({ type: 'SET_ALERT', payload: {message: 'Logged out successfully', alertType: 'primaryGreen'} });
+            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+            setUser(null);
+            setRedirect('/');
+        }).catch(err => {
+            setUser(null);
+            setRedirect('/');
+        }); 
+    }
 
     return (
         <header className="flex justify-between">
@@ -42,9 +56,11 @@ export default function Header() {
                         )}
                     </button>
                     {showDropdown && (
-                        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                        <div className="flex flex-col absolute right-0 my-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                             <Link to="/friends" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Friends</Link>
                             <Link to="/stores" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Find Stores</Link>
+                            <button className="bg-primaryBlue mt-5 py-2 mt-2 mr-10 mb-4 ml-3 text-white rounded" onClick={logOut}>Logout</button>
+
                         </div>
                     )}
                 </div>
