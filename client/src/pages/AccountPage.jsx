@@ -22,7 +22,7 @@ export default function AccountPage() {
     let {subpage} = useParams();
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/products-all`).then(({ data }) => {
+        axios.get(`/products/all`).then(({ data }) => {
             dispatch(fetchProductsSuccess(data)); // Dispatch the action with fetched products
             setLoading(false);
         }).catch(error => {
@@ -50,7 +50,7 @@ export default function AccountPage() {
     }
     
     async function logOut() {
-        axios.post(`${import.meta.env.VITE_SERVER_URL}/logout`)
+        axios.post(`/users/logout`)
         .then(res => {
             console.log(res)
             dispatch({ type: 'SET_ALERT', payload: {message: 'Logged out successfully', alertType: 'primaryGreen'} });

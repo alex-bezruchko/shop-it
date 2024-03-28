@@ -17,7 +17,7 @@ export default function LoginPage() {
         e.preventDefault();
         let body = { email, password };
         try {
-            const {data} = await axios.post(`/login`, body, {withCredentials: true});
+            const {data} = await axios.post(`/users/login`, body, {withCredentials: true});
             setUser(data);
             setRedirect(true);
             dispatch({ type: 'REMOVE_ALERT', payload: {} });
