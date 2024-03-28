@@ -55,7 +55,12 @@ exports.profile = async (req, res) => {
         jwt.verify(token, jwtSecret, {}, async (err, userData) => {
             if (err) throw err;
             const { name, email, _id } = await User.findById(userData.id);
-            res.json({ name, email, _id });
+            res.cookie('token', token, { 
+                httpOnly: true, 
+                maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+                sameSite: 'strict', // Prevent CSRF attacks
+                secure: process.env.NODE_ENV === 'production' // Set to true in production
+            }).res.json({ name, email, _id });
         });
     } else {
         res.json(null);
