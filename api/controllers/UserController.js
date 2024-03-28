@@ -33,10 +33,12 @@ exports.login = async (req, res) => {
 
         if (passOk) {
             const token = jwt.sign({ email: user.email, id: user._id }, jwtSecret);
-            // Set the cookie with an expiration time (e.g., 7 days)
+            // Set the cookie with an expiration time and additional attributes
             res.cookie('token', token, { 
                 httpOnly: true, 
-                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days in milliseconds
+                maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+                sameSite: 'strict', // Prevent CSRF attacks
+                secure: process.env.NODE_ENV === 'production' // Set to true in production
             }).json(user);
         } else {
             res.status(422).json({ message: 'Password incorrect' });
