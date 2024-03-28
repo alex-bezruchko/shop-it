@@ -13,7 +13,7 @@ export default function RegisterPage() {
         e.preventDefault();
         let body = { name, email, password };
         try {
-            let response = await axios.post(`${import.meta.env.VITE_SERVER_URL}/register`, body);
+            let response = await axios.post(`/register`, body);
             if (response) {
                 dispatch({ type: 'SET_ALERT', payload: {message: 'Registered successfully', alertType: 'primaryGreen'} });
             }

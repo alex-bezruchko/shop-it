@@ -11,7 +11,7 @@ export default function UsersLists({sendTo, currentLink}) {
     const {user} = useContext(UserContext);
     const [currentLists, setCurrentLists] = useState([]);
     const [selectedListId, setSelectedListId] = useState('');
-    let url = `${import.meta.env.VITE_SERVER_URL}/shoppinglists/owner/${user._id}`;
+    let url = `/shoppinglists/owner/${user._id}`;
     removeAlert();
     useEffect(() => {
         axios.get(url).then(({ data }) => {
@@ -30,7 +30,7 @@ export default function UsersLists({sendTo, currentLink}) {
 
     async function deleteList(id) {
         try {
-            const response = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/shoppinglists/${id}`);
+            const response = await axios.delete(`/shoppinglists/${id}`);
             // Update local state with the updated name
             let newList = currentLists.filter(list => list._id !== id);
             setCurrentLists(newList);

@@ -28,7 +28,7 @@ import {
     const handleOpen = () => setOpen(!open);
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_SERVER_URL}/categories`)
+        axios.get(`/categories`)
             .then(({ data }) => {
                 let options = data.map(item => ({ _id: item._id, name: item.name }));
                 setCategories(options);
@@ -42,7 +42,7 @@ import {
         e.preventDefault();
         let body = { name, description, photo, price, category };
         try {
-            const { data } = await axios.post(`${import.meta.env.VITE_SERVER_URL}/products`, body);
+            const { data } = await axios.post(`/products`, body);
             dispatch({ type: 'ADD_PRODUCT', payload: data });
             clearForm();
             setOpen(false);

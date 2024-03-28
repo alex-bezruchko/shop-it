@@ -22,9 +22,9 @@ export default function CurrentList() {
     useEffect(() => {
         let url = '';
         if (listId === 'recent' || listId === '' || listId === undefined) {
-            url = `${import.meta.env.VITE_SERVER_URL}/shoppinglists/recent`;
+            url = `shoppinglists/recent`;
         } else {
-            url = `${import.meta.env.VITE_SERVER_URL}/shoppinglists/${listId}`
+            url = `shoppinglists/${listId}`
         }
 
         axios.get(url).then(({ data }) => {
@@ -41,7 +41,7 @@ export default function CurrentList() {
 
     async function updateShoppingList(updatedList) {
         try {
-            const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/shoppinglists/${selectedListId}`, updatedList);
+            const response = await axios.put(`shoppinglists/${selectedListId}`, updatedList);
             if (response) {
                 setCurrentList(updatedList);
             }
@@ -84,7 +84,7 @@ export default function CurrentList() {
             currentList.products[itemIndex].completed = !currentList.products[itemIndex].completed;
 
             try {
-                const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/shoppinglists/${selectedListId}`, { name: currentList.name, products: currentList.products });
+                const response = await axios.put(`shoppinglists/${selectedListId}`, { name: currentList.name, products: currentList.products });
                 if (response) {
                     setCurrentList({ ...currentList });
                 }
@@ -100,7 +100,7 @@ export default function CurrentList() {
         setIfNotEditing(!ifNotEditing);
         if (ifNotEditing) {
             try {
-                const response = await axios.put(`${import.meta.env.VITE_SERVER_URL}/shoppinglists/${selectedListId}`, { name: newName, products: currentList.products });
+                const response = await axios.put(`shoppinglists/${selectedListId}`, { name: newName, products: currentList.products });
                 // Update local state with the updated name
                 setCurrentList({ ...currentList, name: newName }); // Update the name in the current list state
             } catch (error) {

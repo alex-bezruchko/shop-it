@@ -57,7 +57,7 @@ export default function ShoppingList() {
         e.preventDefault();
         let body = e.target.value;
         try {
-            await axios.get(`${import.meta.env.VITE_SERVER_URL}/products/search/?query=${body}`).then(({ data }) => {
+            await axios.get(`/products/search/?query=${body}`).then(({ data }) => {
                 setProducts(data)
             }).catch(error => {
                 if (error) {

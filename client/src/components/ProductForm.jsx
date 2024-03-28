@@ -90,7 +90,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
     async function deleteProduct() {
 
         try {
-            const response = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/products/${product._id}`);
+            const response = await axios.delete(`products/${product._id}`);
             handleDeleteProduct(product._id);
             setOpenDelete(false)
             setOpen(false)
