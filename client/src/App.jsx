@@ -12,8 +12,8 @@ import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
-// axios.defaults.withCredentials = true;
-
+axios.defaults.withCredentials = true;
+axios.defaults.headers = true;
 function App() {
   return (
     <Provider store={store}>
