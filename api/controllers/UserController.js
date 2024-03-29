@@ -2,7 +2,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const jwtSecret = 'pass123';
+const jwtSecret = process.env.JWT_SECRET;
 
 exports.register = async (req, res) => {
     const { name, email, password } = req.body;
@@ -38,7 +38,7 @@ exports.login = async (req, res) => {
                 httpOnly: true, 
                 maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
                 sameSite: 'strict', // Prevent CSRF attacks
-                secure: process.env.NODE_ENV === 'production' // Set to true in production
+                secure: true // Set to true in production
             }).json(user);
         } else {
             res.status(422).json({ message: 'Password incorrect' });
