@@ -15,23 +15,14 @@ function ImageSearch({ addPhoto }) {
     const handleSubmit = async (e, pageNumber) => {
         e.preventDefault();
         setEmptyResult('');
-        let number = '';
-        if (pageNumber) {
-            number = pageNumber
-        } else {
-            number = 1
-        }
-        let url = `https://api.unsplash.com/search/photos?page=${number}`
         try {
-            const response = await axios.get(url, {
+            const response = await axios.get('/search/photos', {
                 params: {
                     query: query,
-                },
-                headers: {
-                    Authorization: `Client-ID ${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`,
-                    withCredentials: false
-                },
+                    page: pageNumber
+                }
             });
+            console.log(response)
             setResults(prevResults => [...prevResults, ...response.data.results]);
             if (response.data.results.length === 0) {
                 setEmptyResult('No results')
@@ -40,7 +31,6 @@ function ImageSearch({ addPhoto }) {
             console.error('Error fetching images:', error);
         }
     };
-    
 
     const handleImageClick = (imageUrl) => {
         addPhoto(imageUrl);
