@@ -41,28 +41,15 @@ app.use('/products', productsRoutes);
 app.use('/categories', categoriesRoutes);
 app.use('/shoppinglists', shoppingListRoutes);
 
-// app.get('/geocode', async (req, res) => {
-//     const { address, apiKey } = req.query;
-//     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${apiKey}`;
-    
-//     try {
-//       const response = await fetch(url);
-//       const data = await response.json();
-//       res.json(data);
-//     } catch (error) {
-//       console.error('Error fetching geocode:', error);
-//       res.status(500).json({ error: 'An error occurred while fetching geocode' });
-//     }
-// });
 app.get('/places', async (req, res) => {
-    const { query, zipCode, googleApiKey } = req.query;
+    const { query, zipCode } = req.query;
   
-    if (!query || !zipCode || !googleApiKey) {
+    if (!query || !zipCode ) {
       return res.status(400).json({ error: 'Missing required parameters' });
     }
-  
+    const key = process.env.GOOGLE_MAPS_API;
     try {
-      const geocodeResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${zipCode}&key=${googleApiKey}`);
+      const geocodeResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${zipCode}&key=${key}`);
       const geocodeData = await geocodeResponse.json();
   
       if (geocodeData.status !== "OK" || geocodeData.results.length === 0) {
@@ -72,7 +59,7 @@ app.get('/places', async (req, res) => {
       
       const { lat, lng } = geocodeData.results[0].geometry.location;
   
-      const placesResponse = await fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&location=${lat},${lng}&key=${googleApiKey}`);
+      const placesResponse = await fetch(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&location=${lat},${lng}&key=${key}`);
       const placesData = await placesResponse.json();
   
       if (placesData.status === "OK") {
@@ -93,6 +80,33 @@ app.get('/places', async (req, res) => {
       console.error('Error searching for places:', error);
       res.status(500).json({ error: 'An error occurred while searching for places' });
     }
+});
+
+// app.get('/photos', async (req, res) => {
+
+// })
+
+app.get('/search/photos', async (req, res) => {
+  const { query, page } = req.query;
+  const pageNumber = page || 1;
+  const url = `https://api.unsplash.com/search/photos?page=${pageNumber}&query=${query}`;
+try {
+    const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+            Authorization: `Client-ID ${process.env.UNSPLASH_ACCESS_KEY}`,
+            'Content-Type': 'application/json'
+        },
+    });
+    if (!response.ok) {
+        throw new Error('Failed to fetch data from Unsplash API');
+    }
+    const data = await response.json();
+    res.json(data);
+} catch (error) {
+    console.error('Error fetching images:', error);
+    res.status(500).json({ error: 'Internal server error' });
+}
 });
 
 // Start server
