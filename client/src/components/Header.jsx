@@ -42,7 +42,7 @@ export default function Header() {
             </Link>
 
             {user && (
-                <div className="flex gap-2 border border-blue-200 rounded-full p-2 px-3 shadow-md shadow-gray-300">
+                <div className="flex gap-2 border border-blue-200 rounded-full p-0 shadow-md shadow-gray-300">
                     <ProductsDialog />
                 </div>
             )}
