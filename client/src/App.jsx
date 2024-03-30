@@ -11,6 +11,7 @@ import IndexPage from './pages/IndexPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import StoresPage from './pages/StoresPage.jsx';
+import FriendsPage from './pages/FriendsPage.jsx';
 
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 axios.defaults.withCredentials = true;
@@ -27,6 +28,7 @@ function App() {
             <Route path="/stores" element={<StoresPage/>}/>
             <Route path="/account/:subpage?" element={<AccountPage/>}/>
             <Route path="/account/:subpage?/:listId" element={<AccountPage/>}/>
+            <Route path="/friends/:subpage?" element={<FriendsPage/>}/>
           </Route>
         </Routes>
       </UserContextProvider>
