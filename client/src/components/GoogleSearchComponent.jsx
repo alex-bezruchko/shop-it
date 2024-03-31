@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import axios from 'axios';
 
 const GoogleSearchComponent = () => {
   const [center, setCenter] = useState({ lat: 0, lng: 0 });
@@ -20,8 +21,14 @@ const GoogleSearchComponent = () => {
       }
   
       // Fetch places using the provided parameters
-      const response = await fetch(`http://localhost:4000/places?query=${locationName}&zipCode=${zipCode}&googleApiKey=${googleApiKey}`);
-      const data = await response.json();
+      const response = await axios.get(`/places`, {
+        params: {
+          query: locationName,
+          zipCode: zipCode
+        }
+      });
+  
+      const data = response.data;
   
       if (data.error) {
         console.error('Error searching:', data.error);
@@ -37,7 +44,7 @@ const GoogleSearchComponent = () => {
           lat: result.geometry.location.lat,
           lng: result.geometry.location.lng
         }));
-
+  
     
       // Extract marker locations
       const markerLocations = data.markers
