@@ -255,7 +255,7 @@ export default function CurrentList() {
                                     </svg>
                                     )}
                                     {product.completed === false && (
-                                    <svg xmlns="http://www.w3.org/2000/svg"  onClick={() => checkItemFromList(product._id)} fill="currentColor" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="primaryOrange text-primaryOrange w-10 h-10">
+                                    <svg xmlns="http://www.w3.org/2000/svg"  onClick={() => checkItemFromList(product._id)} fill="currentColor" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="primaryOrange text-primaryOrange w-8 h-8 sm:w-10 sm:h-10">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                     </svg>
                                     )}
