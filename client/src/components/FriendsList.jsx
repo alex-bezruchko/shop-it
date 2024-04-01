@@ -32,7 +32,9 @@ function FriendList() {
             console.log(response.data); // "Friend request sent successfully."
             // Optionally, you can update the UI to indicate that the request was sent
         } catch (error) {
-            console.error(error);
+            console.error(error.response);
+            dispatch({ type: 'SET_ALERT', payload: {message: error.response.data.error, alertType: 'primaryRed'} });
+
         }
     }
     
