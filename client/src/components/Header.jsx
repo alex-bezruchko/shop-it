@@ -49,7 +49,7 @@ export default function Header() {
 
             {user && (
                 <div className="relative">
-                    <button className="flex items-center gap-2 border border-blue-200 rounded-full p-0 px-3 shadow-md shadow-gray-300 focus:outline-none" onClick={toggleDropdown}>
+                    <button className="flex items-center gap-2 border border-blue-200 rounded-full p-2 shadow-md shadow-gray-300 focus:outline-none" onClick={toggleDropdown}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                         </svg>
@@ -58,12 +58,13 @@ export default function Header() {
                                 <path fillRule="evenodd" d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z" clipRule="evenodd" />
                             </svg>
                         </div>
-                        {!!user && (
-                            <Link to="/account" className="px-2 py-2 text-gray-800 hover:bg-transparent" style={{ textDecoration: 'none', color: 'inherit' }} onClick={handleLinkClick}>{user.name}</Link>
-                        )}
+                        
                     </button>
                     {showDropdown && (
-                        <div className="flex flex-col absolute right-0 my-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                        <div className="flex flex-col absolute right-0 my-2 p-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
+                            {!!user && (
+                                <Link to="/account" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" style={{ textDecoration: 'none', color: 'inherit' }} onClick={handleLinkClick}>Lists for: {user.name}</Link>
+                            )}
                             <Link to="/friends" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" onClick={handleLinkClick}>Friends</Link>
                             <Link to="/stores" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" onClick={handleLinkClick}>Find Stores</Link>
                             <button className="bg-primaryBlue mt-5 py-2 mt-2 mr-11 mb-4 ml-3 text-white rounded" onClick={logOut}>Logout</button>
