@@ -14,7 +14,7 @@ const AlertContainer = ({ alert, removeAlert }) => {
     <div className='flex justify-center'>
       {message && alertType && (
         
-        <div className={`w-full text-center md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-between mt-8 p-3 rounded border border-1 border-${alertType} ${alertType === 'primaryGreen' ? 'bg-lightGreen' : 'bg-lightRed'}` }>
+        <div className={`w-full text-center md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-between mt-8 p-3 rounded border border-1 border-${alertType} ${alertType === 'primaryGreen' ? 'bg-lightGreen' : alertType === 'primaryOrange' ? 'bg-lightOrange' : 'bg-lightRed'}` }>
 
           <span>{message}</span>
           <button onClick={handleClose}>
