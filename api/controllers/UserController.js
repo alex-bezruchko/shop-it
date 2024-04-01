@@ -2,7 +2,22 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const Pusher = require("pusher");
+
+const pusher = new Pusher({
+  appId: process.env.PUSHER_APP_ID,
+  key: process.env.PUSHER_APP_KEY,
+  secret: process.env.PUSHER_APP_SECRET,
+  cluster: process.env.PUSHER_APP_CLUSTER,
+  useTLS: true
+});
+
 const jwtSecret = 'pass123';
+
+function sendNotification(channel, event, data) {
+    pusher.trigger(channel, event, data);
+  }
+  
 
 exports.getAll = async (req, res) => {
     const { search } = req.query;
@@ -88,11 +103,15 @@ exports.profile = async (req, res) => {
 exports.logout = (req, res) => {
     res.cookie('token', '').json(true);
 };
+
 exports.send = async (req, res) => {
     const { friendId } = req.params;
     const { userId } = req.body;
     let receiverId = friendId;
     let senderId = userId;
+
+    console.log('senderId', senderId);
+    console.log('receiverId', receiverId);
 
     try {
         // Find sender and receiver
@@ -122,7 +141,7 @@ exports.send = async (req, res) => {
             sender: senderId, // Include the sender's ID
             status: 'pending'
         };
-
+        
         // Add the request to the sender's outgoingRequests
         sender.outgoingRequests.push(newRequest);
         await sender.save();
@@ -131,12 +150,40 @@ exports.send = async (req, res) => {
         receiver.friendRequests.push(newRequest);
         await receiver.save();
 
-        res.status(200).json({ message: "Friend request sent successfully" });
+        // Now, manually populate sender's and receiver's name and email
+        const friendRequest = {
+            sender: {
+                _id: sender._id,
+                name: sender.name,
+                email: sender.email
+            },
+            status: newRequest.status,
+            _id: sender._id
+        };
+
+        res.status(200).json({ friendRequests: [friendRequest], outgoingRequests: [] });
+
+        // Send Pusher notification to receiver
+        sendNotification(`user-${receiverId}`, 'friend-request', { 
+            message: 'You received a friend request.', 
+            friendRequest: {
+                _id: friendRequest._id,
+                sender: {
+                    _id: sender._id,
+                    name: sender.name,
+                    email: sender.email
+                },
+                receiver: receiverId,
+                status: 'pending'
+            }
+        });
+
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
     }
 };
+
 
 exports.accept = async (req, res) => {
     const { userId, requesterId } = req.params;
@@ -165,14 +212,14 @@ exports.accept = async (req, res) => {
         await User.findByIdAndUpdate(requesterId, { $pull: { outgoingRequests: { receiver: userId } } });
 
         res.status(200).send("Friend request accepted successfully.");
+        sendNotification(`user-${userId}`, 'receiver-request-accepted', { message: 'Your friend request has been accepted.', receiver: requesterId });
+        sendNotification(`user-${requesterId}`, 'sender-request-accepted', { message: 'You are now friends.', sender: userId });
+
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
     }
 }
-
-
-
 
 exports.decline = async (req, res) => {
     const { userId, requesterId } = req.params;
@@ -190,12 +237,14 @@ exports.decline = async (req, res) => {
         await User.findByIdAndUpdate(requesterId, { $pull: { outgoingRequests: { receiver: userId } } });
 
         res.status(200).send("Friend request declined successfully.");
+        sendNotification(`user-${userId}`, 'receiver-request-denied', { message: 'Your friend request has been denied.', receiver: requesterId });
+        sendNotification(`user-${requesterId}`, 'sender-request-denied', { message: 'You are now friends.', sender: userId });
+
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
     }
 }
-
 
 exports.friends = async (req, res) => {
     const { userId } = req.params;
@@ -209,18 +258,6 @@ exports.friends = async (req, res) => {
     }
 }
 
-// exports.pendingRequests = async (req, res) => {
-//     const { userId } = req.params;
-//     try {
-//         // Find user by userId and populate the 'friendRequests' field
-//         const user = await User.findById(userId).populate('friendRequests', 'name email');
-//         const populatedRequests = await User.populate(user, { path: 'friendRequests', select: 'name email' });
-//         res.status(200).json(populatedRequests.friendRequests);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).send("Internal Server Error");
-//     }
-// }
 exports.pendingRequests = async (req, res) => {
     const { userId } = req.params;
     try {

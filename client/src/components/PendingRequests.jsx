@@ -2,38 +2,78 @@ import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from "./UserContext";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-
+import Pusher from 'pusher-js';
 
 function PendingRequests() {
     const dispatch = useDispatch();
     const { user } = useContext(UserContext);
     const [friendRequests, setFriendRequests] = useState([]);
     const [outgoingRequests, setOutgoingRequests] = useState([]);
-
+    
     useEffect(() => {
-        async function fetchPendingRequests() {
-            try {
-                const response = await axios.get(`/users/${user._id}/pending-requests`);
-                const { friendRequests, outgoingRequests } = response.data;
-                setFriendRequests(friendRequests);
-                setOutgoingRequests(outgoingRequests);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-        
-
+        // Initialize Pusher with your Pusher app key
+        const pusher = new Pusher(`${import.meta.env.VITE_PUSHER_APP_KEY}`, {
+            cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+            // encrypted: true // Uncomment if you want to enable encrypted communication
+        });
+    
+        // Subscribe to private channel for user's pending requests
+        const channel = pusher.subscribe(`user-${user._id}`);
+    
+        // Bind to event for friend request received
+        channel.bind('friend-request', data => {
+            console.log("Friend request received:", data);
+            setFriendRequests(prevRequests => [...prevRequests, data.friendRequest]);
+            dispatch({ type: 'SET_ALERT', payload: { message: 'You have a friend request', alertType: 'primaryGreen' } });
+        });
+    
+        // Bind to event for friend request accepted
+        channel.bind('sender-request-accepted', data => {
+            setOutgoingRequests(prevRequests => prevRequests.filter(request => request.receiver._id !== data.sender));
+            dispatch({ type: 'SET_ALERT', payload: { message: 'You request has been accepted', alertType: 'primaryGreen' } });
+        });
+        channel.bind('receiver-request-accepted', data => {
+            setFriendRequests(prevRequests => prevRequests.filter(request => request.sender._id !== data.receiver));
+            dispatch({ type: 'SET_ALERT', payload: { message: 'Friend added successfully', alertType: 'primaryGreen' } });
+        });
+        channel.bind('sender-request-denied', data => {
+            setOutgoingRequests(prevRequests => prevRequests.filter(request => request.receiver._id !== data.sender));
+            dispatch({ type: 'SET_ALERT', payload: { message: 'You friend request has been denied', alertType: 'primaryOrange' } });
+        });
+        channel.bind('receiver-request-denied', data => {
+            setFriendRequests(prevRequests => prevRequests.filter(request => request.sender._id !== data.receiver));
+            dispatch({ type: 'SET_ALERT', payload: { message: 'Friend request denied successfully', alertType: 'primaryOrange' } });
+        });
+    
+        // Fetch initial pending requests
         fetchPendingRequests();
-    }, [user._id]);
+    
+        // Clean up subscription when component unmounts
+        return () => {
+            channel.unbind(); // Unbind from all events
+            pusher.unsubscribe(`user-${user._id}`);
+        };
+    }, [user._id]); // Dependency array to ensure effect runs only once
+    
+    async function fetchPendingRequests() {
+        try {
+            const response = await axios.get(`/users/${user._id}/pending-requests`);
+            const { friendRequests, outgoingRequests } = response.data;
+            setFriendRequests(friendRequests);
+            setOutgoingRequests(outgoingRequests);
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     async function handleAcceptRequest(futureFriendId) {
+        console.log(user._id)
+        console.log(futureFriendId)
         try {
             const response = await axios.post(`/users/accept-request/${user._id}/${futureFriendId}`);
-            // After accepting, fetch pending requests again to update the lists
-            let newIncoming = friendRequests.filter(req => req.sender._id !== futureFriendId);
-            setFriendRequests(newIncoming);
-            dispatch({ type: 'SET_ALERT', payload: {message: 'Friend successfully added', alertType: 'primaryGreen'} });
+            // setFriendRequests(prevRequests => prevRequests.filter(request => request.sender._id !== data.sender._id));
 
+            // No need to manually update state, it will be updated via Pusher event
         } catch (error) {
             console.error(error);
         }
@@ -42,10 +82,7 @@ function PendingRequests() {
     async function handleDeclineRequest(futureFriendId) {
         try {
             const response = await axios.post(`/users/decline-request/${user._id}/${futureFriendId}`);
-            let newOutgoing = friendRequests.filter(req => req.sender._id !== futureFriendId)
-            setFriendRequests(newOutgoing)
-            dispatch({ type: 'SET_ALERT', payload: {message: 'Friend successfully declined', alertType: 'primaryGreen'} });
-
+            // No need to manually update state, it will be updated via Pusher event
         } catch (error) {
             console.error(error);
         }
@@ -65,7 +102,7 @@ function PendingRequests() {
                             </svg>
                         </div>
                         {friendRequests.map(request => (
-                        <div key={request._id} className="flex items-center justify-between bg-white rounded-lg shadow-md px-3 py-4 mb-4 border border-2 border-primaryBlue">
+                        <div key={request.sender._id} className="flex items-center justify-between bg-white rounded-lg shadow-md px-3 py-4 mb-4 border border-2 border-primaryBlue">
                             <div className="h-full flex flex-col text-left justify-between">
                                 <h3 className="text-left text-lg font-medium lora self-start pb-3">{request.sender.name}</h3>
                                 <p className="text-left text-sm nunito">{request.sender.email}</p>
@@ -96,7 +133,7 @@ function PendingRequests() {
                             </svg>
                         </div>
                         {outgoingRequests.map(request => (
-                            <div key={request._id} className="flex items-center justify-between bg-white rounded-lg shadow-md px-3 py-4 mb-4 border border-2 border-primaryBlue">
+                            <div key={request.receiver._id} className="flex items-center justify-between bg-white rounded-lg shadow-md px-3 py-4 mb-4 border border-2 border-primaryBlue">
                                 <div className="flex flex-col items-center">
                                     <h3 className="text-left text-lg font-medium lora self-start pb-3">{request.receiver.name}</h3>
                                     <p className="text-left text-sm nunito">{request.receiver.email}</p>
