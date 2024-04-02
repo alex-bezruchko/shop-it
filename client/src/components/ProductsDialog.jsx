@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomSelect from "./CustomSelect";
 import ImageSearch from "./ImageSearch";
 import FileUpload from './FileUpload';
-
+import { Validation } from './Validation';
+import ValidationErrorDisplay from "./../components/ValidationErrors";
 
 import {
     Button,
@@ -24,6 +25,7 @@ import {
     const [description, setDescription] = useState('');
     const [photo, setPhoto] = useState('');
     const [price, setPrice] = useState('');
+    const [errors, setErrors] = useState([]);
 
     const handleOpen = () => setOpen(!open);
 
@@ -36,20 +38,35 @@ import {
             .catch(error => {
                 console.log(error);
             });
-    }, []);
+    }, [errors]);
 
     async function createProduct(e) {
         e.preventDefault();
-        let body = { name, description, photo, price, category };
-        try {
-            const { data } = await axios.post(`/products`, body);
-            dispatch({ type: 'ADD_PRODUCT', payload: data });
-            clearForm();
-            setOpen(false);
-            dispatch({ type: 'SET_ALERT', payload: {message: 'Product created successfully', alertType: 'primaryGreen'} });
+        
+        let body = {
+            name,
+            category,
+            description,
+            price,
+        }
 
-        } catch (error) {
-            console.log(error);
+        const validationErrors = Validation(body);
+        if (validationErrors.length > 0) {
+            // Handle validation errors here
+            setErrors(validationErrors)
+        } else {
+            setErrors([])
+            body.photo = photo;
+                try  {
+                const { data } = await axios.post(`/products`, body);
+                dispatch({ type: 'ADD_PRODUCT', payload: data });
+                clearForm();
+                setOpen(false);
+                dispatch({ type: 'SET_ALERT', payload: {message: 'Product created successfully', alertType: 'primaryGreen'} });
+
+            } catch (error) {
+                console.log(error);
+            }
         }
     }
 
@@ -79,6 +96,11 @@ import {
             </button>
             <Dialog open={open} handler={handleOpen} className="flex flex-col overflow-y-scroll h-full">
                 <h2 className="nunito text-3xl pb-0 sm:pb-5 text-black text-center pt-5">New Product</h2>
+                {errors.length > 0 && (
+                    <div className="mx-4">
+                        <ValidationErrorDisplay errors={errors}/>
+                    </div>
+                )}
                 <DialogBody className="pt-0 overflow-y-scroll" >
                     <form>
                         <div className="mt-10 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-8 grid-cols-1">

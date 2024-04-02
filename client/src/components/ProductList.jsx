@@ -12,14 +12,12 @@ const ProductList = ({ products, addToList, noHeader, handleUpdateProducts, dele
   }
 
   const handleDeleteProduct = (product) => {
-    console.log('product', product)
     deleteProduct(product)
   }
   // Check if products exist and is an array before rendering
   if (!Array.isArray(products.products) || products.products.length === 0) {
     return <div></div>;
   }
-  console.log(products)
   return (
     <div className="w-full mt-3">
       {noHeader === false && (<h2>Product List</h2>)}

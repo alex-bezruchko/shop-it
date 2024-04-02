@@ -3,8 +3,9 @@ import { UserContext } from "./UserContext";
 import axios from 'axios';
 import ProductList from "../components/ProductList";
 import { useNavigate } from "react-router-dom";
-
 import { useDispatch } from 'react-redux';
+import ValidationErrorDisplay from "./ValidationErrors";
+import { Validation } from "./Validation";
 
 export default function ShoppingList() {
     const dispatch = useDispatch();
@@ -13,6 +14,8 @@ export default function ShoppingList() {
     const [list, setList] = useState('');
     const [products, setProducts] = useState({});
     const [selectedProducts, setSelectedProducts] = useState({products: []});
+    const [errors, setErrors] = useState([]);
+
     const navigate = useNavigate();
 
     async function createShoppingList(e) {
@@ -20,18 +23,23 @@ export default function ShoppingList() {
         let body = {
             name: list,
             products: selectedProducts.products,
-            owner: user._id,
-            completed: false
         }
-        
-        try {
-            await axios.post(`/shoppinglists/${body.owner}`, body).then(({data})=> {
-                navigate(`/account/current/${data.shoppingList._id}`)
-                setList({name: '', products: []})
-                dispatch({ type: 'SET_ALERT', payload: {message: 'Shopping list created successfully', alertType: 'primaryGreen'} });
-            });
-        } catch(e) {
-            console.log(e)
+        const validationErrors = Validation(body);
+        if (validationErrors.length > 0) {
+            // Handle validation errors here
+            setErrors(validationErrors)
+        } else {
+            body.owner = user._id;
+            body.completed = false;
+            try {
+                await axios.post(`/shoppinglists/${body.owner}`, body).then(({data})=> {
+                    navigate(`/account/current/${data.shoppingList._id}`)
+                    setList({name: '', products: []})
+                    dispatch({ type: 'SET_ALERT', payload: {message: 'Shopping list created successfully', alertType: 'primaryGreen'} });
+                });
+            } catch(e) {
+                console.log(e)
+            }
         }
     }
     function removeFromList(selectedProduct) {
@@ -98,8 +106,13 @@ export default function ShoppingList() {
     }
     return (
         <div className="flex flex-col">
+            {errors.length > 0 && (
+                <div className="mx-0">
+                    <ValidationErrorDisplay errors={errors}/>
+                </div>
+            )}  
             <div className="sm:col-span-3">
-                <label htmlFor="name" className="block nunito text-3xl pb-5">Name</label>
+                <label htmlFor="name" className="block nunito text-3xl pb-5 mt-5">Name</label>
                 <div className="mt-2">
                     <input 
                     type="text"

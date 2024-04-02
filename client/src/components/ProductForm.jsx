@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import CustomSelect from "./CustomSelect";
 import ImageSearch from "./ImageSearch";
 import FileUpload from './FileUpload';
+import { Validation } from './Validation';
+import ValidationErrorDisplay from "./../components/ValidationErrors";
 
 import {
     Dialog,
@@ -19,6 +21,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
     const [openDelete, setOpenDelete] = useState(false)
     const [categories, setCategories] = useState([]);
     const [photo, setPhoto] = useState([]);
+    const [errors, setErrors] = useState([]);
     // const [fileName, setfileName] = useState('');
 
     const [formData, setFormData] = useState({
@@ -55,7 +58,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
         }
         setOpen(true)
     };
-
+  
     useEffect(() => {
         axios.get(`/categories`).then(({ data }) => {
             let options = data.map(item => ({
@@ -67,23 +70,36 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
         }).catch(error => {
             console.log(error);
         });
-    }, []);
+    }, [errors, categories]);
 
     async function editProduct(e) {
         e.preventDefault();
-        let body = { formData };
+        let {name, description, price, category } = formData;
+        let body = {
+            name,
+            category,
+            description,
+            price,
+        }
 
-        try {
-            const response = await axios.put(`/products/${product._id}`, body);
-            // Update local state with the updated name
-            let newItem = { formData };
-            newItem._id = product._id;
-            updateProduct(newItem);
-            dispatch({ type: 'SET_ALERT', payload: {message: 'Product updated successfully', alertType: 'primaryGreen'} });
+        const validationErrors = Validation(body);
+        if (validationErrors.length > 0) {
+            // Handle validation errors here
+            setErrors(validationErrors)
+        } else {
+            body.photo = photo;
+            try {
+                const response = await axios.put(`/products/${product._id}`, body);
+                // Update local state with the updated name
+                let newItem = { formData };
+                newItem._id = product._id;
+                updateProduct(newItem);
+                dispatch({ type: 'SET_ALERT', payload: {message: 'Product updated successfully', alertType: 'primaryGreen'} });
 
-            setOpen(false)
-        } catch (error) {
-            console.error('Error updating shopping list name:', error);
+                setOpen(false)
+            } catch (error) {
+                console.error('Error updating shopping list name:', error);
+            }
         }
     }
 
@@ -130,7 +146,12 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
             <Dialog open={open} handler={handleOpen} className="flex flex-col overflow-y-scroll h-full">
 
                 <h2 className="nunito text-3xl pb-0 sm:pb-5 text-black text-center pt-5">Edit Product</h2>
-
+                {errors.length > 0 && (
+                    <div className="mx-4">
+                        <ValidationErrorDisplay errors={errors}/>
+                    </div>
+                )}    
+                    
                 <DialogBody className="pt-0">
                     <form>
                         <div className="mt-10 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-8 grid-cols-1">
