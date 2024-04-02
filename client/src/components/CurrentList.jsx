@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useParams } from "react-router-dom";
 import ProductList from "../components/ProductList";
 import ProductForm from "../components/ProductForm";
-
+import ValidationErrorDisplay from "./ValidationErrors";
+import { Validation } from "./Validation";
 
 export default function CurrentList() {
 
@@ -15,6 +16,7 @@ export default function CurrentList() {
     const [currentList, setCurrentList] = useState({products: []});
     const [selectedListId, setSelectedListId] = useState('');
     const [selectedProducts, setSelectedProducts] = useState({products: []});
+    const [errors, setErrors] = useState([]);
 
     const [products, setProducts] = useState({});
 
@@ -40,13 +42,26 @@ export default function CurrentList() {
 
 
     async function updateShoppingList(updatedList) {
-        try {
-            const response = await axios.put(`shoppinglists/${selectedListId}`, updatedList);
-            if (response) {
-                setCurrentList(updatedList);
+        let body = {
+            name: newName,
+            products: selectedProducts.products,
+        }
+        const validationErrors = Validation(body);
+        console.log('validationErrors', validationErrors)
+        if (validationErrors.length > 0) {
+            // Handle validation errors here
+            setErrors(validationErrors)
+            console.log(errors)
+        } else {
+            body.owner = user._id;
+            try {
+                const response = await axios.put(`shoppinglists/${selectedListId}`, updatedList);
+                if (response) {
+                    setCurrentList(updatedList);
+                }
+            } catch (error) {
+                console.error('Error updating shopping list:', error);
             }
-        } catch (error) {
-            console.error('Error updating shopping list:', error);
         }
     }
     
@@ -97,8 +112,18 @@ export default function CurrentList() {
     }
 
     async function toggleEditing() {
-        setIfNotEditing(!ifNotEditing);
         if (ifNotEditing) {
+            // Check if the new name is empty
+            if (!newName.trim()) {
+                setErrors([{ field: 'name', message: 'Name is required' }]);
+                return; // Stop further execution
+            }
+    
+            // If the new name is not empty, clear any previous errors
+            setErrors([]);
+    
+            // Continue with editing
+            setIfNotEditing(!ifNotEditing);
             try {
                 const response = await axios.put(`shoppinglists/${selectedListId}`, { name: newName, products: currentList.products });
                 // Update local state with the updated name
@@ -106,8 +131,12 @@ export default function CurrentList() {
             } catch (error) {
                 console.error('Error updating shopping list name:', error);
             }
+        } else {
+            setErrors([]);
+            setIfNotEditing(!ifNotEditing);
         }
     }
+    
 
     async function searchProducts(e) {
         e.preventDefault();
@@ -191,6 +220,11 @@ export default function CurrentList() {
         )
         } <div className="flex flex-col text-center justify-center">
                 <div className="w-full">
+                    {errors.length > 0 && (
+                        <div className="mx-0">
+                            <ValidationErrorDisplay errors={errors}/>
+                        </div>
+                    )} 
                     <div className="flex justify-center items-center  pb-5">
                         {!ifNotEditing && (<><h2 className="nunito text-3xl">
                             {currentList.name}

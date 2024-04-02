@@ -82,10 +82,6 @@ app.get('/places', async (req, res) => {
     }
 });
 
-// app.get('/photos', async (req, res) => {
-
-// })
-
 app.get('/search/photos', async (req, res) => {
   const { query, page } = req.query;
   const pageNumber = page || 1;
