@@ -119,7 +119,7 @@ import {
                                 </div>
                             </div>
                             <div className="sm:col-span-3">
-                                <label className="block text-sm font-medium leading-6 text-gray-900 pb-2">Category</label>
+                                <span className="block text-sm font-medium leading-6 text-gray-900 pb-2">Category</span>
 
                                 {categories.length > 0 && (
                                     <CustomSelect handleSelect={setCategory} options={categories}/>
@@ -156,8 +156,8 @@ import {
                                             </button>
                                         </div>
                                     )}
-                                    <div className="w-1/2 flex flex-col w-1/2 h-full justify-left">
-                                        <FileUpload setFile={handleImageSelect}/>
+                                    <div className={`w-${photo ? '1/2' : 'full'} flex flex-col h-full justify-left`}>
+                                        <FileUpload setFile={handleImageSelect} />
                                     </div>
                                 </div>
                             </div>

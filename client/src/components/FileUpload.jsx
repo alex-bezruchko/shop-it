@@ -14,7 +14,7 @@ export default function FileUpload({ setFile }) {
         const formData = new FormData();
         formData.append('file', file);
         formData.append('upload_preset', preset_key);
-        axios.post(`${import.meta.env.VITE_CLOUDINARY_API}/${import.meta.env.VITE_CLOUDINARY_CLOUD}/image/upload`, formData)
+        axios.post(`${import.meta.env.VITE_CLOUDINARY_API}/${import.meta.env.VITE_CLOUDINARY_CLOUD}/image/upload`, formData, {withCredentials: false})
             .then(res => {
                 setImage(res.data.secure_url)
                 setIsDisabled(false)

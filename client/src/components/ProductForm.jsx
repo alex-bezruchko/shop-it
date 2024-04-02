@@ -70,7 +70,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
         }).catch(error => {
             console.log(error);
         });
-    }, [errors, categories]);
+    }, [errors]);
 
     async function editProduct(e) {
         e.preventDefault();
@@ -170,7 +170,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                             </div>
                             
                             <div className="sm:col-span-3">
-                                <label className="block text-sm font-medium leading-6 text-gray-900 pb-2">Category</label>
+                                <span className="block text-sm font-medium leading-6 text-gray-900 pb-2">Category</span>
 
                                 <CustomSelect 
                                     selectedOption={formData.category} 
@@ -200,7 +200,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                                 <div className="flex items-center justify-between w-full">
                                     {photo && (        
                                     
-                                        <div className="flex items-center border-r w-full">
+                                        <div className="flex items-center border-r w-1/2">
                                             <img src={photo} alt="Selected" className="m-0 h-20 w-20 sm:w-40 sm:h-40" />
                                             <button onClick={() => removePhoto()} className="text-primaryRed mt-2 mx-auto text-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"  className="w-8 h-8 sm:w-10 sm:h-10 ml-1">
@@ -209,7 +209,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                                             </button>
                                         </div>
                                     )}
-                                    <div className="w-1/2 flex flex-col w-1/2 h-full justify-left">
+                                    <div className={`w-${photo ? '1/2' : 'full'} flex flex-col h-full justify-left`}>
                                         <FileUpload setFile={handleImageSelect}/>
                                     </div>
                                 </div>
