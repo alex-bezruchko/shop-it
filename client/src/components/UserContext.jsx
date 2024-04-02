@@ -11,13 +11,11 @@ export function UserContextProvider({children}) {
             axios.get(`/users/profile`, {withCredentials: true}).then(({data}) => {
                 setUser(data);
                 setReady(true);
-                console.log(user)
             }).catch(error => {
                 console.log(error)
             });
         }
     }, []);
-    console.log(user)
     return (
         <UserContext.Provider value={{user, setUser, ready}}>
             {children}
