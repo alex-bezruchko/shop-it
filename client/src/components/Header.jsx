@@ -66,7 +66,8 @@ export default function Header() {
                                 <Link to="/account" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" style={{ textDecoration: 'none', color: 'inherit' }} onClick={handleLinkClick}>Lists for: {user.name}</Link>
                             )}
                             <Link to="/friends" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" onClick={handleLinkClick}>Friends</Link>
-                            <Link to="/stores" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" onClick={handleLinkClick}>Find Stores</Link>
+                            <Link to="/places" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" onClick={handleLinkClick}>Places</Link>
+                            {/* <Link to="/stores" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" onClick={handleLinkClick}>Find Places</Link> */}
                             <button className="bg-primaryBlue mt-5 py-2 mt-2 mr-11 mb-4 ml-3 text-white rounded" onClick={logOut}>Logout</button>
                         </div>
                     )}
