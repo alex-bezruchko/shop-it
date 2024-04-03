@@ -42,6 +42,60 @@ exports.getAll = async (req, res) => {
     }
 }
 
+exports.places = async (req, res) => {
+    const userId = req.params.userId;
+
+    try {
+        const user = await User.findById(userId).populate('favoritePlaces');
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json(user.favoritePlaces);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Error" });
+    }
+}
+
+exports.addPlace = async (req, res) => {
+    const userId = req.params.userId;
+    const { place } = req.body; // Assuming the place details are sent in the request body
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        let ifDupe = false;
+        if (user.favoritePlaces.length > 0) {
+            let ifPlaceExists = user.favoritePlaces.find(favPlace => favPlace.place_id === place.place_id);
+            if (ifPlaceExists) {
+                let newPlaces = user.favoritePlaces.filter(favPlace => favPlace.place_id !== place.place_id)
+                user.favoritePlaces = newPlaces;
+                ifDupe = true;
+            } else {
+                user.favoritePlaces.push(place);
+            }
+        } else {
+            user.favoritePlaces.push(place);
+        }
+       
+        // Add the new place to the user's favorite places array
+        await user.save();
+        let message = '';
+        if (ifDupe) {
+            message = 'Place removed from favorites'
+        } else {
+            message = "Place added to favorites"
+        }
+        res.json({ message: message, user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Error" });
+    }
+}
+
+
 exports.register = async (req, res) => {
     const { name, email, password } = req.body;
 
