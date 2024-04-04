@@ -24,21 +24,20 @@ const ProductList = ({ products, addToList, noHeader, handleUpdateProducts, dele
       <ul>
         {products.products.map(product => (
             <div key={product._id} className="flex w-full justify-between">
-              <div className="flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-2 md:p-3 mb-4 border border-1 border-primaryBlue">
-                <div className="w-full flex justify-between mt-0">
+              <div className="flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-0 mb-4 border border-2 border-primaryBlue">
+                <div className="w-full flex justify-between mt-0 h-full">
                   <div className="flex items-center w-full justify-between">
-                      <div className="mr-4 flex flex-col justify-between">
-                      
-                          <h3 className="text-left text-lg font-medium lora self-start">{product.name}</h3>
-                          <div className="pt-3">
-                              <p className="text-left text-sm nunito">{product.description}</p>
-                              <p className="text-left text-sm nunito">${product.price}</p>
-                          </div>
-                      </div>
+                    <div className="mr-4 flex flex-col justify-between h-full">
+                        <h3 className="pl-2 pt-2 text-left text-lg font-medium lora self-start">{product.name}</h3>
+                        <div className="pl-2 pb-2 pt-0">
+                            <p className="text-left text-sm nunito">{product.description}</p>
+                            <p className="text-left text-sm nunito">${product.price}</p>
+                        </div>
+                    </div>
                   </div>
                   <div className="flex">
                     <ProductForm 
-                      className="self-center" 
+                      className="self-end pb-4" 
                       product={product} 
                       handleDeleteProduct={deleteProduct} 
                       updateProduct={updateProduct}
@@ -47,7 +46,7 @@ const ProductList = ({ products, addToList, noHeader, handleUpdateProducts, dele
                 </div>
                 
                 {product.photo && (
-                    <img src={product.photo} alt="Product Photo" className="listProduct mr-1"/>)
+                    <img src={product.photo} alt="Product Photo" className="cursor-pointer mr-0 max-h-[120px] min-h-[120px] min-w-[120px] max-w-[120px] rounded-r-md"/>)
                 }
 
                 {product.photo == ''  && (

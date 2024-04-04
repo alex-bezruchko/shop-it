@@ -46,8 +46,8 @@ function ImageSearch({ addPhoto }) {
     
     return (
         <div className="flex flex-col">
-            <label htmlFor="search" className="block text-sm font-medium leading-6 text-gray-900">Searched Photo</label>
-            <div className="flex items-center mb-3">
+            <label htmlFor="search" className="block text-sm nunito font-medium leading-6 text-gray-900">Searched Photo</label>
+            <div className="flex items-center mb-1 mt-2">
 
                 <input 
                     type="text"
@@ -57,7 +57,7 @@ function ImageSearch({ addPhoto }) {
                     id="search"
                     placeholder="Search"
                     autoComplete="given-name"
-                    className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 nunito py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue sm:text-sm sm:leading-6"
                 />
                 <button onClick={handleSubmit} className="text-primaryBlue font-bold ml-2" style={{marginLeft: '-35px'}}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

@@ -103,9 +103,9 @@ import {
                 )}
                 <DialogBody className="pt-0 overflow-y-scroll" >
                     <form>
-                        <div className="mt-10 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-8 grid-cols-1">
+                        <div className="mt-10 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-6 grid-cols-1">
                             <div className="sm:col-span-3">
-                                <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">Name</label>
+                                <label htmlFor="name" className="block text-sm nunito font-medium leading-6 text-gray-900">Name</label>
                                 <div className="mt-2">
                                     <input
                                         type="text"
@@ -119,14 +119,14 @@ import {
                                 </div>
                             </div>
                             <div className="sm:col-span-3">
-                                <span className="block text-sm font-medium leading-6 text-gray-900 pb-2">Category</span>
+                                <span className="block text-sm nunito font-medium leading-6 text-gray-900 pb-0">Category</span>
 
                                 {categories.length > 0 && (
                                     <CustomSelect handleSelect={setCategory} options={categories}/>
                                 )}
                             </div>
                             <div className="sm:col-span-3">
-                                <label htmlFor="description" className="block text-sm font-medium leading-6 text-gray-900">Description</label>
+                                <label htmlFor="description" className="block text-sm nunito font-medium leading-6 text-gray-900">Description</label>
                                 <div className="mt-2">
                                     <input
                                         type="text"
@@ -162,7 +162,7 @@ import {
                                 </div>
                             </div>
                             <div className="sm:col-span-3">
-                                <label htmlFor="price" className="block text-sm font-medium leading-6 text-gray-900">Price</label>
+                                <label htmlFor="price" className="block text-sm nunito font-medium leading-6 text-gray-900 mt-5">Price</label>
                                 <div className="mt-2">
                                     <input
                                         type="text"
@@ -171,7 +171,7 @@ import {
                                         onChange={e => setPrice(e.target.value)}
                                         id="price"
                                         autoComplete="given-name"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue sm:text-sm sm:leading-6"
+                                        className="block w-full rounded-md nunito border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue sm:text-sm sm:leading-6"
                                     />
                                 </div>
                             </div>
