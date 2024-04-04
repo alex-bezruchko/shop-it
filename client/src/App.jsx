@@ -32,6 +32,7 @@ function App() {
               <Route path="/account/:subpage?" element={<AccountPage/>}/>
               <Route path="/account/:subpage?/:listId" element={<AccountPage/>}/>
               <Route path="/friends/:subpage?" element={<FriendsPage/>}/>
+              <Route path="/friends/:subpage?/:friendId" element={<FriendsPage />} />
               <Route path="/places/:subpage?" element={<PlacesPage/>}/>
             </Route>
           </Routes>
