@@ -62,7 +62,7 @@ export default function CompleteList({sendTo}) {
                     <ul>
                         {currentLists.map(list => (
                              <div key={list._id} className="flex w-full justify-between mb-4 items-center">
-                                <div onClick={() => viewList(list._id)} className="flex w-full items-center justify-between bg-white rounded-lg shadow-md px-4 py-6 border border-2 border-primaryBlue">
+                                <div onClick={() => viewList(list._id)} className="flex w-full items-center justify-between bg-white rounded-lg shadow-lg px-4 py-6 border border-1 border-primaryBlue">
                                     <div className="flex items-center w-full justify-between">
                                         <div className="mr-4">
                                             <h2 className="text-left text-xl lora font-medium">{list.name}</h2>

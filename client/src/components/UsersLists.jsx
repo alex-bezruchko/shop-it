@@ -62,7 +62,7 @@ export default function UsersLists({sendTo, currentLink}) {
                     <ul>
                         {currentLists.map(list => (
                             <div key={list._id} className="flex w-full justify-between">
-                                <div onClick={() => viewList(list._id)} className={`flex w-full items-center justify-between bg-white rounded-lg shadow-md p-4 mb-4 border border-2 ${list.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}>
+                                <div onClick={() => viewList(list._id)} className={`flex w-full items-center justify-between bg-white rounded-lg shadow-lg p-4 mb-4 border border-1 ${list.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}>
                                     <div className="flex w-full items-center w-full justify-between">
                                         <div className="mr-4">
                                             <h2 className="text-left text-xl lora font-medium">{list.name}</h2>

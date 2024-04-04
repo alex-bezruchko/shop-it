@@ -24,7 +24,7 @@ const ProductList = ({ products, addToList, noHeader, handleUpdateProducts, dele
       <ul>
         {products.products.map(product => (
             <div key={product._id} className="flex w-full justify-between">
-              <div className="flex items-center w-full justify-between bg-white rounded-lg shadow-md p-2 md:p-3 mb-4 border-2 border-primaryBlue">
+              <div className="flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-2 md:p-3 mb-4 border border-1 border-primaryBlue">
                 <div className="w-full flex justify-between mt-0">
                   <div className="flex items-center w-full justify-between">
                       <div className="mr-4 flex flex-col justify-between">

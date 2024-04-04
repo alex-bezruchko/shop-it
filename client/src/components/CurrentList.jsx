@@ -255,7 +255,7 @@ export default function CurrentList() {
                     <ul className="flex flex-col justify-between">
                         {currentList.products?.map(product => (
                         <div key={product.product._id} className="flex w-full justify-between">
-                            <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-md p-2 md:p-3 mb-4 border-2 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}>
+                            <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-2 md:p-3 mb-4 border border-1 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}>
                                 <div className="flex items-center w-full justify-between">
                                     <div className="mr-0 flex flex-col w-full justify-between">
                                         <h3 className="text-left text-lg font-medium lora self-start">{product.product.name}</h3>

@@ -61,13 +61,13 @@ function FriendList() {
             </div>
             <div className="user-list">
                 {users.map(user => (
-                    <div key={user._id} className="flex items-center justify-between bg-white rounded-lg shadow-md px-3 py-4 mb-4 border border-2 border-primaryBlue">
+                    <div key={user._id} className="flex items-center justify-between bg-white rounded-lg shadow-lg px-3 py-4 mb-4 border border-1 border-primaryBlue">
                        <div className="h-full flex flex-col text-left justify-between">
                             <h3 className="text-left text-lg font-medium lora self-start pb-3">{user.name}</h3>
                             <p className="text-left text-sm nunito">{user.email}</p>
                         </div>
                         <div onClick={() => handleAddFriend(user._id)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 text-primaryGreen">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                             </svg>
                         </div>
