@@ -133,7 +133,7 @@ export default function ShoppingList() {
                     <ul>
                         {selectedProducts.products.map(product => (
                         <div key={product._id} className="flex w-full justify-between">
-                            <div className="flex items-center w-full justify-between bg-white rounded-lg shadow-md p-2 md:p-3 mb-4 border-2 border-primaryBlue">
+                            <div className="flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-2 md:p-3 mb-4 border border-1 border-primaryBlue">
                                 <div className="mr-4 flex flex-col justify-between">
                                 
                                     <h3 className="text-left text-lg font-medium lora self-start">{product.name}</h3>

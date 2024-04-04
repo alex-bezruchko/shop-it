@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const ShoppingList = require('../models/ShoppingList');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -39,6 +40,121 @@ exports.getAll = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");
+    }
+}
+
+exports.getFriendInfo = async (req, res) => {
+    const { userId, friendId } = req.params;
+    console.log('userId', userId)
+    console.log('friendId', friendId)
+
+
+    try {
+        // Check if the users are friends
+        const areFriends = await areUsersFriends(userId, friendId);
+
+        if (!areFriends) {
+            return res.status(403).json({ message: "You are not friends with this user." });
+        }
+
+        // Fetch user's lists, places, and friends
+        const user = await User.findById(friendId).populate('favoritePlaces').populate('friends', 'name email');
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Fetch user's shopping lists
+        const lists = await ShoppingList.find({ owner: friendId });
+
+        // Return user's lists, places, and friends
+        res.json({ user, lists });
+    } catch (error) {
+        console.error("Error fetching user's data:", error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+}
+
+exports.places = async (req, res) => {
+    const userId = req.params.userId;
+
+    try {
+        const user = await User.findById(userId).populate('favoritePlaces');
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json(user.favoritePlaces);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Error" });
+    }
+}
+
+exports.addPlace = async (req, res) => {
+    const userId = req.params.userId;
+    const { place } = req.body; // Assuming the place details are sent in the request body
+
+    try {
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        let ifDupe = false;
+        if (user.favoritePlaces.length > 0) {
+            let ifPlaceExists = user.favoritePlaces.find(favPlace => favPlace.place_id === place.place_id);
+            if (ifPlaceExists) {
+                let newPlaces = user.favoritePlaces.filter(favPlace => favPlace.place_id !== place.place_id)
+                user.favoritePlaces = newPlaces;
+                ifDupe = true;
+            } else {
+                user.favoritePlaces.push(place);
+            }
+        } else {
+            user.favoritePlaces.push(place);
+        }
+       
+        // Add the new place to the user's favorite places array
+        await user.save();
+        let message = '';
+        if (ifDupe) {
+            message = 'Place removed from favorites'
+        } else {
+            message = "Place added to favorites"
+        }
+        res.json({ message: message, user });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server Error" });
+    }
+}
+
+exports.copyPlace = async (req, res) => {
+    const listId = req.params.listId;
+    const userId = req.body.userId; // Assuming userId is passed in the request body
+    try {
+        // Find the original shopping list
+        const originalList = await ShoppingList.findById(listId).populate('products.product');
+        if (!originalList) {
+        return res.status(404).json({ message: 'Shopping list not found' });
+        }
+        
+        // Create a copy of the original list with a new owner
+        const copiedList = new ShoppingList({
+        name: originalList.name,
+        owner: userId, // New owner
+        products: originalList.products.map(product => ({ product: product.product._id, completed: false })),
+        completed: false,
+        createdAt: new Date(),
+        editedAt: null
+        });
+
+        // Save the copied list
+        await copiedList.save();
+
+        res.json({ message: 'Shopping list copied successfully', copiedList });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server Error' });
     }
 }
 
@@ -294,3 +410,10 @@ exports.pendingRequests = async (req, res) => {
     }
 }
 
+async function areUsersFriends(userId, friendId) {
+    const user = await User.findById(userId).populate('friends');
+    if (!user) return false;
+
+    // Check if the friendId exists in the user's friends array
+    return user.friends.some(friend => friend._id.toString() === friendId);
+}

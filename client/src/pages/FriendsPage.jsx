@@ -6,26 +6,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import FriendList from "../components/FriendsList";
 import PendingRequests from "../components/PendingRequests";
 import CurrentFriendsList from "../components/CurrentFriendsList";
+import FriendDetailPage from "./FriendDetailsPage";
 import Pusher from 'pusher-js';
 
 // import { connect } from 'react-redux';
 // import { setAlert } from '../../src/actions/alertActions';
 
 export default function FriendsPage() {
+    const [friendId, setFriendId] = useState(null);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { ready, user, setUser } = useContext(UserContext);
-  
     let {subpage} = useParams();
-
-    if (subpage === undefined) {
-        subpage = 'find';
-    }
-    if (!ready) {
-        return 'Loading...';
-    }
-    if (ready && !user) {
-        return <Navigate to={'/login'}/>
-    }
     useEffect(() => {
         // Initialize Pusher with your Pusher app key
         const pusher = new Pusher(`${import.meta.env.VITE_PUSHER_APP_KEY}`, {
@@ -63,10 +55,18 @@ export default function FriendsPage() {
             channel.unbind(); // Unbind from all events
             pusher.unsubscribe(`user-${user._id}`);
         };
-    }, [user._id]); // Dependency array to ensure effect runs only once
+    }, []); // Dependency array to ensure effect runs only once
     
-
-    
+    if (subpage === undefined) {
+        subpage = 'find';
+    }
+    if (!ready) {
+        return 'Loading...';
+    }
+    if (ready && !user) {
+        return <Navigate to={'/login'}/>
+    }
+  
     
     function linkClasses(type=null) {
         let classes = 'w-full nunito text-lg items-center flex justify-around sm:justify-evenly py-2 px-2';
@@ -76,7 +76,11 @@ export default function FriendsPage() {
         return classes
     }
     
-  
+    const handleFriendClick = (id) => {
+        setFriendId(id);
+        navigate(`/friends/friend/${id}`);
+
+    };
     // async function updateCurrentLink(id) {
     //     setCurrentListLink(id);
     // }
@@ -91,7 +95,8 @@ export default function FriendsPage() {
             {/* <nav className="w-medium flex justify-around mt-16 mb-12">
              */}
              <div className="flex justify-center">
-             <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-10 mb-12">
+             
+                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-10 mb-12">
                     <Link 
                         className={linkClasses('find')}
                         to={'/friends/find'}>
@@ -109,11 +114,19 @@ export default function FriendsPage() {
                             </svg>
                     </Link>
                     <Link 
+                        className={linkClasses('friend')}
+                        to={`/friends/friend/${friendId}`}>
+                            Friend
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                    </Link>
+                    <Link 
                         className={linkClasses('pending')}
                         to={'/friends/pending'}>
                             Requests
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                             </svg>
 
                     </Link>
@@ -129,9 +142,17 @@ export default function FriendsPage() {
 
                     {subpage === 'current' && (
                         <div className="flex flex-col text-center">
-                            <CurrentFriendsList />
+                            <CurrentFriendsList handleFriendClick={handleFriendClick} />
                         </div>
                      )}
+
+                    
+                     {/* Render FriendDetailPage if subpage is friendId */}
+                     {subpage === 'friend' && (
+                        <div className="flex flex-col text-center">
+                            <FriendDetailPage />
+                        </div>
+                    )}
 
                     {subpage === 'pending' && (
                          <div className="flex flex-col text-center">

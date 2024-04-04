@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from "./UserContext";
 import axios from 'axios';
 
-function CurrentFriendsList() {
+function CurrentFriendsList({handleFriendClick}) {
     const { user } = useContext(UserContext);
     const [friends, setFriends] = useState([]);
 
@@ -24,7 +24,7 @@ function CurrentFriendsList() {
             <h2 className='text-center nunito text-3xl'>Friends List</h2>
             <div className="user-list  mt-5">
                 {friends.map(friend => (
-                    <div key={friend._id}  className="flex items-center justify-between bg-white rounded-lg shadow-md px-3 py-4 mb-4 border border-2 border-primaryBlue">
+                    <div key={friend._id} onClick={() => handleFriendClick(friend._id)}  className="flex items-center justify-between bg-white rounded-lg shadow-lg px-3 py-4 mb-4 border border-1 border-primaryBlue">
                         <div className="h-full flex flex-col text-left justify-between">
                             <h3 className="text-left text-lg font-medium lora self-start pb-3">{friend.name}</h3>
                             <p className="text-left text-sm nunito">{friend.email}</p>
