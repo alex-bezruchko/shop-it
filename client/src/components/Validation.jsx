@@ -12,6 +12,9 @@ export const Validation = (formData, isRegistration) => {
         if (key === 'products' && formData[key].length === 0) {
             errors.push({ field: key, message: 'Products list cannot be empty' });
         }
+        if (key === 'zip' && formData[key] && isNaN(parseFloat(formData[key]))) {
+            errors.push({ field: key, message: 'Zip must be a numeric value' });
+        }
     }
 
     if (isRegistration) {
