@@ -9,8 +9,6 @@ export default function Header() {
     const { user, setUser } = useContext(UserContext);
     const [showDropdown, setShowDropdown] = useState(false); // State for dropdown visibility
     const dispatch = useDispatch();
-    const navigate = useNavigate();
-
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
@@ -42,14 +40,14 @@ export default function Header() {
             </Link>
 
             {user && (
-                <div className="flex gap-2 border border-blue-200 rounded-full p-0 shadow-md shadow-gray-300">
+                <div className="flex gap-2 border border-blue-200 rounded-full p-0 shadow-lg shadow-gray-300">
                     <ProductsDialog />
                 </div>
             )}
 
             {user && (
                 <div className="relative">
-                    <button className="flex items-center gap-2 border border-blue-200 rounded-full p-2 shadow-md shadow-gray-300 focus:outline-none" onClick={toggleDropdown}>
+                    <button className="flex items-center gap-2 border border-blue-200 rounded-full p-2 shadow-lg shadow-gray-300 focus:outline-none" onClick={toggleDropdown}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                         </svg>
@@ -63,7 +61,7 @@ export default function Header() {
                     {showDropdown && (
                         <div className="flex flex-col absolute right-0 my-2 p-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg">
                             {!!user && (
-                                <Link to="/account" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" style={{ textDecoration: 'none', color: 'inherit' }} onClick={handleLinkClick}>Lists for: {user.name}</Link>
+                                <Link to="/account" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" style={{ textDecoration: 'none', color: 'inherit' }} onClick={handleLinkClick}>{user.name.charAt(0).toUpperCase() + user.name.slice(1)}'s lists</Link>
                             )}
                             <Link to="/friends" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" onClick={handleLinkClick}>Friends</Link>
                             <Link to="/places" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" onClick={handleLinkClick}>Places</Link>
