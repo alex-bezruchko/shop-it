@@ -60,7 +60,7 @@ export default function LoginPage() {
                         type="password" 
                         placeholder="password"
                     />
-                    <button className="primaryBlue">Login</button>
+                    <button className="primaryBlue w-full">Login</button>
                     <div className="text-center py-2 text-gray-500">
                         Don't have an account yet? 
                         <Link to={'/register'} className="underline text"> Register now</Link>
