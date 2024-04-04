@@ -23,3 +23,11 @@ input.editInline {
 button.primaryGreen {
     @apply bg-primaryGreen text-white rounded;
 }
+
+@media only screen and (max-width: 640px) {
+    input[type="text"],
+    input[type="password"],
+    input[type="email"] {
+        @apply w-full border mb-2 mt-0 py-2 px-3 rounded;
+    }
+}
