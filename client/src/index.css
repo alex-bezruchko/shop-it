@@ -6,13 +6,13 @@ input[type="text"],input[type="password"],input[type="email"] {
     @apply w-full border my-2 py-2 px-3 rounded;
 }
 button.primaryBlue {
-    @apply bg-primaryBlue p-2 w-full text-white rounded;
+    @apply bg-primaryBlue p-2 text-white rounded;
 }
 button.secondaryBlue {
-    @apply bg-secondaryBlue p-2 w-full text-white rounded;
+    @apply bg-secondaryBlue p-2 text-white rounded;
 }
 button.primaryOrange {
-    @apply bg-primaryOrange p-2 w-full text-white rounded;
+    @apply bg-primaryOrange p-2 text-white rounded;
 }
 button.primaryRed {
     @apply bg-primaryRed text-white rounded;
