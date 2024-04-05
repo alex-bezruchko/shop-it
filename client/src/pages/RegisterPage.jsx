@@ -51,16 +51,19 @@ export default function RegisterPage() {
                         type="text"
                         value={name}
                         onChange={e => setName(e.target.value)}
+                        className="mb-2"
                         placeholder="Jean-Luq Picard"/>
                     <input 
                         type="email"
                         value={email}
                         onChange={e => setEmail(e.target.value)}
+                        className="mb-2"
                         placeholder="email"/>
                     <input 
                         type="password"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
+                        className="mb-2"
                         placeholder="password"/>
                     <button className="primaryBlue w-full">Register</button>
                     <div className="text-center py-2 text-gray-500">

@@ -21,12 +21,7 @@ export default function FriendDetailPage() {
   let { friendId } = useParams();
   const [friend, setFriend] = useState({ user: { favoritePlaces: [] }, lists: [] });
   useEffect(() => {
-      // let url = '';
-      // if (listId === 'recent' || listId === '' || listId === undefined) {
-      //     url = `shoppinglists/recent`;
-      // } else {
-      //     url = `shoppinglists/${listId}`
-      // }
+
       axios.get(`/users/${user._id}/info/${friendId}`).then(({ data }) => {
           if (data) {
             let fetchedFriend = {
@@ -46,37 +41,7 @@ export default function FriendDetailPage() {
             console.log(error);
         });
   }, [friendId, user._id]);
-  // useEffect(() => {
-  //   const fetchFriendDetails = async () => {
-  //     try {
-  //       if (!friendId) {
-  //         // If friendId is not available in state, fetch it from the URL params
-  //         return;
-  //       }
 
-  //       const response = await axios.get(`/users/${user._id}/${friendId}`);
-  //       let fetchedFriend = {
-  //         user: response.data.user,
-  //         lists: response.data.lists
-  //       }
-  //       setFriend(fetchedFriend);
-  //     } catch (error) {
-  //       console.error('Error fetching friend details:', error);
-  //     }
-  //   };
-
-  //   // Fetch friend details only if friendId is available
-  //   fetchFriendDetails();
-
-  //   // Cleanup function if needed
-  //   return () => {
-  //     // Cleanup logic if needed
-  //   };
-  // }, [friendId, user]); // Fetch friend details whenever friendId changes
-
-  // if (!friend) {
-  //   return <div>Loading friend details...</div>;
-  // }
   function isPlaceFavorite(placeClicked) {
     let fav = false;
     let ifFavorite = favPlaces.filter(pl => pl.place_id === placeClicked.place_id);
@@ -134,10 +99,8 @@ export default function FriendDetailPage() {
 
   return (
     <div>
-      {/* <p>Name: {friend.name}</p>
-      <p>Email: {friend.email}</p> */}
         <h2 className='text-center nunito text-3xl'>Lists</h2>
-        {friend.lists.map(list => (
+        {friend.lists.length !== 0 ? friend.lists.map(list => 
             <div key={list._id} className="flex w-full justify-between mt-5 ">
                 <div className={'flex w-full items-center justify-between bg-white rounded-lg shadow-lg p-8 px-5 border border-1 border-primaryBlue'}>
                     <div className="flex w-full items-center w-full justify-between ">
@@ -153,12 +116,14 @@ export default function FriendDetailPage() {
                 </div>
                 
             </div>
-        ))}
+        ) : (
+          <h3 className='text-center nunito text-xl my-6'>Your friend has no lists yet.</h3>
+        )}
         <div className="friend-list">
               <h2 className='text-center nunito text-3xl mt-3'>Favorite Places</h2>
               
               <div className="user-list">
-                  {friend.user.favoritePlaces.map(place =>
+                  {friend.user.favoritePlaces.length !== 0 ? friend.user.favoritePlaces.map(place =>
                       <div key={place.place_id} className="w-full flex my-5 flex-col items-center justify-between bg-white rounded-lg shadow-lg py-5 px-5 mb-4 border border-1 border-primaryBlue">
                           <div className='flex w-full flex-col'>
                           <div className='flex justify-between'>
@@ -185,6 +150,9 @@ export default function FriendDetailPage() {
                               
                           </div>
                       </div>
+                  ) : (
+                    <h3 className='text-center nunito text-xl my-8'>Your friend has no places yet.</h3>
+
                   )}
               </div>
           </div>

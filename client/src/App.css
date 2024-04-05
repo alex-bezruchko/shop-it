@@ -55,4 +55,7 @@
     max-height: 80px;
     margin-right: 8px;
   }
+  .mb-2 {
+    margin-bottom: 1rem !important;
+  }
 }

@@ -127,9 +127,9 @@ export default function AccountPage() {
                             <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink}/>
                         )}
                         
-                        <div className="text-center max-w-lg mx-auto mt-10">
+                        <div className="text-center nunito max-w-lg mx-auto mt-10">
                             Logged in as {user.name}, {user.email}
-                            <button className="primaryBlue mt-5" onClick={logOut}>Logout</button>
+                            <button className="primaryBlue mt-5 ml-5" onClick={logOut}>Logout</button>
                         </div>
                     </div>
                     )}

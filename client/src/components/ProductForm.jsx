@@ -248,8 +248,8 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                 
                 <DialogFooter>
                     <div className="flex justify-end">
-                        <button className="primaryOrange mt-5 nunito font-medium text-xl flex-grow" onClick={handleOpenDelete}>Cancel</button>
-                        <button className="primaryRed mt-5 nunito font-medium text-xl flex-grow flex-shrink-0 ml-2 p-2" onClick={deleteProduct}>Delete</button>
+                        <button className=" primaryOrange mt-5 nunito font-medium text-sm md:text-xl flex-grow" onClick={handleOpenDelete}>Cancel</button>
+                        <button className=" primaryRed mt-5 nunito font-medium text-sm md:text-xl flex-grow flex-shrink-0 ml-2 p-2" onClick={deleteProduct}>Delete</button>
                     </div>
                 </DialogFooter>
             </Dialog>

@@ -180,8 +180,8 @@ import {
                 </DialogBody>
                 <DialogFooter>
                     <div className="flex justify-end">
-                        <button className="primaryOrange mt-5 nunito font-medium text-xl flex-grow" onClick={handleOpen}>Cancel</button>
-                        <button className="primaryBlue mt-5 nunito font-medium text-xl flex-grow flex-shrink-0 ml-2" onClick={createProduct}>Create</button>
+                        <button className="primaryOrange mt-5 nunito font-medium text-sm md:text-xl flex-grow" onClick={handleOpen}>Cancel</button>
+                        <button className="primaryBlue mt-5 nunito font-medium text-sm md:text-xl flex-grow flex-shrink-0 ml-2" onClick={createProduct}>Create</button>
                     </div>
                 </DialogFooter>
             </Dialog>
