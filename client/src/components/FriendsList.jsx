@@ -21,8 +21,6 @@ function FriendList() {
     }
 
     async function handleAddFriend(friend) {
-        console.log('logged in id', user._id)
-        console.log('friend user id', friend)
         try {
             const response = await axios.post(`/users/send-request/${friend}`, {
                 userId: user._id // Pass userId in the request body
@@ -34,7 +32,6 @@ function FriendList() {
         } catch (error) {
             console.error(error.response);
             dispatch({ type: 'SET_ALERT', payload: {message: error.response.data.error, alertType: 'primaryRed'} });
-
         }
     }
     
@@ -59,7 +56,7 @@ function FriendList() {
                     </button>
                 </div>
             </div>
-            <div className="user-list">
+            <div className="user-list mt-6">
                 {users.map(user => (
                     <div key={user._id} className="flex items-center justify-between bg-white rounded-lg shadow-lg px-3 py-4 mb-4 border border-1 border-primaryBlue">
                        <div className="h-full flex flex-col text-left justify-between">
