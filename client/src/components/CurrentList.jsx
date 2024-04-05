@@ -44,14 +44,12 @@ export default function CurrentList() {
     async function updateShoppingList(updatedList) {
         let body = {
             name: newName,
-            products: selectedProducts.products,
+            // products: updatedList.products,
         }
         const validationErrors = Validation(body);
-        console.log('validationErrors', validationErrors)
         if (validationErrors.length > 0) {
             // Handle validation errors here
             setErrors(validationErrors)
-            console.log(errors)
         } else {
             body.owner = user._id;
             try {
@@ -66,14 +64,16 @@ export default function CurrentList() {
     }
     
     async function addToList(product) {
+        console.log('ADD TOOOOO')
     
         const isDuplicate = currentList.products.some(p => p.product._id === product._id);
     
-        if (!isDuplicate) {
+        // if (!isDuplicate) {
             const updatedProducts = [...currentList.products, { product, completed: false }];
             const updatedList = { ...currentList, products: updatedProducts };
+            console.log('updatedList AAAAAA', updatedList);
             updateShoppingList(updatedList);
-        }
+        // }
     }
     
     async function checkItemFromList(itemId) {
@@ -143,7 +143,6 @@ export default function CurrentList() {
         let body = e.target.value;
         try {
             await axios.get(`/products/search?query=${body}`).then(({ data }) => {
-                console.log('data', data)
                 setProducts(data); // Assuming data is in the format { products: [...] }
             }).catch(error => {
                 if (error) {
@@ -194,16 +193,18 @@ export default function CurrentList() {
     }
     
     async function deleteProductFromList(id) {
-        console.log(id)
+        console.log('deleteProductFromList', id)
         let updatedProducts = [...products.products];
         let newList = updatedProducts.filter(item => item._id !== id);
         setProducts({ ...products, products: newList });
     }
 
     async function deleteProductFromShoppingList(id) {
+        console.log('deleteProductFromShoppingList', id)
         let updatedProducts = [...currentList.products];
         let newList = updatedProducts.filter(item => item.product._id !== id);
         const updatedList = { ...currentList, products: newList };
+        console.log('updatedList', updatedList)
         updateShoppingList(updatedList);
     }
     
@@ -211,7 +212,7 @@ export default function CurrentList() {
         <div className="flex flex-col">
           
         {currentList.products?.length < 1 && (
-            <h2 className="flex text-center justify-center mt-2">
+            <h2 className="flex text-center nunito text-lg justify-center mt-2">
                 No lists found...let's make one...
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="primaryBlue text-primaryBlue w-6 h-6 ml-2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
@@ -280,12 +281,15 @@ export default function CurrentList() {
                                                         </svg>
                                                     )}
                                                 </button>
-                                                <ProductForm 
-                                                    className="self-center h-auto" 
-                                                    product={product.product} 
-                                                    handleDeleteProduct={deleteProduct} 
-                                                    updateProduct={updateProduct}
-                                                />
+                                                <div className="flex items-end pb-3">
+                                                    <ProductForm 
+                                                        className="h-full flex items-end" 
+                                                        product={product.product} 
+                                                        handleDeleteProduct={deleteProduct} 
+                                                        updateProduct={updateProduct}
+                                                    />
+                                                </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -298,8 +302,8 @@ export default function CurrentList() {
                                         />
                                     </div>
                                 </div>
-                                <button onClick={() => deleteProductFromShoppingList(product.product._id)} className="text-primaryRed ml-2 mb-4 p-1 self-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7 sm:w-8 sm:h-8 ">
+                                <button onClick={() => deleteProductFromShoppingList(product.product._id)} className="text-primaryRed ml-2 mb-4 p-0 self-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 sm:w-8 sm:h-8 ">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
                                     </svg>
                                 </button>
@@ -330,7 +334,7 @@ export default function CurrentList() {
                 </div>
             </div>
 
-            <ProductList handleUpdateProducts={handleUpdateProducts} deleteProduct={deleteProductFromList} noHeader={true} products={products} addToList={addToList}/>
+            <ProductList currentList={currentList} handleUpdateProducts={handleUpdateProducts} deleteProduct={deleteProductFromShoppingList} noHeader={true} products={products} addToList={addToList}/>
 
         </div>
     )

@@ -136,7 +136,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
 
 
     return (
-        <div className="h-full flex items-center">
+        <>
             {/* Render the modal only if isModalOpen is true */}
             <button onClick={() => handleOpen(product)} className="text-primaryOrange p-1 rounded-full">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7 sm:w-8 sm:h-8 self-center">
@@ -253,6 +253,6 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                     </div>
                 </DialogFooter>
             </Dialog>
-        </div>
+        </>
     )
 }
