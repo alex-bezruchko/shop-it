@@ -191,19 +191,19 @@ const GoogleSearchComponent = () => {
             <input
               type="text"
               placeholder="Location Name"
-              className="w-64 p-2 border border-gray-300 rounded mr-2"
+              className="w-64 p-2 border border-gray-300 rounded mr-2 mb-2"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
             />
             <input
               type="text"
               placeholder="Zip Code"
-              className="w-32 p-2 border border-gray-300 rounded mr-2"
+              className="w-32 p-2 border border-gray-300 rounded mr-2 mb-2"
               value={zip}
               onChange={(e) => setZip(e.target.value)}
             />
             <button
-              className="primaryBlue mt-2 w-1/3 mx-auto"
+              className="primaryBlue mt-2 w-full mx-auto"
               onClick={handleSearch}
             >
               Search

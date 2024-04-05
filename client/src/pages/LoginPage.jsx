@@ -38,7 +38,7 @@ export default function LoginPage() {
         
     }
     if (redirect) {
-        return <Navigate to={'/'} />
+        return <Navigate to={'/account'} />
     }
     return (
         <div className="p-2 mt-4 flex grow items-center justify-around">
@@ -53,12 +53,14 @@ export default function LoginPage() {
                         onChange={e => setEmail(e.target.value)}
                         type="email" 
                         placeholder="email"
+                        className="mb-2"
                     />
                     <input
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         type="password" 
                         placeholder="password"
+                        className="mb-2"
                     />
                     <button className="primaryBlue w-full">Login</button>
                     <div className="text-center py-2 text-gray-500">

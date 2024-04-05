@@ -25,7 +25,7 @@ function App() {
         <LoadScript googleMapsApiKey={googleApiKey}>
           <Routes>
             <Route path="/" element={<Layout/>}>
-              <Route index element={<IndexPage/>}/>
+              <Route index element={<AccountPage/>}/>
               <Route path="/login" element={<LoginPage/>}/>
               <Route path="/register" element={<RegisterPage/>}/>
               {/* <Route path="/stores" element={<StoresPage/>}/> */}

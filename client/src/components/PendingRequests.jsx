@@ -147,6 +147,12 @@ function PendingRequests() {
                         ))}
                     </div>
                 )}
+                {friendRequests.length === 0 && outgoingRequests.length === 0 &&(
+                    <h2 className="flex text-center text-lg nunito justify-center mt-2 items-center">
+                        No pending requests.
+                    </h2>
+                    
+                )}
             </div>
         </div>
     );

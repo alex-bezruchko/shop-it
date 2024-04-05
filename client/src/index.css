@@ -4,6 +4,7 @@
 
 input[type="text"],input[type="password"],input[type="email"] {
     @apply w-full border my-2 py-2 px-3 rounded;
+    font-family: "Nunito Sans", sans-serif;
 }
 button.primaryBlue {
     @apply bg-primaryBlue p-2 text-white rounded;
