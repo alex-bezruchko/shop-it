@@ -26,15 +26,9 @@ export default function FileUpload({ setFile }) {
     }
     function chooseFile(e) {
         e.preventDefault();
-         const file = e.target.files[0];
-        console.log('file, ', file)
-        console.log(image)
         if (image !== '') {
-            const fileInput = document.getElementById('hello123');
-            fileInput.type = '';
-            fileInput.type = 'file';
+            setFile(image)
         }
-        setFile(image)
     }
     function clearFile(e) {
         e.preventDefault();
