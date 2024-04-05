@@ -45,10 +45,7 @@ exports.getAll = async (req, res) => {
 
 exports.getFriendInfo = async (req, res) => {
     const { userId, friendId } = req.params;
-    console.log('userId', userId)
-    console.log('friendId', friendId)
-
-
+    
     try {
         // Check if the users are friends
         const areFriends = await areUsersFriends(userId, friendId);
@@ -58,22 +55,29 @@ exports.getFriendInfo = async (req, res) => {
         }
 
         // Fetch user's lists, places, and friends
-        const user = await User.findById(friendId).populate('favoritePlaces').populate('friends', 'name email');
-
+        const user = await User.findById(friendId)
+            .populate('favoritePlaces')
+            .populate('friends', 'name email');
+        
         if (!user) {
             return res.status(404).json({ message: "User not found." });
         }
 
-        // Fetch user's shopping lists
-        const lists = await ShoppingList.find({ owner: friendId });
+        // Fetch user's shopping lists with product names
+        const lists = await ShoppingList.find({ owner: friendId }).populate({
+            path: 'products.product',
+            model: 'Product',
+            select: 'name category'
+        });
 
-        // Return user's lists, places, and friends
+        // Return user's lists, places, and friends along with shopping lists
         res.json({ user, lists });
     } catch (error) {
         console.error("Error fetching user's data:", error);
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
+
 
 exports.places = async (req, res) => {
     const userId = req.params.userId;
