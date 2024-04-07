@@ -13,6 +13,7 @@ export default function RegisterPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     async function registerUser(e) {
         e.preventDefault();
@@ -31,9 +32,11 @@ export default function RegisterPage() {
                 let response = await axios.post(`/users/register`, body);
                 if (response) {
                     dispatch({ type: 'SET_ALERT', payload: {message: 'Registered successfully', alertType: 'primaryGreen'} });
+                    setLoading(false)
                     navigate('/login')
                 }
             } catch(e) {
+                setLoading(false)
                 dispatch({ type: 'SET_ALERT', payload: {message: ' Unable to register', alertType: 'primaryRed'} });
             }
         }
@@ -43,6 +46,9 @@ export default function RegisterPage() {
         <div className="p-2 mt-4 flex grow items-center justify-around">
             <div className="mb-64">
                 <h1 className="text-4xl text-center">Register</h1>
+                { loading && (
+                    <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-20 mx-auto my-6'/>
+                )}
                 {errors.length > 0 && (
                     <ValidationErrorDisplay errors={errors} />
                 )}
