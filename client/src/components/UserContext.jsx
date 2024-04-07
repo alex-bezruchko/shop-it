@@ -12,6 +12,7 @@ export function UserContextProvider({children}) {
                 setUser(data);
                 setReady(true);
             }).catch(error => {
+                setUser({email: '', name: '', _id: ''})
                 console.log(error)
             });
         }
