@@ -46,7 +46,7 @@ export default function UsersLists({sendTo, currentLink}) {
           
             {currentLists.length !== 0 ? (
                 <div className="w-full">
-                    <h2 className="nunito text-3xl pb-5">Your Lists</h2>
+                    <h2 className="lora text-3xl pb-5">Your Lists</h2>
                     <ul>
                         {currentLists.map(list => (
                             <div key={list._id} className="flex w-full justify-between">

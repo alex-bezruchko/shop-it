@@ -37,7 +37,7 @@ function FriendList() {
     
     return (
         <div className="friend-list">
-            <h2 className='text-center nunito text-3xl'>Find friends</h2>
+            <h2 className='text-center lora text-3xl'>Find friends</h2>
             <div className="search-form mt-6">
                 <div className="flex">
                     <input 

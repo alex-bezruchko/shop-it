@@ -75,7 +75,7 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
                         <h3 className="pl-2 pt-2 text-left text-lg font-medium lora self-start">{product.name}</h3>
                         <div className="pl-2 pb-2 pt-0">
                             <p className="text-left text-sm nunito">{product.description}</p>
-                            <p className="text-left text-sm nunito">${product.price}</p>
+                            <p className="text-left text-md lora">${product.price}</p>
                         </div>
                     </div>
                   </div>

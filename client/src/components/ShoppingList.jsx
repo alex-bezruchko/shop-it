@@ -112,7 +112,7 @@ export default function ShoppingList() {
                 </div>
             )}  
             <div className="sm:col-span-3">
-                <label htmlFor="name" className="block nunito text-3xl pb-5 mt-5">Name</label>
+                <label htmlFor="name" className="block lora text-3xl pb-5 mt-5">Name</label>
                 <div className="mt-2">
                     <input 
                     type="text"
@@ -128,7 +128,7 @@ export default function ShoppingList() {
             {selectedProducts.products.length < 1 && (<></>)} 
             
             <div className="flex flex-col text-center justify-center">
-                <label htmlFor="name" className="block nunito text-3xl pt-5">Products</label>
+                <label htmlFor="name" className="block lora text-3xl pt-8">Products</label>
                 <div className="w-full mt-3">
                     <ul>
                         {selectedProducts.products.map(product => (
@@ -137,8 +137,8 @@ export default function ShoppingList() {
                                     <div className="mr-4 flex flex-col justify-between h-full">
                                         <h3 className="pl-2 pt-2 text-left text-lg font-medium lora self-start">{product.name}</h3>
                                         <div className="pl-2 pb-2 pt-0">
-                                            <p className="text-left text-sm nunito">{product.description}</p>
-                                            <p className="text-left text-sm nunito">${product.price}</p>
+                                            <p className="text-left text-md nunito">{product.description}</p>
+                                            <p className="text-left text-md lora">${product.price}</p>
                                         </div>
                                     </div>
                                     {product.photo && (

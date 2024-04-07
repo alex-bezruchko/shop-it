@@ -90,7 +90,7 @@ function PendingRequests() {
 
     return (
         <div >
-            <h2 className='text-center nunito text-3xl'>Pending Requests</h2>
+            <h2 className='text-center lora text-3xl'>Pending Requests</h2>
 
             <div className="flex flex-col justify-between mt-5">
                 {friendRequests?.length !== 0 && (
