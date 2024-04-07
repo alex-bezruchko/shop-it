@@ -95,7 +95,7 @@ import {
                 </svg>
             </button>
             <Dialog open={open} handler={handleOpen} className="flex flex-col overflow-y-scroll h-full">
-                <h2 className="nunito text-3xl pb-0 sm:pb-5 text-black text-center pt-5">New Product</h2>
+                <h2 className="lora text-3xl pb-0 sm:pb-5 text-black text-center pt-5 font-normal">New Product</h2>
                 {errors.length > 0 && (
                     <div className="mx-4">
                         <ValidationErrorDisplay errors={errors}/>
