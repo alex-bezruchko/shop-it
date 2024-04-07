@@ -18,6 +18,8 @@ export default function FriendsPage() {
     const navigate = useNavigate();
     const { ready, user, setUser } = useContext(UserContext);
     let {subpage} = useParams();
+    const [listLoading, setListLoading] = useState(false);
+
     useEffect(() => {
         // Initialize Pusher with your Pusher app key
         const pusher = new Pusher(`${import.meta.env.VITE_PUSHER_APP_KEY}`, {
@@ -61,7 +63,11 @@ export default function FriendsPage() {
         subpage = 'find';
     }
     if (!ready) {
-        return 'Loading...';
+        let htmlString = '<div><img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" class="size-10 mx-auto mb-6"></div>'
+        return (
+            
+            <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+        )
     }
     if (ready && !user) {
         return <Navigate to={'/login'}/>
@@ -81,15 +87,13 @@ export default function FriendsPage() {
         navigate(`/friends/friend/${id}`);
 
     };
-    // async function updateCurrentLink(id) {
-    //     setCurrentListLink(id);
-    // }
-    // if (redirect) {
-    //     return <Navigate to={redirect}/>
-    // }
-        // if (redirect) {
-    //     return <Navigate to={redirect}/>
-    // }
+    
+    function updateLoading(boolean) {
+
+        console.log('boolean', boolean)
+        setListLoading(boolean)
+    }
+
     return (
         <div>
             {/* <nav className="w-medium flex justify-around mt-16 mb-12">
@@ -132,6 +136,11 @@ export default function FriendsPage() {
                     </Link>
                 </nav>
              </div>
+             {listLoading && (
+                <div>
+                    <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-10 mx-auto mb-6'/>
+                </div>
+            )}
              <div className="flex flex-col w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-center mt-0 mb-1 mx-auto">
                  <div className="w-full">
                      {subpage === 'find' && (
@@ -142,7 +151,7 @@ export default function FriendsPage() {
 
                     {subpage === 'current' && (
                         <div className="flex flex-col text-center">
-                            <CurrentFriendsList handleFriendClick={handleFriendClick} />
+                            <CurrentFriendsList handleFriendClick={handleFriendClick}  isLoading={listLoading} listLoading={updateLoading}/>
                         </div>
                      )}
 
@@ -150,13 +159,13 @@ export default function FriendsPage() {
                      {/* Render FriendDetailPage if subpage is friendId */}
                      {subpage === 'friend' && (
                         <div className="flex flex-col text-center">
-                            <FriendDetailPage />
+                            <FriendDetailPage  isLoading={listLoading} listLoading={updateLoading}/>
                         </div>
                     )}
 
                     {subpage === 'pending' && (
                          <div className="flex flex-col text-center">
-                            <PendingRequests/>
+                            <PendingRequests isLoading={listLoading} listLoading={updateLoading}/>
                          </div>
                      )}
                  </div>

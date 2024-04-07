@@ -52,7 +52,7 @@ export default function LoginPage() {
                     <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-20 mx-auto my-6'/>
                 )}
                 {errors.length > 0 && (
-                    <ValidationErrorDisplay errors={errors} />
+                    <ValidationErrorDisplay errors={errors} className="mb-2"/>
                 )}    
                 <form className="max-w-md mx-auto mt-5" onSubmit={handleSubmitLogin}>
                     <input

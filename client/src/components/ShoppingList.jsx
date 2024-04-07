@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import ValidationErrorDisplay from "./ValidationErrors";
 import { Validation } from "./Validation";
 
-export default function ShoppingList() {
+export default function ShoppingList({listLoading}) {
     const dispatch = useDispatch();
 
     const {user} = useContext(UserContext);
@@ -104,6 +104,7 @@ export default function ShoppingList() {
         let newList = updatedProducts.filter(item => item._id !== id);
         setSelectedProducts({ ...selectedProducts, products: newList });
     }
+    listLoading(false);
     return (
         <div className="flex flex-col">
             {errors.length > 0 && (

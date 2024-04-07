@@ -3,18 +3,22 @@ import { UserContext } from "./UserContext";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-function CurrentFriendsList({handleFriendClick}) {
+function CurrentFriendsList({handleFriendClick, listLoading}) {
     const { user } = useContext(UserContext);
     const [friends, setFriends] = useState([]);
 
     useEffect(() => {
         async function fetchFriends() {
+            listLoading(true);
             try {
                 const response = await axios.get(`/users/friends/${user._id}`);
                 setFriends(response.data);
+                listLoading(false);
+
             } catch (error) {
                 console.error(error);
             }
+            listLoading(false);
         }
 
         fetchFriends();
