@@ -18,7 +18,7 @@ export default function CurrentList({listLoading, isLoading}) {
     const [selectedProducts, setSelectedProducts] = useState({products: []});
     const [errors, setErrors] = useState([]);
     const [updateLoading, setUpdateLoading] = useState(false)
-
+    const [idLoaded, setIdLoaded] = useState(false);
     const [products, setProducts] = useState({});
 
     
@@ -56,6 +56,7 @@ export default function CurrentList({listLoading, isLoading}) {
             setErrors(validationErrors)
         } else {
             setUpdateLoading(true);
+            console.log(`setUpdateLoading`, updateLoading)
             body.owner = user._id;
             try {
                 const response = await axios.put(`shoppinglists/${selectedListId}`, updatedList);
@@ -83,34 +84,41 @@ export default function CurrentList({listLoading, isLoading}) {
         // }
     }
     
-    async function checkItemFromList(itemId) {
-        
-        const itemIndex = currentList.products.findIndex(item => item._id === itemId);
+    // async function checkItemFromList(itemId) {
+    //     setIdLoaded(itemId);
+    //     setUpdateLoading(true);
+    //     const itemIndex = currentList.products.findIndex(item => item._id === itemId);
     
-        if (itemIndex !== -1) { 
+    //     if (itemIndex !== -1) { 
 
-            currentList.products[itemIndex].completed = !currentList.products[itemIndex].completed;
-            updateShoppingList(updatedList);
-            
-        } else {
-            console.log('Product not found in the list.');
-        }
-    }
+    //         currentList.products[itemIndex].completed = !currentList.products[itemIndex].completed;
+    //         updateShoppingList(updatedList);
+    //         setUpdateLoading(false);
+    //     } else {
+    //         setUpdateLoading(false);
+    //         console.log('Product not found in the list.');
+    //     }
+    // }
     
     async function checkItemFromList(itemId) {
+        setIdLoaded(itemId);
+        setUpdateLoading(true);
  
         const itemIndex = currentList.products.findIndex(item => item._id === itemId);
         
         if (itemIndex !== -1) { 
 
             currentList.products[itemIndex].completed = !currentList.products[itemIndex].completed;
-
             try {
+                console.log('maaad')
                 const response = await axios.put(`shoppinglists/${selectedListId}`, { name: currentList.name, products: currentList.products });
                 if (response) {
                     setCurrentList({ ...currentList });
                 }
+                setUpdateLoading(false);
+
             } catch (error) {
+                setUpdateLoading(false);
                 console.error('Error updating shopping list:', error);
             }
         } else {
@@ -131,11 +139,15 @@ export default function CurrentList({listLoading, isLoading}) {
     
             // Continue with editing
             setIfNotEditing(!ifNotEditing);
+            setUpdateLoading(true)
+            console.log('maaaad')
             try {
                 const response = await axios.put(`shoppinglists/${selectedListId}`, { name: newName, products: currentList.products });
                 // Update local state with the updated name
                 setCurrentList({ ...currentList, name: newName }); // Update the name in the current list state
+                setUpdateLoading(false);
             } catch (error) {
+                setUpdateLoading(false);
                 console.error('Error updating shopping list name:', error);
             }
         } else {
@@ -214,7 +226,8 @@ export default function CurrentList({listLoading, isLoading}) {
         console.log('updatedList', updatedList)
         updateShoppingList(updatedList);
     }
-    
+    // console.log('updateLoading', updateLoading)
+        
     return (
         <div className="flex flex-col">
             {isLoading ? (
@@ -276,22 +289,21 @@ export default function CurrentList({listLoading, isLoading}) {
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center justify-between h-full">
-                                                <div className="flex flex-col justify-between h-full">
+                                                    <div className="flex flex-col justify-between h-full">
                                                         <button 
                                                             onClick={() => checkItemFromList(product._id)} 
-                                                            className="text-primaryBlue ml-0 mb-0 p-0 self-center h-full"
-                                                        >
-                                                            {updateLoading ? (
+                                                            className="ml-0 mb-0 p-0 self-center h-full"
+                                                                >
+                                                            {updateLoading && product._id === idLoaded ? (
                                                                 <div>
-                                                                    <p>hahaha</p>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="text-primaryGreen w-10 h-10">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="primaryGreen text-primaryGreen w-7 h-7 sm:w-10 sm:h-10">
                                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                                     </svg>
                                                                 </div> 
-                                                                ): (
+                                                            ) : (
                                                                 <div>
-                                                                        {product.completed ? (
-                                                                        <svg className="primaryBlue text-primaryBlue w-7 h-7 sm:w-10 sm:h-10 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                                    {product.completed ? (
+                                                                        <svg className="primaryBlue text-primaryBlue w-7 h-7 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                                                             <path stroke="0fa3b1" fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
                                                                         </svg>
                                                                     ) : (
@@ -301,8 +313,8 @@ export default function CurrentList({listLoading, isLoading}) {
                                                                     )}
                                                                 </div>
                                                             )}
-                                                            
                                                         </button>
+
                                                         <div className="flex items-end pb-3">
                                                             <ProductForm 
                                                                 className="h-full flex items-end" 
@@ -311,7 +323,6 @@ export default function CurrentList({listLoading, isLoading}) {
                                                                 updateProduct={updateProduct}
                                                             />
                                                         </div>
-                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -334,6 +345,8 @@ export default function CurrentList({listLoading, isLoading}) {
                             </ul>
                         </div>
                     </div>
+                    
+                    <h2 className="nunito text-3xl my-8 mt-4">Add more</h2>
 
                     <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 grid-cols-1">
                         <div className="sm:col-span-3">
