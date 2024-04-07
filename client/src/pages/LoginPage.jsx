@@ -14,7 +14,8 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
     const [errors, setErrors] = useState([]);
-    const {setUser} = useContext(UserContext)
+    const {setUser} = useContext(UserContext);
+    const [loading, setLoading] = useState(false);
 
     async function handleSubmitLogin(e) {
         e.preventDefault();
@@ -23,14 +24,17 @@ export default function LoginPage() {
         if (validationErrors.length > 0) {
             setErrors(validationErrors)
         } else {
+            setLoading(true)
             try {
                 setErrors([])
                 const {data} = await axios.post(`/users/login`, body, {withCredentials: true});
                 setUser(data);
+                setLoading(false)
                 setRedirect(true);
                 dispatch({ type: 'REMOVE_ALERT', payload: {} });
     
             } catch(e) {
+                setLoading(false)
                 dispatch({ type: 'SET_ALERT', payload: {message: 'Invalid credentials', alertType: 'primaryRed'} });
                 console.log(e)
             }
@@ -44,6 +48,9 @@ export default function LoginPage() {
         <div className="p-2 mt-4 flex grow items-center justify-around">
             <div className="mb-64">
                 <h1 className="text-4xl text-center">Login</h1>
+                { loading && (
+                    <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-20 mx-auto my-6'/>
+                )}
                 {errors.length > 0 && (
                     <ValidationErrorDisplay errors={errors} />
                 )}    
