@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import { removeAlert } from '../actions/alertActions';
 
-export default function UsersLists({sendTo, currentLink}) {
+export default function UsersLists({sendTo, currentLink, listLoading}) {
     const dispatch = useDispatch();
 
     const {user} = useContext(UserContext);
@@ -14,12 +14,15 @@ export default function UsersLists({sendTo, currentLink}) {
     let url = `/shoppinglists/owner/${user._id}`;
     removeAlert();
     useEffect(() => {
+        listLoading(true);
         axios.get(url).then(({ data }) => {
             if (data.shoppingLists) {
                 currentLink(data.shoppingLists[0]._id)
                 setCurrentLists(data.shoppingLists)
             }
+            listLoading(false);
         }).catch(error => {
+            listLoading(false);
             console.log(error);
         });
     }, []);

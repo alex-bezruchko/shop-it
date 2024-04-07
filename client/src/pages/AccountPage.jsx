@@ -17,6 +17,8 @@ export default function AccountPage() {
     const [redirect, setRedirect] = useState(false);
     const [currentListLink, setCurrentListLink] = useState('');
     const [loading, setLoading] = useState(true);
+    const [listLoading, setListLoading] = useState(false);
+    
     const navigate = useNavigate();
 
     let {subpage} = useParams();
@@ -35,12 +37,16 @@ export default function AccountPage() {
         subpage = 'profile';
     }
     if (!ready) {
-        return 'Loading...';
+        let htmlString = '<div><img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" class="size-10 mx-auto mb-6"></div>'
+        return (
+            
+            <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+        )
     }
     if (ready && !user) {
         return <Navigate to={'/login'}/>
     }
-    
+
     function linkClasses(type=null) {
         let classes = 'w-full nunito text-md items-center flex justify-around sm:justify-evenly py-2 px-2';
         if (type === subpage) {
@@ -75,6 +81,12 @@ export default function AccountPage() {
     if (redirect) {
         return <Navigate to={redirect}/>
     }
+    function updateLoading(boolean) {
+
+        console.log('boolean', boolean)
+        setListLoading(boolean)
+    }
+    console.log('listLoading', listLoading)
     return (
         <div>
             {/* <nav className="w-medium flex justify-around mt-16 mb-12">
@@ -82,7 +94,7 @@ export default function AccountPage() {
              <div className="flex justify-center">
 
              {/* <nav className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 flex justify-around mt-16 mb-12"> */}
-                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-10 mb-12 text-md">
+                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-10 mb-8 text-md">
                     <Link 
                         className={linkClasses('profile')}
                         to={'/account'}>
@@ -119,12 +131,18 @@ export default function AccountPage() {
                 </nav>
 
             </div>
+            {listLoading && (
+                <div>
+                    <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-10 mx-auto mb-6'/>
+                </div>
+            )}
+            
             <div className="flex flex-col w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-center mt-0 mb-1 mx-auto">
                 <div className="w-full">
                     {subpage === 'profile' && (
                     <div className="flex flex-col text-center">
                         {!loading && (
-                            <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink}/>
+                            <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} listLoading={updateLoading} />
                         )}
                         
                         <div className="text-center nunito max-w-lg mx-auto mt-10">
@@ -135,17 +153,17 @@ export default function AccountPage() {
                     )}
                     {subpage === 'new' && (
                         <div className="flex flex-col text-center">
-                            <ShoppingList />
+                            <ShoppingList isLoading={listLoading} listLoading={updateLoading}/>
                         </div>
                     )}
                     {subpage === 'current' && (
                         <div className="flex flex-col text-center">
-                            <CurrentList />
+                            <CurrentList isLoading={listLoading} listLoading={updateLoading}/>
                         </div>
                     )}
                     {subpage === 'completed' && (
                         <div className="flex flex-col text-center">
-                            <CompleteList sendTo={handleRoute}/>
+                            <CompleteList isLoading={listLoading} listLoading={updateLoading} sendTo={handleRoute}/>
                         </div>
                     )}
                 </div>

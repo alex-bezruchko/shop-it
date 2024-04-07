@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 
 
-export default function FriendDetailPage() {
+export default function FriendDetailPage({listLoading}) {
   const { user } = useContext(UserContext);
   const [activeTab, setActiveTab] = useState('lists');
   const [favPlaces, setFavPlaces] = useState([]);
@@ -29,6 +29,7 @@ export default function FriendDetailPage() {
       setFriendNotFound(true);
       return;
     }
+    listLoading(true)
       axios.get(`/users/${user._id}/info/${friendId}`).then(({ data }) => {
           if (data) {
             let fetchedFriend = {
@@ -36,8 +37,11 @@ export default function FriendDetailPage() {
               lists: data.lists
             }
             setFriend(fetchedFriend);
+            listLoading(false)
+
           }
       }).catch(error => {
+          listLoading(false)
           console.log(error);
       });
       axios.get(`/users/user/${user._id}/places`)
