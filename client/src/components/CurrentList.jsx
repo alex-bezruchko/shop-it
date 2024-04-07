@@ -17,6 +17,7 @@ export default function CurrentList() {
     const [selectedListId, setSelectedListId] = useState('');
     const [selectedProducts, setSelectedProducts] = useState({products: []});
     const [errors, setErrors] = useState([]);
+    const [updateLoading, setUpdateLoading] = useState(false)
 
     const [products, setProducts] = useState({});
 
@@ -51,13 +52,16 @@ export default function CurrentList() {
             // Handle validation errors here
             setErrors(validationErrors)
         } else {
+            setUpdateLoading(true);
             body.owner = user._id;
             try {
                 const response = await axios.put(`shoppinglists/${selectedListId}`, updatedList);
                 if (response) {
                     setCurrentList(updatedList);
+                    setUpdateLoading(false);
                 }
             } catch (error) {
+                setUpdateLoading(false);
                 console.error('Error updating shopping list:', error);
             }
         }
@@ -261,7 +265,7 @@ export default function CurrentList() {
                                         <div className="mr-0 flex flex-col w-full justify-between h-full">
                                             <h3 className="pl-2 pr-0 pt-2 text-left text-lg font-medium lora self-start">{product.product.name}</h3>
                                             <div className="pl-2 pr-0 pb-2">
-                                                <p className="text-left text-sm nunito">{product.product.description}</p>
+                                                {/* <p className="text-left text-sm nunito">{product.product.description}</p> */}
                                                 <p className="text-left text-md lora">${product.product.price}</p>
                                             </div>
                                         </div>
@@ -271,15 +275,27 @@ export default function CurrentList() {
                                                     onClick={() => checkItemFromList(product._id)} 
                                                     className="text-primaryBlue ml-0 mb-0 p-0 self-center h-full"
                                                 >
-                                                    {product.completed ? (
-                                                        <svg className="primaryBlue text-primaryBlue w-7 h-7 sm:w-10 sm:h-10 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                                            <path stroke="0fa3b1" fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
-                                                        </svg>
-                                                    ) : (
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="primaryOrange text-primaryOrange w-7 h-7 sm:w-10 sm:h-10">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                        </svg>
+                                                    {updateLoading ? (
+                                                        <div>
+                                                            <p>hahaha</p>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="text-primaryGreen w-10 h-10">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                            </svg>
+                                                        </div> 
+                                                     ): (
+                                                        <div>
+                                                                {product.completed ? (
+                                                                <svg className="primaryBlue text-primaryBlue w-7 h-7 sm:w-10 sm:h-10 " xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                                    <path stroke="0fa3b1" fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
+                                                                </svg>
+                                                            ) : (
+                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="primaryOrange text-primaryOrange w-7 h-7 sm:w-10 sm:h-10">
+                                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                </svg>
+                                                            )}
+                                                        </div>
                                                     )}
+                                                    
                                                 </button>
                                                 <div className="flex items-end pb-3">
                                                     <ProductForm 
