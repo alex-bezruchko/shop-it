@@ -36,7 +36,7 @@ function FavoritesList() {
     
     return (
         <div className="friend-list">
-            <h2 className='text-center nunito text-3xl'>Favorite Places</h2>
+            <h2 className='text-center lora text-3xl'>Favorite Places</h2>
             
             <div className="user-list">
                 {places.map(place =>

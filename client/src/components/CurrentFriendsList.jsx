@@ -22,7 +22,7 @@ function CurrentFriendsList({handleFriendClick}) {
 
     return (
         <div className="friend-list">
-            <h2 className='text-center nunito text-3xl'>Friends</h2>
+            <h2 className='text-center lora text-3xl'>Friends</h2>
 
             {friends.length !== 0 ? (
                 <div className="user-list  mt-5">

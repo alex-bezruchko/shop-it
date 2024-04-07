@@ -226,7 +226,7 @@ export default function CurrentList() {
                             <ValidationErrorDisplay errors={errors}/>
                         </div>
                     )} 
-                    <div className="flex justify-center items-center  pb-5">
+                    <div className="flex justify-center items-center lora pb-5">
                         {!ifNotEditing && (<><h2 className="nunito text-3xl">
                             {currentList.name}
                         </h2>
@@ -235,7 +235,7 @@ export default function CurrentList() {
                         </svg></>)}
                         {ifNotEditing && (
                             <div className="sm:col-span-3">
-                                {/* <label htmlFor="name" className="block nunito text-3xl pb-5">Name</label> */}
+                                {/* <label htmlFor="name" className="block lora text-3xl pb-5">Name</label> */}
                                 <div className="mt-0 flex justify-center items-center">
                                     <input 
                                     type="text"
@@ -262,7 +262,7 @@ export default function CurrentList() {
                                             <h3 className="pl-2 pr-0 pt-2 text-left text-lg font-medium lora self-start">{product.product.name}</h3>
                                             <div className="pl-2 pr-0 pb-2">
                                                 <p className="text-left text-sm nunito">{product.product.description}</p>
-                                                <p className="text-left text-sm nunito">${product.product.price}</p>
+                                                <p className="text-left text-md lora">${product.product.price}</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center justify-between h-full">

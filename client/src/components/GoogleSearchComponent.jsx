@@ -183,7 +183,7 @@ const GoogleSearchComponent = () => {
   
   return (
     <div>
-        <h1 className='nunito text-3xl text-center mb-3'>Search places</h1>
+        <h1 className='lora text-3xl text-center mb-3'>Search places</h1>
         {errors.length > 0 && (
             <ValidationErrorDisplay errors={errors} />
         )}  
@@ -213,7 +213,7 @@ const GoogleSearchComponent = () => {
 
 
         <div className="">
-          <h1 className='nunito text-3xl text-center'>Location</h1>
+          <h1 className='lora text-3xl text-center mt-6'>Location</h1>
           {place && place.place_id &&(
               <div className="w-full flex my-5 flex-col items-center justify-between bg-white rounded-lg shadow-lg py-3 px-3 border border-1 border-primaryBlue mb-4">
                   <div className='flex w-full flex-col'>

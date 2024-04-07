@@ -145,7 +145,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
             </button>
             <Dialog open={open} handler={handleOpen} className="flex flex-col overflow-y-scroll h-full">
 
-                <h2 className="nunito text-3xl pb-0 sm:pb-5 text-black text-center pt-5">Edit Product</h2>
+                <h2 className="lora text-3xl pb-0 sm:pb-5 text-black text-center pt-5 font-normal">Edit Product</h2>
                 {errors.length > 0 && (
                     <div className="mx-4">
                         <ValidationErrorDisplay errors={errors}/>
@@ -233,18 +233,18 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                 <DialogFooter>
                 <div className="w-full flex justify-between">
                     <div>
-                        <button className="primaryRed mt-5 nunito font-medium text-xl flex-grow p-2" onClick={handleOpenDelete}>Delete</button>
+                        <button className="primaryRed mt-5 nunito font-medium text-sm sm:text-lg flex-grow p-2" onClick={handleOpenDelete}>Delete</button>
                     </div>
                     <div className="flex justify-end">
-                        <button className="primaryOrange mt-5 nunito font-medium text-xl flex-grow" onClick={handleOpen}>Cancel</button>
-                        <button className="primaryBlue mt-5 nunito font-medium text-xl flex-grow flex-shrink-0 ml-2" onClick={editProduct}>Update</button>
+                        <button className="primaryOrange mt-5 nunito font-medium text-sm  sm:text-lg  flex-grow" onClick={handleOpen}>Cancel</button>
+                        <button className="primaryBlue mt-5 nunito font-medium text-sm  sm:text-lg  flex-grow flex-shrink-0 ml-2" onClick={editProduct}>Update</button>
                     </div>
                     
                 </div>
                 </DialogFooter>
             </Dialog>
             <Dialog open={openDelete} handler={handleOpenDelete}>
-                <h2 className="nunito text-3xl pb-5 text-black text-center pt-5">Confirm Delete</h2>
+                <h2 className="lora text-3xl pb-5 text-black text-center pt-5">Confirm Delete</h2>
                 
                 <DialogFooter>
                     <div className="flex justify-end">

@@ -58,7 +58,7 @@ export default function CompleteList({sendTo}) {
         )
         } <div className="flex flex-col text-center justify-center">
                 <div className="w-full">
-                    {currentLists.length !== 0 && (<h2 className="nunito text-3xl pb-5">Completed</h2>) }
+                    {currentLists.length !== 0 && (<h2 className="lora text-3xl pb-5">Completed</h2>) }
                     <ul>
                         {currentLists.map(list => (
                              <div key={list._id} className="flex w-full justify-between mb-4 items-center">
