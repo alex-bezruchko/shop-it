@@ -279,7 +279,9 @@ export default function CurrentList({listLoading, isLoading}) {
                             <ul className="flex flex-col justify-between">
                                 {currentList.products?.map(product => (
                                     <div key={product.product._id} className="flex w-full justify-between">
-                                        <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-3 mb-4 border border-2 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}>
+                                        <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-3 mb-4 border border-2 ${product.completed ? 'border-primaryGreen' : (updateLoading && product._id === idLoaded ? 'border-primaryBlue' : 'border-primaryOrange')}`}>
+
+                                        {/* <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-3 mb-4 border border-2 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}> */}
                                             <div className="flex items-center w-full h-full justify-between">
                                                 <div className="mr-0 flex flex-col w-full justify-between h-full">
                                                     <h3 className="pl-2 pr-0 pt-2 text-left text-lg font-medium lora self-start">{product.product.name}</h3>
@@ -296,7 +298,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                                 >
                                                             {updateLoading && product._id === idLoaded ? (
                                                                 <div>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="primaryGreen text-primaryGreen w-[38px] h-[38px] sm:w-10 sm:h-10">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="primaryBlue text-primaryGreen w-[38px] h-[38px] sm:w-10 sm:h-10">
                                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                                     </svg>
                                                                 </div> 
@@ -306,7 +308,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                                         // <svg className="primaryBlue text-primaryBlue w-7 h-7 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                                                         //     <path stroke="0fa3b1" fillRule="evenodd" d="m4.5 12.75 6 6 9-13.5" clipRule="evenodd" />
                                                                         // </svg>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[38px] h-[38px] text-primaryBlue ">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[38px] h-[38px] text-primaryGreen">
                                                                             <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                                                                         </svg>
 
