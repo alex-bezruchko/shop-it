@@ -289,33 +289,38 @@ export default function CurrentList({listLoading, isLoading}) {
                                                     </div>
                                                 </div>
                                                 <div className="flex items-center justify-between h-full">
-                                                    <div className="flex flex-col justify-between h-full">
+                                                    <div className="flex flex-col justify-between h-full pr-2">
                                                         <button 
                                                             onClick={() => checkItemFromList(product._id)} 
-                                                            className="ml-0 mb-0 p-0 self-center h-full"
+                                                            className="ml-0 mb-0 p-0 pr-2self-center h-full"
                                                                 >
                                                             {updateLoading && product._id === idLoaded ? (
                                                                 <div>
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="primaryGreen text-primaryGreen w-7 h-7 sm:w-10 sm:h-10">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="primaryGreen text-primaryGreen w-[38px] h-[38px] sm:w-10 sm:h-10">
                                                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                                     </svg>
                                                                 </div> 
                                                             ) : (
                                                                 <div>
                                                                     {product.completed ? (
-                                                                        <svg className="primaryBlue text-primaryBlue w-7 h-7 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                                                            <path stroke="0fa3b1" fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
+                                                                        // <svg className="primaryBlue text-primaryBlue w-7 h-7 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                                        //     <path stroke="0fa3b1" fillRule="evenodd" d="m4.5 12.75 6 6 9-13.5" clipRule="evenodd" />
+                                                                        // </svg>
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[38px] h-[38px] text-primaryBlue ">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                                                                         </svg>
+
                                                                     ) : (
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" strokeWidth="1.5" stroke="white" className="primaryOrange text-primaryOrange w-7 h-7 sm:w-10 sm:h-10">
-                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[35px] h-[35px] text-primaryOrange">
+                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
                                                                         </svg>
+
                                                                     )}
                                                                 </div>
                                                             )}
                                                         </button>
 
-                                                        <div className="flex items-end pb-3">
+                                                        <div className="flex items-end pb-3 pr-1">
                                                             <ProductForm 
                                                                 className="h-full flex items-end" 
                                                                 product={product.product} 
