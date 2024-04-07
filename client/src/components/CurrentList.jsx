@@ -249,15 +249,15 @@ export default function CurrentList({listLoading, isLoading}) {
                                     <ValidationErrorDisplay errors={errors}/>
                                 </div>
                             )} 
-                            <div className="flex justify-center items-center lora pb-5">
-                                {!ifNotEditing && (<><h2 className="nunito text-3xl">
+                            <div className="flex justify-between items-center lora pb-5 w-full">
+                                {!ifNotEditing && (<><h2 className="lora text-3xl w-full text-center pb-1 border-b-2 border-transparent">
                                     {currentList.name}
                                 </h2>
-                                <svg onClick={toggleEditing} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 self-center ml-2 text-primaryOrange">
+                                <svg onClick={toggleEditing} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 sm:w-8 sm:h-8 self-center ml-2 text-primaryOrange">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                                 </svg></>)}
                                 {ifNotEditing && (
-                                    <div className="sm:col-span-3">
+                                    <div className="sm:col-span-3 w-full">
                                         {/* <label htmlFor="name" className="block lora text-3xl pb-5">Name</label> */}
                                         <div className="mt-0 flex justify-center items-center">
                                             <input 
@@ -266,9 +266,9 @@ export default function CurrentList({listLoading, isLoading}) {
                                             value={newName}
                                             onChange={e => setNewName(e.target.value)}
                                             id="name"
-                                            className="editInline block w-full nunito text-3xl rounded-md border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue text-center"
+                                            className="editInline block w-full lora text-3xl rounded-md border-0 border-1 border-b-primaryBlue placeholder:text-gray-400 placeholder:lora  text-center py-0"
                                             />
-                                            <svg onClick={toggleEditing} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 ml-1 text-primaryBlue">
+                                            <svg onClick={toggleEditing} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 sm:w-8 sm:h-8 ml-2 text-primaryBlue">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12" />
                                             </svg>
                                         </div>
@@ -279,7 +279,7 @@ export default function CurrentList({listLoading, isLoading}) {
                             <ul className="flex flex-col justify-between">
                                 {currentList.products?.map(product => (
                                     <div key={product.product._id} className="flex w-full justify-between">
-                                        <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-3 mb-4 border border-2 ${product.completed ? 'border-primaryGreen' : (updateLoading && product._id === idLoaded ? 'border-primaryBlue' : 'border-primaryOrange')}`}>
+                                        <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-3 mb-4 border border-2 ${updateLoading && product._id === idLoaded ? 'border-primaryBlue' : (product.completed ? 'border-primaryGreen' : 'border-primaryOrange')}`}>
 
                                         {/* <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-3 mb-4 border border-2 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}> */}
                                             <div className="flex items-center w-full h-full justify-between">

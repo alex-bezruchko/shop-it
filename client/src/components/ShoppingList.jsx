@@ -129,7 +129,7 @@ export default function ShoppingList({listLoading}) {
             {selectedProducts.products.length < 1 && (<></>)} 
             
             <div className="flex flex-col text-center justify-center">
-                <label htmlFor="name" className="block lora text-3xl pt-8">Products</label>
+                <label htmlFor="name" className="block lora text-3xl pt-8 pb-4">Products</label>
                 <div className="w-full mt-3">
                     <ul>
                         {selectedProducts.products.map(product => (

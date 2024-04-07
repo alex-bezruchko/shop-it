@@ -31,4 +31,8 @@ button.primaryGreen {
     input[type="email"] {
         @apply w-full border mb-0 mt-0 py-2 px-3 rounded;
     }
+    input.editInline {
+        @apply p-0 m-0 border-0 pb-1 border-b-2 border-b-primaryBlue rounded-none;
+        font-family: "Josefin Sans", sans-serif;
+    }
 }
