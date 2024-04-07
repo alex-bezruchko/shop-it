@@ -82,11 +82,8 @@ export default function AccountPage() {
         return <Navigate to={redirect}/>
     }
     function updateLoading(boolean) {
-
-        console.log('boolean', boolean)
         setListLoading(boolean)
     }
-    console.log('listLoading', listLoading)
     return (
         <div>
             {/* <nav className="w-medium flex justify-around mt-16 mb-12">
