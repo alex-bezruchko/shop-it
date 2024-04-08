@@ -78,25 +78,36 @@ export default function ShoppingList({listLoading}) {
     }
 
     async function handleUpdateProducts(formData) {
-        let product = formData.formData;
-        product._id = '';
-        product._id = formData._id;
-
-        let updatedProducts = [...products.products];
-        let selProducts = [...products.products];
-
-        let findIndex = updatedProducts.findIndex(item => item._id === product._id);
-        let findSelected = selProducts.findIndex(item => item._id === product._id);
+        const { formData: updatedProduct, _id } = formData;
         
-        if (findIndex !== -1) {
-            updatedProducts[findIndex] = product;
-            setProducts({ ...products, products: updatedProducts });
-        } 
-        if (findSelected !== -1) {
-            selProducts[findSelected] = product;
-            setSelectedProducts({ ...products, products: selProducts });
-        } 
+        if (!updatedProduct || !_id) {
+            console.error('Invalid form data');
+            return;
+        }
+    
+        // Update the products state
+        setProducts(prevProducts => {
+            const updatedProducts = prevProducts.map(product => {
+                if (product._id === _id) {
+                    return { ...product, ...updatedProduct };
+                }
+                return product;
+            });
+            return updatedProducts;
+        });
+    
+        // Update the selected products state if necessary
+        setSelectedProducts(prevSelectedProducts => {
+            const updatedSelectedProducts = prevSelectedProducts.products.map(product => {
+                if (product._id === _id) {
+                    return { ...product, ...updatedProduct };
+                }
+                return product;
+            });
+            return { ...prevSelectedProducts, products: updatedSelectedProducts };
+        });
     }
+    
 
     async function deleteProductFromList(id) {
         console.log('deleteProductFromList', id)
@@ -104,7 +115,6 @@ export default function ShoppingList({listLoading}) {
         let newList = updatedProducts.filter(item => item._id !== id);
         setSelectedProducts({ ...selectedProducts, products: newList });
     }
-    // listLoading(false);
     return (
         <div className="flex flex-col">
             {errors.length > 0 && (
@@ -126,10 +136,15 @@ export default function ShoppingList({listLoading}) {
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue sm:text-sm sm:leading-6"/>
                 </div>
             </div>
-            {selectedProducts.products.length < 1 && (<></>)} 
+            
             
             <div className="flex flex-col text-center justify-center">
                 <label htmlFor="name" className="block lora text-3xl pt-8 pb-4">Products</label>
+                {selectedProducts.products.length < 1 && (
+                    <div className="flex flex-col nunito text-center justify-center mt-5">
+                        <h2 className="text-2xl nunito">No products added yet.</h2>
+                    </div>
+                )} 
                 <div className="w-full mt-3">
                     <ul>
                         {selectedProducts.products.map(product => (
@@ -158,13 +173,12 @@ export default function ShoppingList({listLoading}) {
                                     </svg>
                                 </div>
                             </div>
-                    
                         ))}
                     </ul>
                 </div>
             </div>
 
-            <button className="primaryBlue mt-5 nunito text-xl" onClick={createShoppingList}>Create List</button>
+            <button className="primaryBlue mt-2 nunito text-xl" onClick={createShoppingList}>Create List</button>
 
             <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 grid-cols-1">
                 <div className="sm:col-span-3">
