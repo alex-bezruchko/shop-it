@@ -17,14 +17,14 @@
 }
 
 .primaryGreen {
-  stroke: #6a994e;
+  stroke: rgba(70, 153, 78 );
 }
 
 .primaryRed {
   stroke: '#ad2831'
 }
 .border-primaryGreen {
-  border-color: #6a994e;
+  border-color: rgba(70, 153, 78 );
 }
 .border-primaryRed {
   border-color: #ad2831;

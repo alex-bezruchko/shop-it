@@ -3,7 +3,6 @@ const User = require('../models/User');
 
 // Controller for creating a new shopping list
 exports.createShoppingList = async (req, res) => {
-    console.log(req.body)
     try {
         const { name, products, completed } = req.body;
         const userId = req.params.userId;
@@ -35,13 +34,17 @@ exports.getShoppingList = async (req, res) => {
         const listId = req.params.listId;
         let query = {};
 
+        // Access ownerId from request query
+        const { ownerId } = req.query;
+
         if (listId === 'recent' || !listId) {
-            query = ShoppingList.findOne().sort({ createdAt: -1 });
+            query = ShoppingList.findOne({ owner: ownerId }).sort({ createdAt: -1 });
         } else {
             query = ShoppingList.findById(listId);
         }
 
         const shoppingList = await query.populate('products.product');
+
         if (!shoppingList) {
             return res.status(404).json({ message: 'Shopping list not found.' });
         }
@@ -52,6 +55,8 @@ exports.getShoppingList = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+
 
 // Controller for updating a shopping list
 exports.updateShoppingList = async (req, res) => {
