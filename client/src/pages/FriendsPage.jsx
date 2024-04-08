@@ -89,8 +89,6 @@ export default function FriendsPage() {
     };
     
     function updateLoading(boolean) {
-
-        console.log('boolean', boolean)
         setListLoading(boolean)
     }
 
