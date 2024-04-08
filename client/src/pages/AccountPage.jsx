@@ -20,9 +20,6 @@ export default function AccountPage() {
     const [listLoading, setListLoading] = useState(false);
     
     const navigate = useNavigate();
-
-    let {subpage} = useParams();
-
     useEffect(() => {
         axios.get(`/products/all`).then(({ data }) => {
             dispatch(fetchProductsSuccess(data)); // Dispatch the action with fetched products
@@ -32,6 +29,10 @@ export default function AccountPage() {
             setLoading(false);
         });
     }, []);
+    
+    let {subpage} = useParams();
+
+   
 
     if (subpage === undefined) {
         subpage = 'profile';

@@ -104,7 +104,7 @@ export default function ShoppingList({listLoading}) {
         let newList = updatedProducts.filter(item => item._id !== id);
         setSelectedProducts({ ...selectedProducts, products: newList });
     }
-    listLoading(false);
+    // listLoading(false);
     return (
         <div className="flex flex-col">
             {errors.length > 0 && (
