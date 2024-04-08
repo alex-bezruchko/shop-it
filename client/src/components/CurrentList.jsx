@@ -19,19 +19,21 @@ export default function CurrentList({listLoading, isLoading}) {
     const [errors, setErrors] = useState([]);
     const [updateLoading, setUpdateLoading] = useState(false)
     const [idLoaded, setIdLoaded] = useState(false);
-    const [products, setProducts] = useState({});
+    const [products, setProducts] = useState({products: []});
 
     
     useEffect(() => {
         listLoading(true);
         let url = '';
+        let queryParams = {};
         if (listId === 'recent' || listId === '' || listId === undefined) {
             url = `shoppinglists/recent`;
+            queryParams.ownerId = user._id;
         } else {
             url = `shoppinglists/${listId}`
         }
-
-        axios.get(url).then(({ data }) => {
+    
+        axios.get(url, { params: queryParams }).then(({ data }) => {
             if (data.data) {
                 setSelectedListId(data.data._id);
                 setNewName(data.data.name);
@@ -42,21 +44,19 @@ export default function CurrentList({listLoading, isLoading}) {
             listLoading(false);
             console.log(error);
         });
-    }, []);
+    }, [user]);
+    
 
 
     async function updateShoppingList(updatedList) {
         let body = {
             name: newName,
-            // products: updatedList.products,
         }
         const validationErrors = Validation(body);
         if (validationErrors.length > 0) {
-            // Handle validation errors here
             setErrors(validationErrors)
         } else {
             setUpdateLoading(true);
-            console.log(`setUpdateLoading`, updateLoading)
             body.owner = user._id;
             try {
                 const response = await axios.put(`shoppinglists/${selectedListId}`, updatedList);
@@ -72,33 +72,20 @@ export default function CurrentList({listLoading, isLoading}) {
     }
     
     async function addToList(product) {
-        console.log('ADD TOOOOO')
     
-        const isDuplicate = currentList.products.some(p => p.product._id === product._id);
-    
-        // if (!isDuplicate) {
-            const updatedProducts = [...currentList.products, { product, completed: false }];
-            const updatedList = { ...currentList, products: updatedProducts };
-            console.log('updatedList AAAAAA', updatedList);
-            updateShoppingList(updatedList);
-        // }
+        // Ensure that the state is updated based on the latest value
+        setCurrentList(prevList => {
+            const isDuplicate = prevList.products.some(p => p.product._id === product._id);
+            
+            if (!isDuplicate) {
+                const updatedProducts = [...prevList.products, { product, completed: false }];
+                return { ...prevList, products: updatedProducts };
+            }
+            
+            return prevList;
+        });
     }
     
-    // async function checkItemFromList(itemId) {
-    //     setIdLoaded(itemId);
-    //     setUpdateLoading(true);
-    //     const itemIndex = currentList.products.findIndex(item => item._id === itemId);
-    
-    //     if (itemIndex !== -1) { 
-
-    //         currentList.products[itemIndex].completed = !currentList.products[itemIndex].completed;
-    //         updateShoppingList(updatedList);
-    //         setUpdateLoading(false);
-    //     } else {
-    //         setUpdateLoading(false);
-    //         console.log('Product not found in the list.');
-    //     }
-    // }
     
     async function checkItemFromList(itemId) {
         setIdLoaded(itemId);
@@ -110,7 +97,6 @@ export default function CurrentList({listLoading, isLoading}) {
 
             currentList.products[itemIndex].completed = !currentList.products[itemIndex].completed;
             try {
-                console.log('maaad')
                 const response = await axios.put(`shoppinglists/${selectedListId}`, { name: currentList.name, products: currentList.products });
                 if (response) {
                     setCurrentList({ ...currentList });
@@ -140,7 +126,6 @@ export default function CurrentList({listLoading, isLoading}) {
             // Continue with editing
             setIfNotEditing(!ifNotEditing);
             setUpdateLoading(true)
-            console.log('maaaad')
             try {
                 const response = await axios.put(`shoppinglists/${selectedListId}`, { name: newName, products: currentList.products });
                 // Update local state with the updated name
@@ -163,6 +148,10 @@ export default function CurrentList({listLoading, isLoading}) {
         try {
             await axios.get(`/products/search?query=${body}`).then(({ data }) => {
                 setProducts(data); // Assuming data is in the format { products: [...] }
+                const searchResultsElement = document.getElementById("searchResults");
+                if (searchResultsElement) {
+                    searchResultsElement.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest', inlineOffset: { top: 80 } });
+                }
             }).catch(error => {
                 if (error) {
                     setProducts([]);
@@ -175,58 +164,68 @@ export default function CurrentList({listLoading, isLoading}) {
     
     async function handleUpdateProducts(formData) {
         let product = formData.formData;
-        product._id = '';
         product._id = formData._id;
-
-        let updatedProducts = [...products.products];
-        let findIndex = updatedProducts.findIndex(item => item._id === product._id);
-        
-        // If the product is found, update it in the copy of the products array
-        if (findIndex !== -1) {
-            updatedProducts[findIndex] = product;
-            // Update the state with the new products array
-            setProducts({ ...products, products: updatedProducts });
-        } 
+    
+        setCurrentList(prevCurrentList => {
+            // Create a new list with the current products
+            let updatedList = [...prevCurrentList.products];
+    
+            // Find the index of the product with the matching _id in the current list
+            const productIndex = updatedList.findIndex(item => item.product._id === product._id);
+    
+            // If the product with the matching _id is found, update its details
+            if (productIndex !== -1) {
+                updatedList[productIndex] = {
+                    ...updatedList[productIndex],
+                    product: { ...product }
+                };
+            }
+    
+            // Return the updated currentList
+            return { ...prevCurrentList, products: updatedList };
+        });
+    
+        setProducts(prevProducts => {
+            // Create a new array with the current products
+            let updatedProducts = [...prevProducts.products];
+    
+            // Find the index of the product with the matching _id in the products list
+            const productIndex = updatedProducts.findIndex(item => item._id === product._id);
+    
+            // If the product with the matching _id is found, update its details
+            if (productIndex !== -1) {
+                updatedProducts[productIndex] = { ...product };
+            }
+    
+            // Return the updated products object
+            return { ...prevProducts, products: updatedProducts };
+        });
     }
-
+    
+    
     async function deleteProduct(product) {
         console.log('current list deleteProduc(product)', product)
     }
 
-    async function updateProduct(formData) {
-        let product = formData.formData;
-        product._id = '';
-        product._id = formData._id;
-        let newList = [...currentList.products];
-        const productIndex = newList.findIndex(item => item.product._id === product._id);
-
-        newList[productIndex] = {
-            ...newList[productIndex],
-            product: {
-                ...newList[productIndex].product,
-                ...product
-            }
-        };
-    
-        setCurrentList({...currentList, products: newList});
-    }
-    
-    async function deleteProductFromList(id) {
-        console.log('deleteProductFromList', id)
-        let updatedProducts = [...products.products];
-        let newList = updatedProducts.filter(item => item._id !== id);
-        setProducts({ ...products, products: newList });
-    }
-
     async function deleteProductFromShoppingList(id) {
-        console.log('deleteProductFromShoppingList', id)
         let updatedProducts = [...currentList.products];
         let newList = updatedProducts.filter(item => item.product._id !== id);
         const updatedList = { ...currentList, products: newList };
-        console.log('updatedList', updatedList)
         updateShoppingList(updatedList);
     }
-    // console.log('updateLoading', updateLoading)
+
+    async function clearList() {
+        const updatedProducts = currentList.products.map(product => ({
+            ...product,
+            completed: false // Update completed status to false
+        }));
+    
+        // Update the currentList state with the new array of products
+        setCurrentList(prevState => ({
+            ...prevState,
+            products: updatedProducts
+        }));
+    }
         
     return (
         <div className="flex flex-col">
@@ -250,16 +249,26 @@ export default function CurrentList({listLoading, isLoading}) {
                                 </div>
                             )} 
                             <div className="flex justify-between items-center lora pb-5 w-full">
-                                {!ifNotEditing && (<><h2 className="lora text-3xl w-full text-center pb-1 border-b-2 border-transparent">
-                                    {currentList.name}
-                                </h2>
-                                <svg onClick={toggleEditing} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 sm:w-8 sm:h-8 self-center ml-2 text-primaryOrange">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
-                                </svg></>)}
+                                {!ifNotEditing && (
+                                    <div className="flex w-full items-center justify-around">
+                                        <svg onClick={toggleEditing} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 self-center ml-2 text-primaryOrange">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+                                        </svg>
+                                        <h2 className="lora text-3xl w-full text-center pb-1 border-b-2 border-transparent">
+                                            {currentList.name}
+                                        </h2>
+                                        <svg onClick={clearList} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[35px] h-[35px] text-primaryOrange">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                                        </svg>
+                                    </div>)}
+
                                 {ifNotEditing && (
-                                    <div className="sm:col-span-3 w-full">
+                                    <div className="sm:col-span-3 w-full flex items-center">
+                                        <svg onClick={toggleEditing} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 sm:w-8 sm:h-8 ml-2 text-primaryBlue">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12" />
+                                        </svg>
                                         {/* <label htmlFor="name" className="block lora text-3xl pb-5">Name</label> */}
-                                        <div className="mt-0 flex justify-center items-center">
+                                        <div className="mt-0 flex justify-center w-full items-center">
                                             <input 
                                             type="text"
                                             name="name"
@@ -268,10 +277,8 @@ export default function CurrentList({listLoading, isLoading}) {
                                             id="name"
                                             className="editInline block w-full lora text-3xl rounded-md border-0 border-1 border-b-primaryBlue placeholder:text-gray-400 placeholder:lora  text-center py-0"
                                             />
-                                            <svg onClick={toggleEditing} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 sm:w-8 sm:h-8 ml-2 text-primaryBlue">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12" />
-                                            </svg>
                                         </div>
+                                        <div className="w-8 h-8"></div>
                                     </div>
                                 )}
                                 
@@ -305,11 +312,8 @@ export default function CurrentList({listLoading, isLoading}) {
                                                             ) : (
                                                                 <div>
                                                                     {product.completed ? (
-                                                                        // <svg className="primaryBlue text-primaryBlue w-7 h-7 sm:w-10 sm:h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                                                        //     <path stroke="0fa3b1" fillRule="evenodd" d="m4.5 12.75 6 6 9-13.5" clipRule="evenodd" />
-                                                                        // </svg>
-                                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[38px] h-[38px] text-primaryGreen">
-                                                                            <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+                                                                        <svg className="primaryGreen text-primaryGreen w-8 h-8" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                                                            <path stroke="0fa3b1" fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397a4.491 4.491 0 0 1-1.307 3.497a4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549a4.49 4.49 0 0 1-3.498-1.306a4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497a4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
                                                                         </svg>
 
                                                                     ) : (
@@ -327,7 +331,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                                 className="h-full flex items-end" 
                                                                 product={product.product} 
                                                                 handleDeleteProduct={deleteProduct} 
-                                                                updateProduct={updateProduct}
+                                                                updateProduct={handleUpdateProducts}
                                                             />
                                                         </div>
                                                     </div>
@@ -376,7 +380,9 @@ export default function CurrentList({listLoading, isLoading}) {
                         </div>
                     </div>
 
-                    <ProductList currentList={currentList} handleUpdateProducts={handleUpdateProducts} deleteProduct={deleteProductFromShoppingList} noHeader={true} products={products} addToList={addToList}/>
+                    <div id="searchResults" className="flex w-full mt-3 min-h-[20px]">
+                        <ProductList currentList={currentList} handleUpdateProducts={handleUpdateProducts} deleteProduct={deleteProductFromShoppingList} noHeader={true} products={products} addToList={addToList}/>
+                    </div>
 
                 </div>
             )}
