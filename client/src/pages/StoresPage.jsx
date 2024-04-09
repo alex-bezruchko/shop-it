@@ -19,11 +19,15 @@ export default function StoresPage() {
 
     useEffect(() => {
    
-    }, []);
+    }, [user]);
 
 
     if (!ready) {
-        return 'Loading...';
+        return (
+            <div className='mt-5'>
+                <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-10 mx-auto mb-6'/>
+            </div>
+        );
     }
     if (ready && !user) {
         return <Navigate to={'/login'}/>

@@ -6,6 +6,8 @@ function ImageSearch({ addPhoto }) {
     const [results, setResults] = useState([]);
     const [page, setPage] = useState(1);
     const [emptyResult, setEmptyResult] = useState('');
+    const [loading, setLoading] = useState(false);
+
     const handleChange = (event) => {
         setQuery(event.target.value);
         setPage(1);
@@ -14,6 +16,7 @@ function ImageSearch({ addPhoto }) {
 
     const handleSubmit = async (e, pageNumber) => {
         e.preventDefault();
+        setLoading(true);
         setEmptyResult('');
         try {
             const response = await axios.get('/search/photos', {
@@ -24,10 +27,12 @@ function ImageSearch({ addPhoto }) {
             });
             console.log(response)
             setResults(prevResults => [...prevResults, ...response.data.results]);
+            setLoading(false);
             if (response.data.results.length === 0) {
                 setEmptyResult('No results')
             }
         } catch (error) {
+            setLoading(false);
             console.error('Error fetching images:', error);
         }
     };
@@ -66,30 +71,38 @@ function ImageSearch({ addPhoto }) {
                 </button>
             </div>
             <div className="flex overflow-x-auto">
-                {results.map((result) => (
-                    <div key={result.id} className="flex-none">
-                        <img
-                            src={result.urls.small}
-                            alt={result.alt_description}
-                            className="cursor-pointer min-w-32 min-h-32 w-32 h-32 object-cover pb-2 pr-2"
-                            onClick={() => handleImageClick(result.urls.small)}
-                        />
+                {loading ? (
+                    <div className='flex mx-auto mt-6 min-h-32 items-center'>
+                        <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-10 mx-auto mb-6 self-center'/>
                     </div>
-                    
-                ))}
-                {results && results.length > 0 && (
-                    <button onClick={changePage} className="text-primaryGreen ml-4 mb-4 p-1 mt-2 self-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                        </svg>
-                    </button>
+                ) : (
+                    <>
+                        {results.map((result) => (
+                            <div key={result.id} className="flex-none mt-4">
+                                <img
+                                    src={result.urls.small}
+                                    alt={result.alt_description}
+                                    className="cursor-pointer min-w-32 min-h-32 w-32 h-32 object-cover pb-2 pr-2"
+                                    onClick={() => handleImageClick(result.urls.small)}
+                                />
+                            </div>     
+                        ))}
+                        {results && results.length > 0 && (
+                            <button onClick={changePage} className="text-primaryGreen ml-4 mb-4 p-1 mt-2 self-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </button>
+                        )}
+                        {emptyResult === 'No results' && (
+                            <div className='flex'>
+                                <p className="nunito 2xl">No results were found</p>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
-            {emptyResult === 'No results' && (
-                <div className='flex'>
-                    <p className="nunito 2xl">No results were found</p>
-                </div>
-            )}
+
             
         </div>
     );

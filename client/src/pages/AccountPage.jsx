@@ -87,11 +87,8 @@ export default function AccountPage() {
     }
     return (
         <div>
-            {/* <nav className="w-medium flex justify-around mt-16 mb-12">
-             */}
              <div className="flex justify-center">
 
-             {/* <nav className="w-full md:w-1/2 lg:w-1/2 xl:w-1/2 flex justify-around mt-16 mb-12"> */}
                 <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-10 mb-8 text-md">
                     <Link 
                         className={linkClasses('profile')}
@@ -127,7 +124,6 @@ export default function AccountPage() {
                             </svg>
                     </Link>
                 </nav>
-
             </div>
             {listLoading && (
                 <div>

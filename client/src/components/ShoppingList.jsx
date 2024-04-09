@@ -142,7 +142,7 @@ export default function ShoppingList({listLoading}) {
                 <label htmlFor="name" className="block lora text-3xl pt-8 pb-4">Products</label>
                 {selectedProducts.products.length < 1 && (
                     <div className="flex flex-col nunito text-center justify-center mt-5">
-                        <h2 className="text-2xl nunito">No products added yet.</h2>
+                        <h2 className="text-xl nunito">No products added yet.</h2>
                     </div>
                 )} 
                 <div className="w-full mt-3">
