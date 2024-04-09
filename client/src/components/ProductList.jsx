@@ -63,9 +63,9 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
 
 
   return (
-    <div className="w-full mt-3">
+    <div className='flex w-full mt-3'>
       {noHeader === false && (<h2>Product List</h2>)}
-      <ul>
+      <ul className='w-full'>
         {products.products.map(product => (
             <div key={product._id} className="flex w-full justify-between">
               <div className="flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-0 mb-4 border border-2 border-primaryBlue">

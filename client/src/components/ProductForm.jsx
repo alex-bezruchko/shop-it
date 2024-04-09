@@ -22,6 +22,8 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
     const [categories, setCategories] = useState([]);
     const [photo, setPhoto] = useState([]);
     const [errors, setErrors] = useState([]);
+    const [loading, setLoading] = useState(false)
+
     // const [fileName, setfileName] = useState('');
 
     const [formData, setFormData] = useState({
@@ -74,6 +76,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
 
     async function editProduct(e) {
         e.preventDefault();
+        setLoading(true);
         let {name, description, price, category } = formData;
         let body = {
             name,
@@ -87,6 +90,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
             // Handle validation errors here
             setErrors(validationErrors)
         } else {
+
             body.photo = photo;
             try {
                 const response = await axios.put(`/products/${product._id}`, body);
@@ -95,12 +99,15 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                 newItem._id = product._id;
                 updateProduct(newItem);
                 dispatch({ type: 'SET_ALERT', payload: {message: 'Product updated successfully', alertType: 'primaryGreen'} });
-
-                setOpen(false)
+                setLoading(false);
+                setOpen(false);
             } catch (error) {
+                setLoading(false);
                 console.error('Error updating shopping list name:', error);
             }
         }
+        console.log('loading', loading);
+
     }
 
     async function deleteProduct() {
@@ -237,7 +244,15 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                     </div>
                     <div className="flex justify-end">
                         <button className="primaryOrange mt-5 nunito font-medium text-sm  sm:text-lg  flex-grow" onClick={handleOpen}>Cancel</button>
-                        <button className="primaryBlue mt-5 nunito font-medium text-sm  sm:text-lg  flex-grow flex-shrink-0 ml-2" onClick={editProduct}>Update</button>
+                        {loading ? (
+                            <button className="primaryBlue mt-5 nunito font-medium text-sm  px-4 sm:text-lg  flex-grow flex-shrink-0 ml-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="white text-white w-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </button>
+                        ): (
+                            <button className="primaryBlue mt-5 nunito font-medium text-sm  sm:text-lg  flex-grow flex-shrink-0 ml-2" onClick={editProduct}>Update</button>
+                        )}
                     </div>
                     
                 </div>
