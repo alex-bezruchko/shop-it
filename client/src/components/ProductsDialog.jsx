@@ -26,6 +26,7 @@ import {
     const [photo, setPhoto] = useState('');
     const [price, setPrice] = useState('');
     const [errors, setErrors] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const handleOpen = () => setOpen(!open);
 
@@ -42,6 +43,7 @@ import {
 
     async function createProduct(e) {
         e.preventDefault();
+        setLoading(true);
         
         let body = {
             name,
@@ -61,13 +63,17 @@ import {
                 const { data } = await axios.post(`/products`, body);
                 dispatch({ type: 'ADD_PRODUCT', payload: data });
                 clearForm();
+                setLoading(false);
                 setOpen(false);
                 dispatch({ type: 'SET_ALERT', payload: {message: 'Product created successfully', alertType: 'primaryGreen'} });
 
             } catch (error) {
+                setLoading(false);
                 console.log(error);
             }
         }
+        setLoading(false);
+
     }
 
     function clearForm() {
@@ -181,7 +187,15 @@ import {
                 <DialogFooter>
                     <div className="flex justify-end">
                         <button className="primaryOrange mt-5 nunito font-medium text-sm md:text-xl flex-grow" onClick={handleOpen}>Cancel</button>
-                        <button className="primaryBlue mt-5 nunito font-medium text-sm md:text-xl flex-grow flex-shrink-0 ml-2" onClick={createProduct}>Create</button>
+                        {loading ? (
+                            <button className="primaryBlue mt-5 nunito font-medium text-sm  px-4 sm:text-lg  flex-grow flex-shrink-0 ml-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="white text-white w-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                </svg>
+                            </button>
+                        ): (
+                            <button className="primaryBlue mt-5 nunito font-medium text-sm md:text-xl flex-grow flex-shrink-0 ml-2" onClick={createProduct}>Create</button>
+                        )}
                     </div>
                 </DialogFooter>
             </Dialog>
