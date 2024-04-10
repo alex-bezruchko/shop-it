@@ -342,7 +342,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                         <img 
                                                             src={product.product.photo || 'placeholder.svg'} 
                                                             alt="Product Photo" 
-                                                            className="cursor-pointer mr-0 max-h-[120px] min-h-[120px] min-w-[120px] max-w-[120px] rounded-r-md"
+                                                            className="cursor-pointer mr-0 max-h-[100px] min-h-[100px] min-w-[100px] max-w-[100px] rounded-r-md"
                                                             onClick={() => checkItemFromList(product._id)}
                                                         />
                                                     </div>

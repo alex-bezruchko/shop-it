@@ -74,7 +74,6 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
                     <div className="mr-4 flex flex-col justify-between h-full">
                         <h3 className="pl-2 pt-2 text-left text-lg font-medium lora self-start">{product.name}</h3>
                         <div className="pl-2 pb-2 pt-0">
-                            <p className="text-left text-sm nunito">{product.description}</p>
                             <p className="text-left text-md lora">${product.price}</p>
                         </div>
                     </div>
@@ -90,7 +89,7 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
                 </div>
                 
                 {product.photo && (
-                    <img src={product.photo} alt="Product Photo" className="cursor-pointer mr-0 max-h-[120px] min-h-[120px] min-w-[120px] max-w-[120px] rounded-r-md"/>)
+                    <img src={product.photo} alt="Product Photo" className="cursor-pointer mr-0 max-h-[100px] min-h-[100px] min-w-[100px] max-w-[100px] rounded-r-md"/>)
                 }
 
                 {product.photo == ''  && (

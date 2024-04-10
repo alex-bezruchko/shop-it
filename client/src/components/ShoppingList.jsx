@@ -158,7 +158,7 @@ export default function ShoppingList({listLoading}) {
                                         </div>
                                     </div>
                                     {product.photo && (
-                                        <img src={product.photo} alt="Product Photo" className="cursor-pointer mr-0 max-h-[120px] min-h-[120px] min-w-[120px] max-w-[120px] rounded-r-md"/>
+                                        <img src={product.photo} alt="Product Photo" className="cursor-pointer mr-0 max-h-[100px] min-h-[100px] min-w-[100px] max-w-[100px] rounded-r-md"/>
                                     )}
                             
                                     {product.photo == '' && (
