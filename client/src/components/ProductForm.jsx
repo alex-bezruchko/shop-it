@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomSelect from "./CustomSelect";
@@ -23,6 +23,8 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
     const [photo, setPhoto] = useState([]);
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(false)
+    const [height, setHeight] = useState('full');
+    const validationDivRef = useRef(null);
 
     // const [fileName, setfileName] = useState('');
 
@@ -49,6 +51,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
             setOpen(true);
         } else {
             setOpen(false);
+            setErrors([]);
         }
     };
 
@@ -62,6 +65,11 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
     };
   
     useEffect(() => {
+        if (validationDivRef.current) {
+            const errorHeight = validationDivRef.current.offsetHeight || '';
+            let currentHeight = height + errorHeight;
+            setHeight(currentHeight);
+        }
         axios.get(`/categories`).then(({ data }) => {
             let options = data.map(item => ({
                 _id: item._id,
@@ -77,6 +85,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
     async function editProduct(e) {
         e.preventDefault();
         setLoading(true);
+        setErrors([]);
         let {name, description, price, category } = formData;
         let body = {
             name,
@@ -89,6 +98,10 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
         if (validationErrors.length > 0) {
             // Handle validation errors here
             setErrors(validationErrors)
+            setLoading(false);
+            const errorHeight = validationDivRef.current.offsetHeight || '';
+            let currentHeight = height + errorHeight;
+            setHeight(currentHeight);
         } else {
 
             body.photo = photo;
@@ -154,14 +167,15 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
 
                 <h2 className="lora text-3xl pb-0 sm:pb-5 text-black text-center pt-5 font-normal mb-4">Edit Product</h2>
                 {errors.length > 0 && (
-                    <div className="mx-4">
+                    <div ref={validationDivRef} className="mx-4">
                         <ValidationErrorDisplay errors={errors}/>
                     </div>
                 )}    
                     
-                <DialogBody className="pt-0 pb-0 h-full">
+                <DialogBody className={`pt-0 overflow-y-auto h-${height}`}>
+
                     <form>
-                        <div className="mt-10 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-8 grid-cols-1">
+                        <div className="mt-0 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-8 grid-cols-1">
                             <div className="sm:col-span-3">
                                 <label htmlFor="name" className="block text-sm nunito font-medium leading-6 text-gray-900">Name</label>
                                 <div className="mt-2">
@@ -240,18 +254,18 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                 <DialogFooter>
                 <div className="w-full flex justify-between">
                     <div>
-                        <button className="primaryRed mt-5 nunito font-medium text-sm sm:text-lg flex-grow p-2" onClick={handleOpenDelete}>Delete</button>
+                        <button className="primaryRed mt-0 nunito font-medium text-sm sm:text-lg flex-grow p-2" onClick={handleOpenDelete}>Delete</button>
                     </div>
                     <div className="flex justify-end">
-                        <button className="primaryOrange mt-5 nunito font-medium text-sm  sm:text-lg  flex-grow" onClick={handleOpen}>Cancel</button>
+                        <button className="primaryOrange mt-0 nunito font-medium text-sm  sm:text-lg  flex-grow" onClick={handleOpen}>Cancel</button>
                         {loading ? (
-                            <button className="primaryBlue mt-5 nunito font-medium text-sm  px-4 sm:text-lg  flex-grow flex-shrink-0 ml-2">
+                            <button className="primaryBlue mt-0 nunito font-medium text-sm  px-4 sm:text-lg  flex-grow flex-shrink-0 ml-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="white text-white w-5">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
                             </button>
                         ): (
-                            <button className="primaryBlue mt-5 nunito font-medium text-sm  sm:text-lg  flex-grow flex-shrink-0 ml-2" onClick={editProduct}>Update</button>
+                            <button className="primaryBlue mt-0 nunito font-medium text-sm  sm:text-lg  flex-grow flex-shrink-0 ml-2" onClick={editProduct}>Update</button>
                         )}
                     </div>
                     
