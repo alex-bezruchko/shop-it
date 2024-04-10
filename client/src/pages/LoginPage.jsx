@@ -41,13 +41,7 @@ export default function LoginPage() {
         }
         
     }
-    if (!ready) {
-        let htmlString = '<div><img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" class="size-10 mt-6 mx-auto mb-6"></div>'
-        return (
-            <div dangerouslySetInnerHTML={{ __html: htmlString }} />
-        )
-    }
-    if (ready && !user) {
+    if (redirect) {
         return <Navigate to={'/account'}/>
     }
     return (
