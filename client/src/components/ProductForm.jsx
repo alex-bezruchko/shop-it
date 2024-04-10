@@ -194,7 +194,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                                 <ValidationErrorDisplay errors={errors}/>
                             )}    
                         </div>
-                        <div className="mt-0 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-8 grid-cols-1">
+                        <div className="mt-0 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-8 grid-cols-1 overflow-auto pb-2">
                             <div className="sm:col-span-3">
                                 <label htmlFor="name" className="block text-sm nunito font-medium leading-6 text-gray-900">Name</label>
                                 <div className="mt-2">
