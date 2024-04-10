@@ -14,7 +14,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
     const [errors, setErrors] = useState([]);
-    const {setUser} = useContext(UserContext);
+    const { ready, user, setUser } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
 
     async function handleSubmitLogin(e) {
@@ -41,7 +41,16 @@ export default function LoginPage() {
         }
         
     }
-    if (redirect) {
+    if (!ready) {
+        let htmlString = '<div><img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" class="size-10 mt-6 mx-auto mb-6"></div>'
+        return (
+            <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+        )
+    }
+    if (ready && !user) {
+        return <Navigate to={'/login'}/>
+    } 
+    if (ready && user) {
         return <Navigate to={'/account'} />
     }
     return (
