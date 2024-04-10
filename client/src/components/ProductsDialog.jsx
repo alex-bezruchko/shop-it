@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import CustomSelect from "./CustomSelect";
@@ -27,6 +27,9 @@ import {
     const [price, setPrice] = useState('');
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [height, setHeight] = useState('full');
+    const validationDivRef = useRef(null);
+
 
     const handleOpen = () => setOpen(!open);
 
@@ -39,11 +42,26 @@ import {
             .catch(error => {
                 console.log(error);
             });
-    }, [errors]);
+        updateHeight(); // Initial height calculation
+
+        const handleResize = () => {
+        updateHeight(); // Recalculate height on screen resize
+        };
+        if (validationDivRef.current) {
+            validationDivRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        window.addEventListener('resize', handleResize);
+    
+        return () => {
+        window.removeEventListener('resize', handleResize);
+        };
+    }, [errors, height]);
 
     async function createProduct(e) {
         e.preventDefault();
         setLoading(true);
+        setErrors(false);
         
         let body = {
             name,
@@ -56,6 +74,11 @@ import {
         if (validationErrors.length > 0) {
             // Handle validation errors here
             setErrors(validationErrors)
+            setLoading(false);
+            const errorHeight = validationDivRef.current.offsetHeight || '';
+            console.log
+            let currentHeight = height + errorHeight;
+            setHeight(currentHeight);
         } else {
             setErrors([])
             body.photo = photo;
@@ -91,6 +114,17 @@ import {
     function removePhoto() {
         setPhoto('');
     }
+
+    const updateHeight = () => {
+        if (validationDivRef) {
+            // const errorHeight = validationDivRef.current ? validationDivRef.current.offsetHeight : 0;
+            const screenHeight = window.innerHeight;
+            setHeight(screenHeight);
+        } else {
+            setHeight('full')
+        }
+    };
+
     return (
         <>
             
@@ -100,15 +134,19 @@ import {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                 </svg>
             </button>
-            <Dialog open={open} handler={handleOpen} className="flex flex-col h-full">
-                <h2 className="lora text-3xl pb-0 sm:pb-5 text-black text-center pt-5 font-normal mb-4">New Product</h2>
-                {errors.length > 0 && (
-                    <div className="mx-4">
-                        <ValidationErrorDisplay errors={errors}/>
+            <Dialog open={open} handler={handleOpen} className={`pt-0 flex flex-col overflow-y-auto mx-5`}  style={{ height: `calc(100vh - 50px)` }}>
+
+                
+                <DialogBody className={`flex flex-col pt-0 overflow-y-auto justify-between`} style={{ maxHeight: `${height - 50}px`, marginTop: "0", marginBottom: "0" }}>
+                    <div className="flex flex-col">
+                        <h2 className="lora text-3xl pb-0 sm:pb-5 text-black text-center pt-5 font-normal mb-4">New Product</h2>
+                            <div ref={validationDivRef} className="mx-0">
+                            
+                                {errors.length > 0 && (
+                                    <ValidationErrorDisplay errors={errors}/>
+                                )}
+                            </div>
                     </div>
-                )}
-                <DialogBody className="pt-0 overflow-y-auto" >
-                    <form>
                         <div className="mt-10 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-6 grid-cols-1">
                             <div className="sm:col-span-3">
                                 <label htmlFor="name" className="block text-sm nunito font-medium leading-6 text-gray-900">Name</label>
@@ -182,7 +220,7 @@ import {
                                 </div>
                             </div>
                         </div>
-                    </form>
+
                 </DialogBody>
                 <DialogFooter>
                     <div className="flex justify-end">
