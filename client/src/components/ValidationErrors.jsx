@@ -23,7 +23,7 @@ const ValidationErrorDisplay = ({ errors }) => {
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
             </svg>
           </span>
-          <p className="px-4 self-center">{error.message}</p>
+          <p className="px-4 nunito text-sm self-center">{error.message}</p>
         </div>
       ))}
     </div>
