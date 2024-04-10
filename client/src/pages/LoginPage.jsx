@@ -48,7 +48,7 @@ export default function LoginPage() {
         )
     }
     if (ready && !user) {
-        return <Navigate to={'/login'}/>
+        return <Navigate to={'/account'}/>
     }
     return (
         <div className="p-2 mt-4 flex grow items-center justify-around">
