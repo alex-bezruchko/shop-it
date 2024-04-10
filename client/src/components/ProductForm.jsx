@@ -51,6 +51,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
             setOpen(true);
         } else {
             setOpen(false);
+            setErrors([]);
         }
     };
 
@@ -64,6 +65,11 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
     };
   
     useEffect(() => {
+        if (validationDivRef.current) {
+            const errorHeight = validationDivRef.current.offsetHeight || '';
+            let currentHeight = height + errorHeight;
+            setHeight(currentHeight);
+        }
         axios.get(`/categories`).then(({ data }) => {
             let options = data.map(item => ({
                 _id: item._id,
@@ -93,8 +99,9 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
             // Handle validation errors here
             setErrors(validationErrors)
             setLoading(false);
-            const height = validationDivRef.current.offsetHeight;
-            setHeight([height]);
+            const errorHeight = validationDivRef.current.offsetHeight || '';
+            let currentHeight = height + errorHeight;
+            setHeight(currentHeight);
         } else {
 
             body.photo = photo;
@@ -160,15 +167,15 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
 
                 <h2 className="lora text-3xl pb-0 sm:pb-5 text-black text-center pt-5 font-normal mb-4">Edit Product</h2>
                 {errors.length > 0 && (
-                    <div className="mx-4">
-                        <ValidationErrorDisplay ref={validationDivRef} errors={errors}/>
+                    <div ref={validationDivRef} className="mx-4">
+                        <ValidationErrorDisplay errors={errors}/>
                     </div>
                 )}    
                     
                 <DialogBody className={`pt-0 overflow-y-auto h-${height}`}>
 
                     <form>
-                        <div className="mt-10 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-8 grid-cols-1">
+                        <div className="mt-0 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-8 grid-cols-1">
                             <div className="sm:col-span-3">
                                 <label htmlFor="name" className="block text-sm nunito font-medium leading-6 text-gray-900">Name</label>
                                 <div className="mt-2">
