@@ -186,7 +186,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                 </svg>
             </button>
             <Dialog open={open} handler={handleOpen} className={`pt-0 flex flex-col overflow-y-auto mx-5`}  style={{ height: `calc(100vh - 30px)` }}>
-                <DialogBody className={`flex flex-col pt-0 overflow-y-auto justify-between`} style={{ maxHeight: `${height - 30}px`, marginTop: "auto", marginBottom: "0" }}>
+                <DialogBody className={`flex flex-col pt-0 overflow-y-auto justify-between`} style={{ maxHeight: `${height - 30}px`, marginTop: "0", marginBottom: "0" }}>
                     <div className="flex flex-col">
                         <h2 className="lora text-3xl pb-0 sm:pb-5 text-black text-center pt-5 font-normal mb-4">Edit Product</h2>
                         <div ref={validationDivRef} className="mx-0">
