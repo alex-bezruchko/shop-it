@@ -10,15 +10,21 @@ export default function UsersLists({sendTo, currentLink, listLoading}) {
 
     const {user} = useContext(UserContext);
     const [currentLists, setCurrentLists] = useState([]);
-    const [selectedListId, setSelectedListId] = useState('');
+    const [filteredList, setFilteredList] = useState([]);
+    const [activeTab, setActiveTab] = useState('current');
+
     let url = `/shoppinglists/owner/${user._id}`;
     removeAlert();
     useEffect(() => {
         listLoading(true);
         axios.get(url).then(({ data }) => {
             if (data.shoppingLists) {
-                currentLink(data.shoppingLists[0]._id)
+                currentLink(data.shoppingLists[0]._id);
+                // handleTab('current')
+                console.log(data.shoppingLists)
+                let newList = data.shoppingLists.filter(list => list.completed === false);
                 setCurrentLists(data.shoppingLists)
+                setFilteredList(newList);
             }
             listLoading(false);
         }).catch(error => {
@@ -30,13 +36,29 @@ export default function UsersLists({sendTo, currentLink, listLoading}) {
     async function viewList(id) {
         sendTo(id)
     }
-
+    function handleTab(foo) {
+        console.log('currentLists[0].completed', currentLists[0].completed)
+        let newList = '';
+        if (foo === 'current') {
+            setActiveTab(foo);
+            newList = currentLists.filter(list => list.completed === false)
+            console.log('Current', newList)
+        } else {
+            setActiveTab(foo);
+            newList = currentLists.filter(list => list.completed === true)
+            console.log('Completed', newList)
+        }
+        setFilteredList(newList)
+    }
     async function deleteList(id) {
         try {
             const response = await axios.delete(`/shoppinglists/${id}`);
             // Update local state with the updated name
             let newList = currentLists.filter(list => list._id !== id);
+            let newFilterList = filteredList.filter(list => list._id !== id);
+
             setCurrentLists(newList);
+            setFilteredList(newFilterList);
             dispatch({ type: 'SET_ALERT', payload: {message: 'Shopping list deleted successfully', alertType: 'primaryGreen'} });
 
         } catch (error) {
@@ -47,11 +69,16 @@ export default function UsersLists({sendTo, currentLink, listLoading}) {
     return (
         <div className="flex flex-col">
           
-            {currentLists.length !== 0 ? (
+            {currentLists.length !== 0 && (
                 <div className="w-full">
                     <h2 className="lora text-3xl pb-5">Your Lists</h2>
-                    <ul>
-                        {currentLists.map(list => (
+                    <div className="tabs flex justify-around">
+                        <button onClick={() => handleTab('current')} className={activeTab === 'current' ? 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists'}>Current</button>
+                        <button onClick={() => handleTab('completed')} className={activeTab === 'completed' ? 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists'}>Completed</button>
+                    </div>
+
+                    <ul className="mt-8">
+                        {filteredList.map(list => (
                             <div key={list._id} className="flex w-full justify-between">
                                 <div onClick={() => viewList(list._id)} className={`flex w-full items-center justify-between bg-white rounded-lg shadow-lg p-4 mb-4 border border-1 ${list.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}>
                                     <div className="flex w-full items-center w-full justify-between">
@@ -81,13 +108,25 @@ export default function UsersLists({sendTo, currentLink, listLoading}) {
                                 </button>
                             </div>
                         ))}
+                        {filteredList.length === 0 && (
+                            <h2 className="flex text-center text-lg nunito justify-center mt-2">
+                                No lists found...let's completed one.
+                                
+                                {/* <Link to={'/account/new'}> */}
+                                    <svg onClick={() => handleTab('current')} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 ml-2 text-primaryGreen">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                                    </svg>
+                                {/* </Link> */}
+                            </h2>
+                        )}
                     </ul>
                 </div>
-            ) : (
+            )}
+            {currentLists.length === 0 && (
                 <div className="flex flex-col text-center justify-center">
                     
                     <h2 className="flex text-center text-lg nunito justify-center mt-2">
-                        No lists found...let's make one
+                        No lists found. Let's make one
                         
                         <Link to={'/account/new'}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 ml-2 text-primaryGreen">
@@ -95,12 +134,12 @@ export default function UsersLists({sendTo, currentLink, listLoading}) {
                             </svg>
                         </Link>
                     </h2>
-                    <h2 className="flex text-center text-lg nunito justify-center mt-2">
-                        Or copy from a friend
+                    <h2 className="flex text-center text-lg nunito justify-center mt-4">
+                      ...  or copy from a friend
                         
                         <Link to={'/friends/current'}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 ml-2 text-primaryGreen">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="primaryGreen w-6 h-6 ml-2">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                             </svg>
                         </Link>
                     </h2>
