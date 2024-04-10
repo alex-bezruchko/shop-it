@@ -65,11 +65,11 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
     };
   
     useEffect(() => {
-        if (validationDivRef.current) {
-            const errorHeight = validationDivRef.current.offsetHeight || '';
-            let currentHeight = height + errorHeight;
-            setHeight(currentHeight);
-        }
+        // if (validationDivRef.current) {
+        //     const errorHeight = validationDivRef.current.offsetHeight || '';
+        //     let currentHeight = height + errorHeight;
+        //     setHeight(currentHeight);
+        // }
         axios.get(`/categories`).then(({ data }) => {
             let options = data.map(item => ({
                 _id: item._id,
@@ -80,7 +80,19 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
         }).catch(error => {
             console.log(error);
         });
-    }, [errors]);
+        updateHeight(); // Initial height calculation
+
+        const handleResize = () => {
+          updateHeight(); // Recalculate height on screen resize
+        };
+      
+        window.addEventListener('resize', handleResize);
+      
+        return () => {
+          window.removeEventListener('resize', handleResize);
+        };
+        
+    }, [errors, height]);
 
     async function editProduct(e) {
         e.preventDefault();
@@ -100,6 +112,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
             setErrors(validationErrors)
             setLoading(false);
             const errorHeight = validationDivRef.current.offsetHeight || '';
+            console.log
             let currentHeight = height + errorHeight;
             setHeight(currentHeight);
         } else {
@@ -146,6 +159,7 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
             photo: selectedPhoto || ''
         }));
     }
+
     function removePhoto() {
         setPhoto('');
         setFormData(prevFormData => ({
@@ -154,7 +168,15 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
         }));
     }
 
-
+    const updateHeight = () => {
+        if (validationDivRef) {
+            // const errorHeight = validationDivRef.current ? validationDivRef.current.offsetHeight : 0;
+            const screenHeight = window.innerHeight;
+            setHeight(screenHeight);
+        } else {
+            setHeight('full')
+        }
+    };
     return (
         <>
             {/* Render the modal only if isModalOpen is true */}
@@ -163,18 +185,15 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                     <path strokeLinecap="round" strokeLinejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
                 </svg>
             </button>
-            <Dialog open={open} handler={handleOpen} className="flex flex-col overflow-y-scroll h-full">
-
-                <h2 className="lora text-3xl pb-0 sm:pb-5 text-black text-center pt-5 font-normal mb-4">Edit Product</h2>
-                {errors.length > 0 && (
-                    <div ref={validationDivRef} className="mx-4">
-                        <ValidationErrorDisplay errors={errors}/>
-                    </div>
-                )}    
-                    
-                <DialogBody className={`pt-0 overflow-y-auto h-${height}`}>
-
-                    <form>
+            <Dialog open={open} handler={handleOpen} className={`pt-0 flex flex-col overflow-y-auto pb-0`} style={{ maxHeight: `${height - 30}px` }}>
+                <DialogBody className={`flex flex-col pt-0 overflow-y-auto justify-between`} style={{ maxHeight: `${height - 30}px` }}>
+                    <div className="flex flex-col">
+                        <h2 className="lora text-3xl pb-0 sm:pb-5 text-black text-center pt-5 font-normal mb-4">Edit Product</h2>
+                        <div ref={validationDivRef} className="mx-0">
+                            {errors.length > 0 && (
+                                <ValidationErrorDisplay errors={errors}/>
+                            )}    
+                        </div>
                         <div className="mt-0 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-8 grid-cols-1">
                             <div className="sm:col-span-3">
                                 <label htmlFor="name" className="block text-sm nunito font-medium leading-6 text-gray-900">Name</label>
@@ -249,28 +268,30 @@ export default function ProductForm({product, updateProduct, handleDeleteProduct
                                 </div>
                             </div>    
                         </div>
-                    </form>
+                    </div>
+                        
+                    <div className="w-full flex justify-between pt-4">
+                        <div>
+                            <button className="primaryRed mt-0 nunito font-medium text-sm sm:text-lg flex-grow p-2" onClick={handleOpenDelete}>Delete</button>
+                        </div>
+                        <div className="flex justify-end">
+                            <button className="primaryOrange mt-0 nunito font-medium text-sm  sm:text-lg  flex-grow" onClick={handleOpen}>Cancel</button>
+                            {loading ? (
+                                <button className="primaryBlue mt-0 nunito font-medium text-sm  px-4 sm:text-lg  flex-grow flex-shrink-0 ml-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="white text-white w-5">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                    </svg>
+                                </button>
+                            ): (
+                                <button className="primaryBlue mt-0 nunito font-medium text-sm  sm:text-lg  flex-grow flex-shrink-0 ml-2" onClick={editProduct}>Update</button>
+                            )}
+                        </div>
+                        
+                    </div>
                 </DialogBody>
-                <DialogFooter>
-                <div className="w-full flex justify-between">
-                    <div>
-                        <button className="primaryRed mt-0 nunito font-medium text-sm sm:text-lg flex-grow p-2" onClick={handleOpenDelete}>Delete</button>
-                    </div>
-                    <div className="flex justify-end">
-                        <button className="primaryOrange mt-0 nunito font-medium text-sm  sm:text-lg  flex-grow" onClick={handleOpen}>Cancel</button>
-                        {loading ? (
-                            <button className="primaryBlue mt-0 nunito font-medium text-sm  px-4 sm:text-lg  flex-grow flex-shrink-0 ml-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="white text-white w-5">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                </svg>
-                            </button>
-                        ): (
-                            <button className="primaryBlue mt-0 nunito font-medium text-sm  sm:text-lg  flex-grow flex-shrink-0 ml-2" onClick={editProduct}>Update</button>
-                        )}
-                    </div>
-                    
-                </div>
-                </DialogFooter>
+                {/* <DialogFooter>
+                
+                </DialogFooter> */}
             </Dialog>
             <Dialog open={openDelete} handler={handleOpenDelete}>
                 <h2 className="lora text-3xl pb-5 text-black text-center pt-5">Confirm Delete</h2>
