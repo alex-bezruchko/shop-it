@@ -100,14 +100,14 @@ import {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                 </svg>
             </button>
-            <Dialog open={open} handler={handleOpen} className="flex flex-col overflow-y-scroll h-full">
+            <Dialog open={open} handler={handleOpen} className="flex flex-col h-full">
                 <h2 className="lora text-3xl pb-0 sm:pb-5 text-black text-center pt-5 font-normal mb-4">New Product</h2>
                 {errors.length > 0 && (
                     <div className="mx-4">
                         <ValidationErrorDisplay errors={errors}/>
                     </div>
                 )}
-                <DialogBody className="pt-0 overflow-y-scroll" >
+                <DialogBody className="pt-0 overflow-y-auto" >
                     <form>
                         <div className="mt-10 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-6 grid-cols-1">
                             <div className="sm:col-span-3">
@@ -186,15 +186,15 @@ import {
                 </DialogBody>
                 <DialogFooter>
                     <div className="flex justify-end">
-                        <button className="primaryOrange mt-5 nunito font-medium text-sm md:text-xl flex-grow" onClick={handleOpen}>Cancel</button>
+                        <button className="primaryOrange mt-0 nunito font-medium text-sm md:text-xl flex-grow" onClick={handleOpen}>Cancel</button>
                         {loading ? (
-                            <button className="primaryBlue mt-5 nunito font-medium text-sm  px-4 sm:text-lg  flex-grow flex-shrink-0 ml-2">
+                            <button className="primaryBlue mt-0 nunito font-medium text-sm  px-4 sm:text-lg  flex-grow flex-shrink-0 ml-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="white text-white w-5">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                 </svg>
                             </button>
                         ): (
-                            <button className="primaryBlue mt-5 nunito font-medium text-sm md:text-xl flex-grow flex-shrink-0 ml-2" onClick={createProduct}>Create</button>
+                            <button className="primaryBlue mt-0 nunito font-medium text-sm md:text-xl flex-grow flex-shrink-0 ml-2" onClick={createProduct}>Create</button>
                         )}
                     </div>
                 </DialogFooter>
