@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import ProductForm from './ProductForm';
+import ProductsDialog from './ProductsDialog';
 
 const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateProducts, deleteProduct }) => {
   // const [addedProducts, setAddedProducts] = useState([]);
@@ -79,11 +79,11 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
                     </div>
                   </div>
                   <div className="flex items-end pb-3">
-                    <ProductForm 
+                    <ProductsDialog 
                       className="h-full flex items-center" 
                       product={product} 
                       handleDeleteProduct={deleteProduct} 
-                      updateProduct={updateProduct}
+                      handleUpdateProducts={updateProduct}
                     />
                     </div>
                 </div>
