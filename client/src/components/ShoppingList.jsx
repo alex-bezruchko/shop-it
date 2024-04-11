@@ -6,13 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import ValidationErrorDisplay from "./ValidationErrors";
 import { Validation } from "./Validation";
+// import { updateProduct } from "../../../api/controllers/ProductController";
 
 export default function ShoppingList({listLoading}) {
     const dispatch = useDispatch();
 
     const {user} = useContext(UserContext);
     const [list, setList] = useState('');
-    const [products, setProducts] = useState({});
+    const [products, setProducts] = useState({products: []});
     const [selectedProducts, setSelectedProducts] = useState({products: []});
     const [errors, setErrors] = useState([]);
 
@@ -78,25 +79,27 @@ export default function ShoppingList({listLoading}) {
     }
 
     async function handleUpdateProducts(formData) {
-        const { formData: updatedProduct, _id } = formData;
+        const _id = formData.id;
+        const body = formData;
+        delete body.id
+        const updatedProduct = body;
         
         if (!updatedProduct || !_id) {
             console.error('Invalid form data');
             return;
         }
-    
+
         // Update the products state
         setProducts(prevProducts => {
-            const updatedProducts = prevProducts.map(product => {
+            const updatedProducts = prevProducts.products.map(product => {
                 if (product._id === _id) {
                     return { ...product, ...updatedProduct };
                 }
                 return product;
             });
-            return updatedProducts;
+            return { ...prevProducts, products: updatedProducts };
         });
-    
-        // Update the selected products state if necessary
+        
         setSelectedProducts(prevSelectedProducts => {
             const updatedSelectedProducts = prevSelectedProducts.products.map(product => {
                 if (product._id === _id) {
@@ -106,6 +109,7 @@ export default function ShoppingList({listLoading}) {
             });
             return { ...prevSelectedProducts, products: updatedSelectedProducts };
         });
+        
     }
     
 

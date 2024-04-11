@@ -29,10 +29,13 @@ button.primaryGreen {
     input[type="text"],
     input[type="password"],
     input[type="email"] {
-        @apply w-full border mb-0 mt-0 py-2 px-3 rounded;
+        @apply w-full border mb-0 mt-0 py-1 px-3 rounded;
     }
     input.editInline {
         @apply p-0 m-0 border-0 pb-1 border-b-2 border-b-primaryBlue rounded-none;
         font-family: "Josefin Sans", sans-serif;
+    }
+    button.w-full.bg-white.border.border-gray-300.rounded-md.shadow-sm.px-4.py-2.text-left.flex.items-center.justify-between {
+        @apply py-1;
     }
 }
