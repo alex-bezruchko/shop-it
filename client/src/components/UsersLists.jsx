@@ -20,8 +20,6 @@ export default function UsersLists({sendTo, currentLink, listLoading}) {
         axios.get(url).then(({ data }) => {
             if (data.shoppingLists) {
                 currentLink(data.shoppingLists[0]._id);
-                // handleTab('current')
-                console.log(data.shoppingLists)
                 let newList = data.shoppingLists.filter(list => list.completed === false);
                 setCurrentLists(data.shoppingLists)
                 setFilteredList(newList);
@@ -37,16 +35,13 @@ export default function UsersLists({sendTo, currentLink, listLoading}) {
         sendTo(id)
     }
     function handleTab(foo) {
-        console.log('currentLists[0].completed', currentLists[0].completed)
         let newList = '';
         if (foo === 'current') {
             setActiveTab(foo);
             newList = currentLists.filter(list => list.completed === false)
-            console.log('Current', newList)
         } else {
             setActiveTab(foo);
             newList = currentLists.filter(list => list.completed === true)
-            console.log('Completed', newList)
         }
         setFilteredList(newList)
     }
