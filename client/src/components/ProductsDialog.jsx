@@ -54,7 +54,7 @@ import {
         window.addEventListener('resize', handleResize);
     
         return () => {
-        window.removeEventListener('resize', handleResize);
+            window.removeEventListener('resize', handleResize);
         };
     }, [errors, height]);
 
@@ -76,7 +76,6 @@ import {
             setErrors(validationErrors)
             setLoading(false);
             const errorHeight = validationDivRef.current.offsetHeight || '';
-            console.log
             let currentHeight = height + errorHeight;
             setHeight(currentHeight);
         } else {
@@ -96,7 +95,6 @@ import {
             }
         }
         setLoading(false);
-
     }
 
     function clearForm() {
@@ -127,7 +125,6 @@ import {
 
     return (
         <>
-            
             <button onClick={handleOpen} className="bg-primaryBlue text-white p-1 rounded-full px-3 flex h-full items-center justify-between">
                 <p className="nunito text-lg pr-2">Add</p>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
@@ -135,8 +132,6 @@ import {
                 </svg>
             </button>
             <Dialog open={open} handler={handleOpen} className={`pt-0 flex flex-col overflow-y-auto mx-5`}  style={{ height: `calc(100vh - 50px)` }}>
-
-                
                 <DialogBody className={`flex flex-col pt-0 overflow-y-auto justify-between`} style={{ maxHeight: `${height - 50}px`, marginTop: "0", marginBottom: "0" }}>
                     <div className="flex flex-col">
                         <h2 className="lora text-3xl pb-0 sm:pb-5 text-black text-center pt-5 font-normal mb-4">New Product</h2>
@@ -147,7 +142,7 @@ import {
                                 )}
                             </div>
                     </div>
-                        <div className="mt-10 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-6 grid-cols-1">
+                        <div className="mt-0 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-6 grid-cols-1 overflow-y-auto">
                             <div className="sm:col-span-3">
                                 <label htmlFor="name" className="block text-sm nunito font-medium leading-6 text-gray-900">Name</label>
                                 <div className="mt-2">
