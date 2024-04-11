@@ -3,7 +3,7 @@ import { UserContext } from "./UserContext";
 import axios from 'axios';
 import { useParams, Link } from "react-router-dom";
 import ProductList from "../components/ProductList";
-import ProductForm from "../components/ProductForm";
+import ProductsDialog from "../components/ProductsDialog";
 import ValidationErrorDisplay from "./ValidationErrors";
 import { Validation } from "./Validation";
 
@@ -164,8 +164,8 @@ export default function CurrentList({listLoading, isLoading}) {
     }
     
     async function handleUpdateProducts(formData) {
-        let product = formData.formData;
-        product._id = formData._id;
+        let product = formData;
+        product._id = product.id;
     
         setCurrentList(prevCurrentList => {
             // Create a new list with the current products
@@ -331,11 +331,11 @@ export default function CurrentList({listLoading, isLoading}) {
                                                                 </button>
 
                                                                 <div className="flex items-end pb-3 pr-1">
-                                                                    <ProductForm 
+                                                                    <ProductsDialog
                                                                         className="h-full flex items-end" 
                                                                         product={product.product} 
-                                                                        handleDeleteProduct={deleteProduct} 
-                                                                        updateProduct={handleUpdateProducts}
+                                                                        handleDeleteProduct={deleteProduct}
+                                                                        handleUpdateProducts={handleUpdateProducts}
                                                                     />
                                                                 </div>
                                                             </div>

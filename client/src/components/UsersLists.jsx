@@ -73,8 +73,18 @@ export default function UsersLists({sendTo, currentLink, listLoading}) {
                 <div className="w-full">
                     <h2 className="lora text-3xl pb-5">Your Lists</h2>
                     <div className="tabs flex justify-around">
-                        <button onClick={() => handleTab('current')} className={activeTab === 'current' ? 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists'}>Current</button>
-                        <button onClick={() => handleTab('completed')} className={activeTab === 'completed' ? 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists'}>Completed</button>
+                        <button onClick={() => handleTab('current')} className={activeTab === 'current' ? 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue flex justify-around items-center' : 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists flex justify-around items-center'}>
+                            <span>Current</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[35px] h-[35px] text-primaryOrange">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+                            </svg>
+                        </button>
+                        <button onClick={() => handleTab('completed')} className={activeTab === 'completed' ? 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue flex justify-around items-center' : 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists flex justify-around items-center'}>
+                            <span>Completed</span>
+                            <svg className="primaryBlue text-primaryBlue w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path stroke="0fa3b1" fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
+                            </svg>
+                        </button>
                     </div>
 
                     <ul className="mt-8">
@@ -87,7 +97,7 @@ export default function UsersLists({sendTo, currentLink, listLoading}) {
                                         </div>
                                         
                                     </div>
-                                    <div>
+                                    {/* <div>
                                         {list.completed == true && (
                                             <svg className="primaryBlue text-primaryBlue w-10 h-10" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                             <path stroke="0fa3b1" fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
@@ -99,7 +109,7 @@ export default function UsersLists({sendTo, currentLink, listLoading}) {
                                              <path strokeLinecap="round" strokeLinejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
                                          </svg>
                                         )}
-                                    </div>                    
+                                    </div>                     */}
                                 </div>
                                 <button onClick={() => deleteList(list._id)} className="text-primaryRed ml-4 mb-4 p-1 self-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
@@ -110,13 +120,13 @@ export default function UsersLists({sendTo, currentLink, listLoading}) {
                         ))}
                         {filteredList.length === 0 && (
                             <h2 className="flex text-center text-lg nunito justify-center mt-2">
-                                No lists found...let's completed one.
+                                No lists found...
                                 
-                                {/* <Link to={'/account/new'}> */}
-                                    <svg onClick={() => handleTab('current')} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 ml-2 text-primaryGreen">
+                                <Link to={'/account/new'}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 ml-2 text-primaryGreen">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                     </svg>
-                                {/* </Link> */}
+                                </Link>
                             </h2>
                         )}
                     </ul>

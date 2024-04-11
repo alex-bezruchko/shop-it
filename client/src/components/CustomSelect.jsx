@@ -21,13 +21,13 @@ function CustomSelect({ options, handleSelect, selectedOption: externalSelectedO
   };
 
   return (
-    <div className="relative mt-2 mb-2">
+    <div className="relative mt-2 mb-1">
       <button
         onClick={toggleDropdown}
         type="button"
         className="w-full bg-white border border-gray-300 rounded-md shadow-sm px-4 py-2 text-left flex items-center justify-between"
       >
-        <span className="block truncate text-black nunito">{selectedOption ? options.find(opt => opt._id === selectedOption)?.name : 'Select an option'}</span>
+        <span className="block truncate text-black nunito text-sm">{selectedOption ? options.find(opt => opt._id === selectedOption)?.name : 'Select an option'}</span>
         <svg
           className={`w-4 h-4 ml-2 transition-transform ${isOpen ? 'transform rotate-180' : ''}`}
           viewBox="0 0 20 20"
@@ -46,7 +46,7 @@ function CustomSelect({ options, handleSelect, selectedOption: externalSelectedO
             <li key={option._id}>
               <button
                 onClick={() => handleOptionClick(option)}
-                className={`block w-full px-4 py-2 text-left ${selectedOption === option._id ? 'bg-gray-100' : 'hover:bg-gray-100'}`}
+                className={`block w-full nunito px-4 py-2 text-left ${selectedOption === option._id ? 'bg-gray-100' : 'hover:bg-gray-100'}`}
               >
                 {option.name}
               </button>
