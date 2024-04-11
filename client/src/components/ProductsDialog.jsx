@@ -296,7 +296,7 @@ import {
                                             </svg>
                                         </button>
                                     ) : (
-                                        <button className="primaryBlue mt-0 nunito font-medium text-sm md:text-xl flex-shrink-0 ml-2 mr-0" onClick={formType === 'create' ? createProduct : editProduct}>{formType === 'create' ? 'Create' : 'Edit'}</button>
+                                        <button className="bg-primaryBlue mt-0 nunito font-medium text-white px-4 rounded text-sm md:text-xl flex-shrink-0 ml-2 mr-0" onClick={formType === 'create' ? createProduct : editProduct}>{formType === 'create' ? 'Create' : 'Edit'}</button>
                                     )}
                                 </div>
                             </div>
