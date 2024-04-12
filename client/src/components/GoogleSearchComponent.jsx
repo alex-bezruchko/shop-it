@@ -1,38 +1,44 @@
 import React, { useState, useContext, useEffect } from 'react';
+
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import axios from 'axios';
 import { UserContext } from "./UserContext";
-import { useDispatch } from 'react-redux';
+import { PlaceContext } from "./PlaceContext";
+import { fetchPlace, setPlace } from '../actions/placesActions'; // Import the action creator
+import { useDispatch, useSelector } from 'react-redux';
 import { Validation } from "../components/Validation";
 import ValidationErrorDisplay from "./../components/ValidationErrors";
 
 const GoogleSearchComponent = () => {
   const [center, setCenter] = useState({ lat: 0, lng: 0 });
+  const [name, setName] = useState('')
+  const [zip, setZip] = useState('');
+
   const {user} = useContext(UserContext);
+
   const dispatch = useDispatch();
 
   const [markers, setMarkers] = useState([]);
-  const [location, setLocation] = useState('');
-  const [zip, setZip] = useState('');
   const googleApiKey = import.meta.env.VITE_GOOGLE_MAPS_API;
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
-  const [place, setPlace] = useState({
-    name: '',
-    place_id: '',
-    address: '',
-    rating: '',
-    types: [],
-    open_now: '',
-    link: '',
-    favorite: ''
-  });
+  // const [place, setPlace] = useState({
+  //   name: '',
+  //   place_id: '',
+  //   address: '',
+  //   rating: '',
+  //   types: [],
+  //   open_now: '',
+  //   link: '',
+  //   favorite: ''
+  // });
   const [places, setPlaces] = useState(null);
   const [favPlaces, setFavPlaces] = useState([]);
   
+  const place = useSelector(state => state.place); // Assuming 'place' is the key for place state in your Redux store
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     axios.get(`/users/user/${user._id}/places`)
         .then(({ data }) => {
             setFavPlaces(data);
@@ -43,7 +49,6 @@ const GoogleSearchComponent = () => {
       setLoading(false)
 
   }, []);
-
   useEffect(() => {
     if (markers.length > 0) {
       console.log(markers)
@@ -51,12 +56,16 @@ const GoogleSearchComponent = () => {
       setMarkers(items)
     }
   }, [markers])
+  useEffect(() => {
+    setCenter({lat: place.lat, lng: place.lng})
+    setMarkers([{lat: place.lat, lng: place.lng}]);
 
+  }, [place])
 
   const handleSearch = async () => {
     setErrors([]);
     setLoading(true)
-    let body = { location, zip };
+    let body = { name, zip };
 
     const validationErrors = Validation(body);
     if (validationErrors.length > 0) {
@@ -65,7 +74,7 @@ const GoogleSearchComponent = () => {
     } else {
       try {
         // Check if all required parameters are provided
-        if (!location || !zip || !googleApiKey) {
+        if (!name || !zip || !googleApiKey) {
           setErrors([{message: 'Missing fields'}]);
           return;
         }
@@ -73,7 +82,7 @@ const GoogleSearchComponent = () => {
         // Fetch places using the provided parameters
         const response = await axios.get(`/places`, {
           params: {
-            query: location,
+            query: name,
             zipCode: zip
           }
         });
@@ -135,7 +144,8 @@ const GoogleSearchComponent = () => {
         return item.geometry.location.lat === place.lat &&
                 item.geometry.location.lng === place.lng;
         });
-    const {name, formatted_address, icon, types, rating, place_id, opening_hours, photos } = matchingLocation;
+    console.log('matchingLocation', matchingLocation)
+    const {name, formatted_address, icon, types, rating, place_id, opening_hours, photos, geometry } = matchingLocation;
     let newPlace = {
         name,
         address: formatted_address.replace(/,?\s*United\s*States$/, ''),
@@ -147,7 +157,12 @@ const GoogleSearchComponent = () => {
         open_now: opening_hours?.open_now || false,
     }
     newPlace.link = photos[0].html_attributions[0];
-    setPlace(newPlace)
+    console.log('newPlace', newPlace)
+    newPlace.lat = geometry.location.lat;
+    newPlace.lng = geometry.location.lng;
+    dispatch({type: "SET_PLACE", payload: newPlace}); // Dispatch the action here
+
+    // dispatch({ type: 'SET_PLACE', payload: {newPlace} });
   }
 
   async function addPlace(place) {
@@ -157,12 +172,14 @@ const GoogleSearchComponent = () => {
       const response = await axios.post(`/users/user/${user._id}/places`, { place });
       if (response) {
         dispatch({ type: 'SET_ALERT', payload: {message: response.data.message, alertType: 'primaryGreen'} });
-        setPlace(prevValues => ({
-          ...prevValues,
-          favorite: !prevValues.favorite
-        }));
+        // setPlace(prevValues => ({
+        //   ...prevValues,
+        //   favorite: !prevValues.favorite
+        // }));
+        const updatedPlace = { ...place, favorite: !ifFav }; // Assuming you want to toggle the favorite status
+
         if (ifFav) {
-          let places = favPlaces.filter(pl => pl.place_id !== place.place_id);
+          let places = favPlaces.filter(pl => pl.place_id !== place);
           setFavPlaces(places)
         } else {
           const placeCopy = { ...place };
@@ -180,7 +197,7 @@ const GoogleSearchComponent = () => {
         throw error;
     }
   }
-  
+  console.log('place', place)
   return (
     <div>
         <h1 className='lora text-3xl text-center mb-3'>Search places</h1>
@@ -192,8 +209,8 @@ const GoogleSearchComponent = () => {
               type="text"
               placeholder="Location Name"
               className="w-64 p-2 border border-gray-300 rounded mr-2 mb-2"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
             />
             <input
               type="text"
@@ -257,7 +274,7 @@ const GoogleSearchComponent = () => {
                       </div>
                     </div>
 
-                    <svg onClick={() => addPlace(place)} xmlns="http://www.w3.org/2000/svg" fill={isPlaceFavorite(place) ? '#0fa3b1' : 'none'} viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="min-w-[40px] h-[40px]">
+                    <svg onClick={() => addPlace(place)} xmlns="http://www.w3.org/2000/svg" fill={isPlaceFavorite(place) ? 'rgb(247, 160, 114)' : 'white'} viewBox="0 0 24 24" strokeWidth="1.5" stroke={isPlaceFavorite(place) ? 'none' : 'rgb(15, 163, 177)'} className="min-w-[40px] h-[40px]">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
                     </svg>
                         
