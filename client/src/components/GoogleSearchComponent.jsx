@@ -164,8 +164,9 @@ const GoogleSearchComponent = () => {
   }
 
   async function addPlace(place) {
-
+    console.log(place)
     let ifFav = isPlaceFavorite(place);
+    console.log('ifFav', ifFav)
     try {
       const response = await axios.post(`/users/user/${user._id}/places`, { place });
       if (response) {
@@ -177,7 +178,7 @@ const GoogleSearchComponent = () => {
         const updatedPlace = { ...place, favorite: !ifFav }; // Assuming you want to toggle the favorite status
 
         if (ifFav) {
-          let places = favPlaces.filter(pl => pl.place_id !== place);
+          let places = favPlaces.filter(pl => pl.place_id !== place.place_id);
           setFavPlaces(places)
         } else {
           const placeCopy = { ...place };
