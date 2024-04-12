@@ -88,7 +88,7 @@ export default function AccountPage() {
         <div>
              <div className="flex justify-center">
 
-                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-10 mb-8 text-md">
+                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-8 mb-8 text-md">
                     <Link 
                         className={linkClasses('profile')}
                         to={'/account'}>
