@@ -113,6 +113,7 @@ export default function FriendDetailPage({listLoading}) {
       }
     } catch (error) {
         console.error("Error adding place:", error);
+        dispatch({ type: 'SET_ALERT', payload: {message: error.response.data.message, alertType: 'primaryRed'} });
         setCopyLoading(false);
         setIdLoading('');
         throw error;

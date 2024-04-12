@@ -142,6 +142,19 @@ exports.copyPlace = async (req, res) => {
         return res.status(404).json({ message: 'Shopping list not found' });
         }
         
+        // Check if a similar list already exists for the user
+        const similarList = await ShoppingList.findOne({
+            owner: userId,
+            name: originalList.name,
+            products: { $size: originalList.products.length }, // Ensure same number of products
+            'products.product': { $all: originalList.products.map(p => p.product._id) } // Ensure same products
+        });
+
+        // If a similar list exists, return a message indicating that the list already exists
+        if (similarList) {
+            return res.status(400).json({ message: 'A similar list already exists for this user' });
+        }
+
         // Create a copy of the original list with a new owner
         const copiedList = new ShoppingList({
         name: originalList.name,
