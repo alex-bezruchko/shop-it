@@ -144,7 +144,6 @@ const GoogleSearchComponent = () => {
         return item.geometry.location.lat === place.lat &&
                 item.geometry.location.lng === place.lng;
         });
-    console.log('matchingLocation', matchingLocation)
     const {name, formatted_address, icon, types, rating, place_id, opening_hours, photos, geometry } = matchingLocation;
     let newPlace = {
         name,
@@ -157,7 +156,6 @@ const GoogleSearchComponent = () => {
         open_now: opening_hours?.open_now || false,
     }
     newPlace.link = photos[0].html_attributions[0];
-    console.log('newPlace', newPlace)
     newPlace.lat = geometry.location.lat;
     newPlace.lng = geometry.location.lng;
     dispatch({type: "SET_PLACE", payload: newPlace}); // Dispatch the action here
@@ -197,7 +195,6 @@ const GoogleSearchComponent = () => {
         throw error;
     }
   }
-  console.log('place', place)
   return (
     <div>
         <h1 className='lora text-3xl text-center mb-3'>Search places</h1>
