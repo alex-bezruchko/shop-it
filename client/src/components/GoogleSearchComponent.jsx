@@ -3,39 +3,28 @@ import React, { useState, useContext, useEffect } from 'react';
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import axios from 'axios';
 import { UserContext } from "./UserContext";
-import { PlaceContext } from "./PlaceContext";
-import { fetchPlace, setPlace } from '../actions/placesActions'; // Import the action creator
 import { useDispatch, useSelector } from 'react-redux';
 import { Validation } from "../components/Validation";
 import ValidationErrorDisplay from "./../components/ValidationErrors";
 
 const GoogleSearchComponent = () => {
-  const [center, setCenter] = useState({ lat: 0, lng: 0 });
+  const dispatch = useDispatch();
+  const {user} = useContext(UserContext);
+  const [favPlaces, setFavPlaces] = useState([]);
+  const place = useSelector(state => state.place); // Assuming 'place' is the key for place state in your Redux store
+  // const markers = useSelector(state => state.marker.markers); // Assuming 'marker' is the key for marker state in your Redux store
+  const [markers, setMarkers] = useState([]);
+  const places = useSelector(state => state.places);
+  const center = useSelector(state => state.coord);
+  const query = useSelector(state => state.query);
+  const [searchPerformed, setSearchPerformed] = useState(false);
+
   const [name, setName] = useState('')
   const [zip, setZip] = useState('');
-
-  const {user} = useContext(UserContext);
-
-  const dispatch = useDispatch();
-
-  const [markers, setMarkers] = useState([]);
+  // const [markers, setMarkers] = useState([]);
   const googleApiKey = import.meta.env.VITE_GOOGLE_MAPS_API;
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
-  // const [place, setPlace] = useState({
-  //   name: '',
-  //   place_id: '',
-  //   address: '',
-  //   rating: '',
-  //   types: [],
-  //   open_now: '',
-  //   link: '',
-  //   favorite: ''
-  // });
-  const [places, setPlaces] = useState(null);
-  const [favPlaces, setFavPlaces] = useState([]);
-  
-  const place = useSelector(state => state.place); // Assuming 'place' is the key for place state in your Redux store
 
   useEffect(() => {
     setLoading(true);
@@ -46,29 +35,38 @@ const GoogleSearchComponent = () => {
         .catch(error => {
             console.log(error);
         });
+      if (!searchPerformed) {
+        handleSearch();
+        setSearchPerformed(true); // Set searchPerformed to true after the initial search
+        setErrors([])
+      }
       setLoading(false)
 
-  }, []);
-  useEffect(() => {
-    if (markers.length > 0) {
-      console.log(markers)
-      let items = markers;
-      setMarkers(items)
-    }
-  }, [markers])
-  useEffect(() => {
-    setCenter({lat: place.lat, lng: place.lng})
-    setMarkers([{lat: place.lat, lng: place.lng}]);
-
-  }, [place])
-
+  }, [places, markers]);
+  
+  const updatePlaces = (newPlaces) => {
+    dispatch({
+      type: "SET_PLACES",
+      payload: { places: newPlaces },
+    });
+  };
+  const setQuery = (newQuery) => {
+    dispatch({
+      type: "SET_QUERY",
+      payload: newQuery,
+    });
+  };
   const handleSearch = async () => {
     setErrors([]);
     setLoading(true)
+    let {name, zip} = query;
+    console.log(query)
     let body = { name, zip };
+    console.log(body)
+
 
     const validationErrors = Validation(body);
-    if (validationErrors.length > 0) {
+    if (validationErrors.length > 0 && searchPerformed === true) {
         setErrors(validationErrors);
         setLoading(false);
     } else {
@@ -111,11 +109,36 @@ const GoogleSearchComponent = () => {
           .map(marker => marker.position);
     
         // Update map center to the first location
-        setCenter(locations.length > 0 ? locations[0] : { lat: 0, lng: 0 });
-    
+        dispatch({type: "SET_COORD", payload: locations.length > 0 ? locations[0] : { lat: 0, lng: 0 }});
+          console.log('locations', locations)
         // Update markers on the map
-        setMarkers(markerLocations);
-        setPlaces(data.places);
+        // setMarkers(markerLocations);
+        setMarkers(markerLocations)
+        console.log('data', data.places)
+        const newArray = data.places.map(matchingLocation => {
+          const { name, formatted_address, icon, types, rating, place_id, opening_hours, photos, geometry } = matchingLocation;
+          const newPlace = {
+            name,
+            address: formatted_address.replace(/,?\s*United\s*States$/, ''),
+            rating,
+            icon,
+            types,
+            favorite: isPlaceFavorite(place_id),
+            place_id,
+            open_now: opening_hours?.open_now || false,
+          };
+          if (photos) {
+            newPlace.link = photos[0]?.html_attributions[0] || '';
+          } else {
+            newPlace.link = '';
+          }
+          newPlace.lat = geometry.location.lat;
+          newPlace.lng = geometry.location.lng;
+          return newPlace;
+        });
+        console.log('NEW ARRAY', newArray)
+        updatePlaces(newArray);
+
         setErrors([]);
         setLoading(false);
   
@@ -127,6 +150,7 @@ const GoogleSearchComponent = () => {
       }
 
     }
+    setSearchPerformed(true)
     
   };
 
@@ -140,24 +164,31 @@ const GoogleSearchComponent = () => {
   };
 
   function handleMarkerClick(place) {
-    const matchingLocation = places.find(item => {
-        return item.geometry.location.lat === place.lat &&
-                item.geometry.location.lng === place.lng;
+    console.log('places', places)
+    const matchingLocation = places.places.find(item => {
+        return item.lat === place.lat &&
+                item.lng === place.lng;
         });
-    const {name, formatted_address, icon, types, rating, place_id, opening_hours, photos, geometry } = matchingLocation;
+    const {name, address, icon, types, rating, place_id, open_now, lat, lng, photos } = matchingLocation;
+    console.log('matchingLocation', matchingLocation)
     let newPlace = {
         name,
-        address: formatted_address.replace(/,?\s*United\s*States$/, ''),
+        address: address.replace(/,?\s*United\s*States$/, ''),
         rating,
         icon,
         types,
         favorite: isPlaceFavorite(place_id),
         place_id,
-        open_now: opening_hours?.open_now || false,
+        open_now: open_now || false,
+        lat,
+        lng
     }
-    newPlace.link = photos[0].html_attributions[0];
-    newPlace.lat = geometry.location.lat;
-    newPlace.lng = geometry.location.lng;
+    if (photos) {
+      newPlace.link = photos[0]?.html_attributions[0] || '';
+    } else {
+      newPlace.link = '';
+    }
+   
     dispatch({type: "SET_PLACE", payload: newPlace}); // Dispatch the action here
 
     // dispatch({ type: 'SET_PLACE', payload: {newPlace} });
@@ -196,6 +227,7 @@ const GoogleSearchComponent = () => {
         throw error;
     }
   }
+  console.log('state query', query)
   return (
     <div>
         <h1 className='lora text-3xl text-center mb-3'>Search places</h1>
@@ -207,15 +239,18 @@ const GoogleSearchComponent = () => {
               type="text"
               placeholder="Location Name"
               className="w-64 p-2 border border-gray-300 rounded mr-2 mb-2"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={query.name}
+              onChange={(e) => setQuery({...query, name: e.target.value})}
+              // onChange={(e) => setQuery(prevQuery => ({...prevQuery, name: e.target.value}))}
+
             />
             <input
               type="text"
               placeholder="Zip Code"
               className="w-32 p-2 border border-gray-300 rounded mr-2 mb-2"
-              value={zip}
-              onChange={(e) => setZip(e.target.value)}
+              value={query.zip}
+              onChange={(e) => setQuery({...query, zip: e.target.value})}
+              // onChange={(e) => setQuery(prevQuery => ({...prevQuery, name: e.target.value}))}
             />
             <button
               className="primaryBlue mt-2 w-full mx-auto"
@@ -272,7 +307,7 @@ const GoogleSearchComponent = () => {
                       </div>
                     </div>
 
-                    <svg onClick={() => addPlace(place)} xmlns="http://www.w3.org/2000/svg" fill={isPlaceFavorite(place) ? 'rgb(247, 160, 114)' : 'white'} viewBox="0 0 24 24" strokeWidth="1.5" stroke={isPlaceFavorite(place) ? 'none' : 'rgb(15, 163, 177)'} className="min-w-[40px] h-[40px]">
+                    <svg onClick={() => addPlace(place)} xmlns="http://www.w3.org/2000/svg" fill={isPlaceFavorite(place) ? 'rgb(247, 160, 114)' : 'white'} viewBox="0 0 24 24" strokeWidth="1.5" stroke={isPlaceFavorite(place) ? 'none' : 'rgb(247, 160, 114)'} className="min-w-[40px] h-[40px]">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
                     </svg>
                         
