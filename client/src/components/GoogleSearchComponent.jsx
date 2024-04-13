@@ -12,16 +12,12 @@ const GoogleSearchComponent = () => {
   const {user} = useContext(UserContext);
   const [favPlaces, setFavPlaces] = useState([]);
   const place = useSelector(state => state.place); // Assuming 'place' is the key for place state in your Redux store
-  // const markers = useSelector(state => state.marker.markers); // Assuming 'marker' is the key for marker state in your Redux store
   const [markers, setMarkers] = useState([]);
   const places = useSelector(state => state.places);
   const center = useSelector(state => state.coord);
   const query = useSelector(state => state.query);
   const [searchPerformed, setSearchPerformed] = useState(false);
 
-  const [name, setName] = useState('')
-  const [zip, setZip] = useState('');
-  // const [markers, setMarkers] = useState([]);
   const googleApiKey = import.meta.env.VITE_GOOGLE_MAPS_API;
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -220,7 +216,6 @@ const GoogleSearchComponent = () => {
         throw error;
     }
   }
-  console.log('state query', query)
   return (
     <div>
         <h1 className='lora text-3xl text-center mb-3'>Search places</h1>

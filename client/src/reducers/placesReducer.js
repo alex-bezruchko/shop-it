@@ -26,7 +26,6 @@ const coordinatesState = {
   lat: 38.9239368,
 }
 const coordinateReducer = (state = coordinatesState, action) => {
-  console.log('payload', action.payload)
   switch (action.type) {
       case "FETCH_COORD":
           return {
