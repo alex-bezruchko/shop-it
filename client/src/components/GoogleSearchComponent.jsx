@@ -304,7 +304,7 @@ const GoogleSearchComponent = () => {
         </div>
         <div className="w-full mx-auto h-80">
           {loading && (
-              <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-20 mx-auto my-6'/>
+              <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-10 mx-auto my-6'/>
           )} 
           <GoogleMap
             mapContainerClassName="w-full h-full mt-5"
