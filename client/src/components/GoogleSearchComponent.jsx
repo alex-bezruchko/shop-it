@@ -12,16 +12,12 @@ const GoogleSearchComponent = () => {
   const {user} = useContext(UserContext);
   const [favPlaces, setFavPlaces] = useState([]);
   const place = useSelector(state => state.place); // Assuming 'place' is the key for place state in your Redux store
-  // const markers = useSelector(state => state.marker.markers); // Assuming 'marker' is the key for marker state in your Redux store
   const [markers, setMarkers] = useState([]);
   const places = useSelector(state => state.places);
   const center = useSelector(state => state.coord);
   const query = useSelector(state => state.query);
   const [searchPerformed, setSearchPerformed] = useState(false);
 
-  const [name, setName] = useState('')
-  const [zip, setZip] = useState('');
-  // const [markers, setMarkers] = useState([]);
   const googleApiKey = import.meta.env.VITE_GOOGLE_MAPS_API;
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -60,10 +56,7 @@ const GoogleSearchComponent = () => {
     setErrors([]);
     setLoading(true)
     let {name, zip} = query;
-    console.log(query)
     let body = { name, zip };
-    console.log(body)
-
 
     const validationErrors = Validation(body);
     if (validationErrors.length > 0 && searchPerformed === true) {
@@ -86,7 +79,6 @@ const GoogleSearchComponent = () => {
         });
     
         const data = response.data;
-        console.log('data', data)
     
         if (data.error) {
           // console.error('Error searching:', data.error);
@@ -110,11 +102,9 @@ const GoogleSearchComponent = () => {
     
         // Update map center to the first location
         dispatch({type: "SET_COORD", payload: locations.length > 0 ? locations[0] : { lat: 0, lng: 0 }});
-          console.log('locations', locations)
         // Update markers on the map
         // setMarkers(markerLocations);
         setMarkers(markerLocations)
-        console.log('data', data.places)
         const newArray = data.places.map(matchingLocation => {
           const { name, formatted_address, icon, types, rating, place_id, opening_hours, photos, geometry } = matchingLocation;
           const newPlace = {
@@ -136,7 +126,6 @@ const GoogleSearchComponent = () => {
           newPlace.lng = geometry.location.lng;
           return newPlace;
         });
-        console.log('NEW ARRAY', newArray)
         updatePlaces(newArray);
 
         setErrors([]);
@@ -227,7 +216,6 @@ const GoogleSearchComponent = () => {
         throw error;
     }
   }
-  console.log('state query', query)
   return (
     <div>
         <h1 className='lora text-3xl text-center mb-3'>Search places</h1>
@@ -292,7 +280,6 @@ const GoogleSearchComponent = () => {
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 primaryGreen">
                                       <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 6 6 9-13.5" />
                                   </svg>
-                                  {/* <div dangerouslySetInnerHTML={{ __html: place.link }} /> */}
                               </div>
                           ) : (
                               <div className='flex items-center'>
@@ -300,7 +287,6 @@ const GoogleSearchComponent = () => {
                                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 primaryRed">
                                       <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 18.364A9 9 0 0 0 5.636 5.636m12.728 12.728A9 9 0 0 1 5.636 5.636m12.728 12.728L5.636 5.636" />
                                   </svg>
-                                  {/* <div dangerouslySetInnerHTML={{ __html: place.link }} /> */}
 
                               </div>
                           )}
