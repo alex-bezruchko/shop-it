@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
+const url = require('url');
 
 const Pusher = require("pusher");
 
@@ -236,6 +237,7 @@ exports.profile = async (req, res) => {
 
 exports.initiatePasswordReset = async (req, res) => {
     const { email } = req.body;
+    let resetLink;
 
     try {
         // Find the user by email
@@ -250,10 +252,15 @@ exports.initiatePasswordReset = async (req, res) => {
         const token = jwt.sign({ email: user.email, timestamp: Date.now() }, process.env.JWT_SECRET);
 
         // Construct the password reset link with the token
-        const resetLink = process.env.LOCAL_URL.includes("localhost:5173")
-        ? `${process.env.LOCAL_URL}-password-reset?token=${token}`
-        : `${process.env.LOCAL_URL}/password-reset?token=${token}`;
-
+        
+        try {
+            resetLink = url.resolve(process.env.LOCAL_URL, "/password-reset?token=" + token);
+            res.status(200).json({ message: `Password reset link sent successfully, ${resetLink}` });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: `Internal Server Error` });
+        }
+        
 
         // Send email with password reset link
         const transporter = nodemailer.createTransport({
@@ -278,10 +285,10 @@ exports.initiatePasswordReset = async (req, res) => {
 
         await transporter.sendMail(mailOptions);
 
-        res.status(200).json({ message: 'Password reset link sent successfully' });
+        res.status(200).json({ message: `Password reset link sent successfully, ${resetLink}`});
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: `Internal Server Error ${resetLink}`});
     }
 };
 

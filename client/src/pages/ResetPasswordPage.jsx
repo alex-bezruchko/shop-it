@@ -27,12 +27,15 @@ export default function ResetPasswordPage() {
         }
         try {
             setLoading(true);
-            const response = await axios.post('/users/initiate-reset-password', { email, withCredentials: false });
+            const response = await axios.post('/users/initiate-reset-password', { email, withCredentials: true });
             dispatch({ type: 'SET_ALERT', payload: { message: response.data.message, alertType: 'primaryGreen' } });
+            console.log('message', response.data)
             navigate('/login');
         } catch (error) {
             console.log('error', error)
             setLoading(false)
+            console.log('message', error.response.data)
+
             dispatch({ type: 'SET_ALERT', payload: { message: error.response.data.message, alertType: 'primaryRed' } });
         } finally {
             setLoading(false);
