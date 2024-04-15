@@ -311,7 +311,10 @@ exports.resetPassword = async (req, res) => {
     }
 };
 exports.logout = (req, res) => {
-    res.cookie('token', '', { expires: new Date(0) }).json(true);
+    res.cookie('token', '', { 
+        expires: new Date(0), 
+        domain: process.env.DOMAIN
+    }).json(true);
 };
 
 exports.send = async (req, res) => {
