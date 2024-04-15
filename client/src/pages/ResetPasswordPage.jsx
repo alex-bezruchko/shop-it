@@ -14,7 +14,6 @@ export default function ResetPasswordPage() {
 
     async function initiatePasswordReset(e) {
         e.preventDefault();
-        // let body = { newPassword, confirmPassword };
         let body = { email };
         console.log(body)
         
@@ -29,13 +28,10 @@ export default function ResetPasswordPage() {
             setLoading(true);
             const response = await axios.post('/users/initiate-reset-password', { email, withCredentials: false });
             dispatch({ type: 'SET_ALERT', payload: { message: response.data.message, alertType: 'primaryGreen' } });
-            console.log('message', response.data)
             navigate('/login');
         } catch (error) {
             console.log('error', error)
             setLoading(false)
-            console.log('message', error.response.data)
-
             dispatch({ type: 'SET_ALERT', payload: { message: error.response.data.message, alertType: 'primaryRed' } });
         } finally {
             setLoading(false);
@@ -44,7 +40,7 @@ export default function ResetPasswordPage() {
 
     return (
         <div className="p-2 mt-4 flex grow items-center justify-around">
-            <div className="mb-64 w-full mx-5">
+            <div className="mb-64 w-full">
                 <h1 className="text-3xl lora text-center mb-6">Reset Password</h1>
                 { loading && (
                     <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-20 mx-auto my-6'/>
@@ -53,7 +49,7 @@ export default function ResetPasswordPage() {
                     <ValidationErrorDisplay errors={errors} />
                 )}
                 <div>
-                <form onSubmit={initiatePasswordReset}>
+                <form className="max-w-md mx-auto mt-0" onSubmit={initiatePasswordReset}>
                     <div>
                         <label htmlFor="email" className="block text-lg nunito font-medium leading-6 text-gray-900 pb-3">Email</label>
                         <input
@@ -68,9 +64,9 @@ export default function ResetPasswordPage() {
                         {loading ? 'Loading...' : 'Reset Password'}
                     </button>
                 </form>
-                <div className="text-center py-2 text-gray-500">
+                <div className="text-center py-2 nunito text-gray-500">
                         Already a member? 
-                        <Link to={'/login'} className="underline text"> Login here</Link>
+                        <Link to={'/login'} className="ml-3 nunito text text-primaryBlue"> Login here</Link>
                     </div>
             </div>
             </div>

@@ -47,20 +47,20 @@ export default function LoginPage() {
     return (
         <div className="p-2 mt-4 flex grow items-center justify-around">
             <div className="mb-64">
-                <h1 className="text-4xl lora text-center">Login</h1>
+                <h1 className="text-4xl lora text-center mb-5">Login</h1>
                 { loading && (
                     <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-20 mx-auto my-6'/>
                 )}
                 {errors.length > 0 && (
-                    <ValidationErrorDisplay errors={errors} className="mb-2"/>
+                    <ValidationErrorDisplay errors={errors} className="mb-0"/>
                 )}    
-                <form className="max-w-md mx-auto mt-5" onSubmit={handleSubmitLogin}>
+                <form className="max-w-md mx-auto mt-0" onSubmit={handleSubmitLogin}>
                     <input
                         value={email}
                         onChange={e => setEmail(e.target.value)}
                         type="email" 
                         placeholder="email"
-                        className="mb-2"
+                        className="mb-2 mt-0"
                     />
                     <input
                         value={password}
@@ -69,14 +69,14 @@ export default function LoginPage() {
                         placeholder="password"
                         className="mb-2"
                     />
-                    <button className="primaryBlue w-full">Login</button>
-                    <div className="text-center py-2 text-gray-500">
+                    <button className="primaryBlue w-full nunito mt-4">Login</button>
+                    <div className="text-center nunito py-2 text-gray-500 mt-2">
                         Don't have an account yet? 
-                        <Link to={'/register'} className="underline text"> Register now</Link>
+                        <Link to={'/register'} className="ml-3 nunito text text-primaryBlue"> Register now</Link>
                     </div>
-                    <div className="text-center py-2 text-gray-500">
+                    <div className="text-center nunito py-2 pt-0 text-gray-500">
                         Forgot your password? 
-                        <Link to={'/password-request'} className="underline text"> Reset Password</Link>
+                        <Link to={'/password-request'} className="ml-3 nunito text text-primaryBlue"> Reset Password</Link>
                     </div>
                 </form>
             </div>
