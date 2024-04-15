@@ -252,15 +252,7 @@ exports.initiatePasswordReset = async (req, res) => {
         const token = jwt.sign({ email: user.email, timestamp: Date.now() }, process.env.JWT_SECRET);
 
         // Construct the password reset link with the token
-        
-        try {
-            resetLink = url.resolve(process.env.LOCAL_URL, "/password-reset?token=" + token);
-            res.status(200).json({ message: `Password reset link sent successfully, ${resetLink}` });
-        } catch (error) {
-            console.error(error);
-            res.status(500).json({ message: `Internal Server Error` });
-        }
-        
+        resetLink = url.resolve(process.env.LOCAL_URL, "/password-reset?token=" + token);
 
         // Send email with password reset link
         const transporter = nodemailer.createTransport({
@@ -292,33 +284,6 @@ exports.initiatePasswordReset = async (req, res) => {
     }
 };
 
-exports.resetPassword = async (req, res) => {
-    const { token, newPassword } = req.body;
-    console.log('token', token)
-    let log;
-    try {
-        // Decode the token to get the email address
-        const decodedToken = decodeToken(token);
-
-        // Find the user by email
-        const user = await User.findOne({ email: decodedToken.email });
-
-        // If user not found or token is invalid, return error
-        if (!user || !isValidToken(decodedToken)) {
-            return res.status(400).json({ message: 'Invalid or expired token' });
-        }
-
-        // Update user's password
-        user.password = bcrypt.hashSync(newPassword, 10);
-        log = user;
-        await user.save();
-
-        res.status(200).json({ message: 'Password reset successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: `Internal Server Error, ${log}` });
-    }
-};
 exports.logout = (req, res) => {
     res.cookie('token', '').json(true);
 };
