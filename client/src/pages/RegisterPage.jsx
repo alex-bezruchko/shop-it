@@ -29,7 +29,7 @@ export default function RegisterPage() {
             try {
                 body.incomingRequests = [];
                 body.outgoingRequests = [];
-                let response = await axios.post(`/users/register`, body);
+                let response = await axios.post(`/users/register`, body, {withCredentials: true});
                 if (response) {
                     dispatch({ type: 'SET_ALERT', payload: {message: 'Registered successfully', alertType: 'primaryGreen'} });
                     setLoading(false)
