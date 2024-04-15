@@ -363,6 +363,26 @@ exports.send = async (req, res) => {
         receiver.friendRequests.push(newRequest);
         await receiver.save();
 
+        // Send email notification to receiver
+        const transporter = nodemailer.createTransport({
+            host: process.env.NODE_SMTP_SERVER,
+            port: 587, // or 465 for SSL
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: process.env.NODE_MAILER, // Your email address
+                pass: process.env.NODE_MAILER_KEY // Your email password or app-specific password
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.NODE_MAILER, // Sender email
+            to: receiver.email, // Receiver email
+            subject: 'Friend Request Received',
+            text: `Hello ${receiver.name},\n\nYou have received a friend request from ${sender.name}.\n\nYou can view your pending friend requests by logging into your account.\n\nBest regards,\nYour App`
+        };
+
+        await transporter.sendMail(mailOptions);
+
         // Now, manually populate sender's and receiver's name and email
         const friendRequest = {
             sender: {
@@ -424,6 +444,27 @@ exports.accept = async (req, res) => {
         await User.findByIdAndUpdate(requesterId, { $pull: { outgoingRequests: { receiver: userId } } });
 
         res.status(200).send("Friend request accepted successfully.");
+         // Send email notification to Joe
+         const joe = await User.findById(requesterId);
+         const transporter = nodemailer.createTransport({
+             host: process.env.NODE_SMTP_SERVER,
+             port: 587, // or 465 for SSL
+             secure: false, // true for 465, false for other ports
+             auth: {
+                 user: process.env.NODE_MAILER, // Your email address
+                 pass: process.env.NODE_MAILER_KEY // Your email password or app-specific password
+             }
+        });
+ 
+         const mailOptions = {
+             from: process.env.NODE_MAILER, // Sender email
+             to: joe.email, // Joe's email
+             subject: 'Friend Request Accepted',
+             text: `Hello ${joe.name},\n\nYour friend request has been accepted by ${userId}.\n\nYou are now friends.\n\nBest regards,\nYour App`
+        };
+
+        await transporter.sendMail(mailOptions);
+
         sendNotification(`user-${userId}`, 'receiver-request-accepted', { message: 'Your friend request has been accepted.', receiver: requesterId });
         sendNotification(`user-${requesterId}`, 'sender-request-accepted', { message: 'You are now friends.', sender: userId });
 
