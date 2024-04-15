@@ -45,14 +45,14 @@ export default function RegisterPage() {
     return (
         <div className="p-2 mt-4 flex grow items-center justify-around">
             <div className="mb-64">
-                <h1 className="text-4xl text-center">Register</h1>
+                <h1 className="text-4xl lora text-center mb-5">Register</h1>
                 { loading && (
                     <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-20 mx-auto my-6'/>
                 )}
                 {errors.length > 0 && (
                     <ValidationErrorDisplay errors={errors} />
                 )}
-                <form className="max-w-md mx-auto mt-5" onSubmit={registerUser}>
+                <form className="max-w-md mx-auto mt-0" onSubmit={registerUser}>
                     <input 
                         type="text"
                         value={name}
@@ -71,10 +71,10 @@ export default function RegisterPage() {
                         onChange={e => setPassword(e.target.value)}
                         className="mb-2"
                         placeholder="password"/>
-                    <button className="primaryBlue w-full">Register</button>
-                    <div className="text-center py-2 text-gray-500">
+                    <button className="primaryBlue nunito w-full mt-3">Register</button>
+                    <div className="text-center py-2 nunito text-gray-500">
                         Already a member? 
-                        <Link to={'/login'} className="underline text"> Login here</Link>
+                        <Link to={'/login'} className="ml-3 nunito text text-primaryBlue"> Login here</Link>
                     </div>
                 </form>
             </div>

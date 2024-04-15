@@ -65,13 +65,13 @@ export default function NewPasswordPage() {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="mb-2"
                         />
-                        <button type="submit" className="primaryBlue w-full mt-4" disabled={loading}>
+                        <button type="submit" className="primaryBlue nunito w-full mt-3" disabled={loading}>
                             {loading ? 'Loading...' : 'Confirm Password'}
                         </button>
                     </form>
-                    <div className="text-center py-2 text-gray-500">
+                    <div className="text-center nunito py-2 text-gray-500">
                         Already a member? 
-                        <Link to={'/login'} className="underline text"> Login here</Link>
+                        <Link to={'/login'} className="ml-3 nunito text text-primaryBlue"> Login here</Link>
                     </div>
                 </div>
             </div>

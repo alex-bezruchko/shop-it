@@ -279,7 +279,6 @@ exports.initiatePasswordReset = async (req, res) => {
 
         res.status(200).json({ message: `Password reset link sent successfully`});
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: `Internal Server Error`});
     }
 };
@@ -513,11 +512,9 @@ async function areUsersFriends(userId, friendId) {
 }
 
 function decodeToken(token) {
-    console.log('12324', token)
     try {
         // Decode the token to extract email and id
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        console.log('decodedToken', decodedToken)
         return decodedToken;
     } catch (error) {
         // Handle token verification errors
