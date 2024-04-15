@@ -44,7 +44,7 @@ function CurrentFriendsList({handleFriendClick, listLoading}) {
                 <div className="flex flex-col text-center justify-cente mt-5">
         
                 <h2 className="flex text-center text-lg nunito justify-center mt-2 items-center">
-                    No friends found...let's fins some
+                    No friends found...let's finds some
                     
                     <Link to={'/friends/find'}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="ml-3 w-6 h-6 text-primaryGreen">
