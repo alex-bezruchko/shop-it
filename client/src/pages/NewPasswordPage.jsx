@@ -26,7 +26,7 @@ export default function NewPasswordPage() {
         try {
             setLoading(true);
             console.log('token', token)
-            const response = await axios.post('/users/password-reset', { newPassword, token }, { withCredentials: false });
+            const response = await axios.post('/users/password-reset', { newPassword, token }, { withCredentials: true });
             dispatch({ type: 'SET_ALERT', payload: { message: response.data.message, alertType: 'primaryGreen' } });
             navigate('/login')
         } catch (error) {
