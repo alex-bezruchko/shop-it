@@ -58,7 +58,7 @@ function FriendList() {
             </div>
             <div className="user-list mt-6">
                 {users.map(user => (
-                    <div key={user._id} className="flex items-center justify-between bg-white rounded-lg shadow-lg px-3 py-4 mb-4 border border-1 border-primaryBlue">
+                    <div key={user._id} className="flex items-center justify-between bg-white rounded-lg shadow-lg px-3 py-4 mb-4 border border-[1.5px] border-primaryBlue">
                        <div className="h-full flex flex-col text-left justify-between">
                             <h3 className="text-left text-lg font-medium lora self-start pb-3">{user.name}</h3>
                             <p className="text-left text-sm nunito">{user.email}</p>
