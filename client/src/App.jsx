@@ -11,6 +11,8 @@ import AccountPage from './pages/AccountPage.jsx';
 import IndexPage from './pages/IndexPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
+import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
+import NewPasswordPage from './pages/NewPasswordPage.jsx';
 import FriendsPage from './pages/FriendsPage.jsx';
 import PlacesPage from './pages/PlacesPage.jsx';
 import { LoadScript } from '@react-google-maps/api';
@@ -30,6 +32,11 @@ function App() {
                 <Route index element={<AccountPage/>}/>
                 <Route path="/login" element={<LoginPage/>}/>
                 <Route path="/register" element={<RegisterPage/>}/>
+                <Route path="/password-request" element={<ResetPasswordPage/>}/>
+                {/* <Route path="/password-reset/:token?" element={<NewPasswordPage/>}/> */}
+                <Route path="/password-reset" element={<NewPasswordPage />} />
+
+                
                 {/* <Route path="/stores" element={<StoresPage/>}/> */}
                 <Route path="/account/:subpage?" element={<AccountPage/>}/>
                 <Route path="/account/:subpage?/:listId" element={<AccountPage/>}/>

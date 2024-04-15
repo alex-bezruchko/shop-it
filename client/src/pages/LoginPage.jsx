@@ -47,7 +47,7 @@ export default function LoginPage() {
     return (
         <div className="p-2 mt-4 flex grow items-center justify-around">
             <div className="mb-64">
-                <h1 className="text-4xl text-center">Login</h1>
+                <h1 className="text-4xl lora text-center">Login</h1>
                 { loading && (
                     <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-20 mx-auto my-6'/>
                 )}
@@ -73,6 +73,10 @@ export default function LoginPage() {
                     <div className="text-center py-2 text-gray-500">
                         Don't have an account yet? 
                         <Link to={'/register'} className="underline text"> Register now</Link>
+                    </div>
+                    <div className="text-center py-2 text-gray-500">
+                        Forgot your password? 
+                        <Link to={'/password-request'} className="underline text"> Reset Password</Link>
                     </div>
                 </form>
             </div>

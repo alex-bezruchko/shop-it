@@ -81,7 +81,6 @@ const GoogleSearchComponent = () => {
         const data = response.data;
     
         if (data.error) {
-          // console.error('Error searching:', data.error);
           setErrors([{message: data.error}]);
           return;
         }
@@ -103,7 +102,6 @@ const GoogleSearchComponent = () => {
         // Update map center to the first location
         dispatch({type: "SET_COORD", payload: locations.length > 0 ? locations[0] : { lat: 0, lng: 0 }});
         // Update markers on the map
-        // setMarkers(markerLocations);
         setMarkers(markerLocations)
         const newArray = data.places.map(matchingLocation => {
           const { name, formatted_address, icon, types, rating, place_id, opening_hours, photos, geometry } = matchingLocation;
@@ -132,12 +130,9 @@ const GoogleSearchComponent = () => {
         setLoading(false);
   
       } catch (error) {
-        console.error('Error searching:', error);
         setErrors([{key: 0, message: 'No results'}]);
         setLoading(false);
-
       }
-
     }
     setSearchPerformed(true)
     
@@ -153,13 +148,11 @@ const GoogleSearchComponent = () => {
   };
 
   function handleMarkerClick(place) {
-    console.log('places', places)
     const matchingLocation = places.places.find(item => {
         return item.lat === place.lat &&
                 item.lng === place.lng;
         });
     const {name, address, icon, types, rating, place_id, open_now, lat, lng, photos } = matchingLocation;
-    console.log('matchingLocation', matchingLocation)
     let newPlace = {
         name,
         address: address.replace(/,?\s*United\s*States$/, ''),
@@ -178,9 +171,7 @@ const GoogleSearchComponent = () => {
       newPlace.link = '';
     }
    
-    dispatch({type: "SET_PLACE", payload: newPlace}); // Dispatch the action here
-
-    // dispatch({ type: 'SET_PLACE', payload: {newPlace} });
+    dispatch({type: "SET_PLACE", payload: newPlace}); 
   }
 
   async function addPlace(place) {
