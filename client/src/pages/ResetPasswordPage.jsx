@@ -27,7 +27,7 @@ export default function ResetPasswordPage() {
         }
         try {
             setLoading(true);
-            const response = await axios.post('/users/initiate-reset-password', { email, withCredentials: true });
+            const response = await axios.post('/users/initiate-reset-password', { email, withCredentials: false });
             dispatch({ type: 'SET_ALERT', payload: { message: response.data.message, alertType: 'primaryGreen' } });
             console.log('message', response.data)
             navigate('/login');
