@@ -13,6 +13,7 @@ import UsersLists from "../components/UsersLists";
 export default function AccountPage() {
     const dispatch = useDispatch();
     const { ready, user, setUser } = useContext(UserContext);
+    
     const [redirect, setRedirect] = useState(false);
     const [currentListLink, setCurrentListLink] = useState('');
     const [loading, setLoading] = useState(true);
@@ -63,10 +64,10 @@ export default function AccountPage() {
             document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
             setUser({ email: '', name: '', _id: '' });
-            setRedirect('/');
+            navigate('/login');
         }).catch(err => {
             setUser({ email: '', name: '', _id: '' });
-            setRedirect('/');
+            navigate('/login');
         });
         
     }

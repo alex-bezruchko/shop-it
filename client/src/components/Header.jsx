@@ -8,6 +8,7 @@ import axios from "axios";
 export default function Header() {
     const { user, setUser } = useContext(UserContext);
     const [showDropdown, setShowDropdown] = useState(false); // State for dropdown visibility
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
@@ -25,8 +26,10 @@ export default function Header() {
                 // document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 setShowDropdown(false);
                 setUser({ email: '', name: '', _id: '' });
+                navigate('/login');
             }).catch(err => {
                 setUser({ email: '', name: '', _id: '' });
+                navigate('/login');
             }); 
     }
 
