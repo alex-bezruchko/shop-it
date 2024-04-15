@@ -295,7 +295,7 @@ exports.initiatePasswordReset = async (req, res) => {
 exports.resetPassword = async (req, res) => {
     const { token, newPassword } = req.body;
     console.log('token', token)
-
+    let log;
     try {
         // Decode the token to get the email address
         const decodedToken = decodeToken(token);
@@ -310,12 +310,13 @@ exports.resetPassword = async (req, res) => {
 
         // Update user's password
         user.password = bcrypt.hashSync(newPassword, 10);
+        log = user;
         await user.save();
 
         res.status(200).json({ message: 'Password reset successfully' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.status(500).json({ message: `Internal Server Error, ${log}` });
     }
 };
 exports.logout = (req, res) => {
