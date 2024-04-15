@@ -22,11 +22,11 @@ export default function Header() {
             .then(res => {
                 console.log(res)
                 dispatch({ type: 'SET_ALERT', payload: {message: 'Logged out successfully', alertType: 'primaryGreen'} });
-                document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                // document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 setShowDropdown(false);
-                setUser(null);
+                setUser({ email: '', name: '', _id: '' });
             }).catch(err => {
-                setUser(null);
+                setUser({ email: '', name: '', _id: '' });
             }); 
     }
 

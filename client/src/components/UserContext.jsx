@@ -9,15 +9,20 @@ export function UserContextProvider({ children }) {
 
     useEffect(() => {
         // Run only once when component mounts
-        axios.get(`/users/profile`, { withCredentials: true })
+        if (!ready) {
+            axios.get(`/users/profile`, { withCredentials: true })
             .then(({ data }) => {
+                console.log('data', data)
                 setUser(data);
                 setReady(true);
             })
             .catch(error => {
                 setUser({ email: '', name: '', _id: '' });
+                setReady(false);
                 console.log(error);
             });
+        }
+        
     }, []); // Empty dependency array means it runs only once
 
     return (

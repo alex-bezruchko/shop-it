@@ -62,10 +62,10 @@ export default function AccountPage() {
             dispatch({ type: 'SET_ALERT', payload: {message: 'Logged out successfully', alertType: 'primaryGreen'} });
             document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-            setUser(null);
+            setUser({ email: '', name: '', _id: '' });
             setRedirect('/');
         }).catch(err => {
-            setUser(null);
+            setUser({ email: '', name: '', _id: '' });
             setRedirect('/');
         });
         
