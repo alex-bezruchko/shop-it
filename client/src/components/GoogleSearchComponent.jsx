@@ -244,7 +244,7 @@ const GoogleSearchComponent = () => {
         <div className="mt-6">
           <h1 className='lora text-3xl text-center mt-6'>Location</h1>
           {place && place.place_id &&(
-              <div className="w-full flex my-5 flex-col items-center justify-between bg-white rounded-lg shadow-lg py-3 px-3 border border-1 border-primaryBlue mb-4">
+              <div className="w-full flex my-5 flex-col items-center justify-between bg-white rounded-lg shadow-lg py-3 px-3 border border-[1.5px] border-primaryBlue mb-4">
                   <div className='flex w-full flex-col'>
                     <div className='flex justify-between'>
                       <h3 className="text-lg lora font-semibold pb-4">{place.name}</h3>
@@ -252,7 +252,7 @@ const GoogleSearchComponent = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
                       </svg> */}
                       <div className='flex flex-col items-end'>
-                        <span className={`ml-3 text-center border border-1 rounded min-w-[43px] max-h-[43px] p-2 ${
+                        <span className={`ml-3 text-center border border-[1.5px] rounded min-w-[43px] max-h-[43px] p-2 ${
                             place.rating < 3 ? 'border-primaryRed' : 
                             place.rating >= 3 && place.rating <= 4 ? 'border-primaryOrange' : 
                             'border-primaryGreen'

@@ -279,7 +279,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                     value={newName}
                                                     onChange={e => setNewName(e.target.value)}
                                                     id="name"
-                                                    className="editInline block w-full lora text-3xl rounded-md border-0 border-1 border-b-primaryBlue placeholder:text-gray-400 placeholder:lora  text-center py-0"
+                                                    className="editInline block w-full lora text-3xl rounded-md border-0 border-[1.5px] border-b-primaryBlue placeholder:text-gray-400 placeholder:lora  text-center py-0"
                                                     />
                                                 </div>
                                                 <div className="w-8 h-8"></div>

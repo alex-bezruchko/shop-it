@@ -149,7 +149,7 @@ export default function FriendDetailPage({listLoading}) {
           <div>
             {friend.lists.map(list => (
               <div key={list._id} className="flex w-full justify-between mt-5 ">
-                <div className={'flex w-full items-center justify-between bg-white rounded-lg shadow-lg py-2 h-24 px-3 border border-1 border-primaryBlue'}>
+                <div className={'flex w-full items-center justify-between bg-white rounded-lg shadow-lg py-2 h-24 px-3 border border-[1.5px] border-primaryBlue'}>
                     {/* <div className="flex w-full items-center w-full justify-between "> */}
                         <div className="mr-4 flex flex-col justify-between h-full">
                             <h2 className="text-left text-xl lora font-medium">{list.name}</h2>
@@ -198,13 +198,13 @@ export default function FriendDetailPage({listLoading}) {
           <div className="place-list">
             {friend.user.favoritePlaces.length !== 0 ? (
               friend.user.favoritePlaces.map(place => (
-                <div key={place.place_id} className="w-full flex my-5 flex-col items-center justify-between bg-white rounded-lg shadow-lg p-3 mb-4 border border-1 border-primaryBlue">
+                <div key={place.place_id} className="w-full flex my-5 flex-col items-center justify-between bg-white rounded-lg shadow-lg p-3 mb-4 border border-[1.5px] border-primaryBlue">
                   <div className='flex w-full flex-col'>
                   <div className='flex justify-between'>
                       <h3 className="text-lg lora font-semibold pb-4">{place.name}</h3>
                     
                       <div className='flex flex-col items-end'>
-                      <span className={`ml-3 text-center border border-1 rounded min-w-[43px] max-h-[43px] p-2 ${
+                      <span className={`ml-3 text-center border border-[1.5px] rounded min-w-[43px] max-h-[43px] p-2 ${
                           place.rating < 3 ? 'border-primaryRed' : 
                           place.rating >= 3 && place.rating <= 4 ? 'border-primaryOrange' : 
                           'border-primaryGreen'

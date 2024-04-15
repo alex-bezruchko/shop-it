@@ -48,7 +48,7 @@ function FavoritesList() {
             ) : (
                 <div className="user-list">
                     {places.map(place =>
-                        <div key={place.place_id} className="w-full flex my-5 flex-col items-center justify-between bg-white border border-1 border-primaryBlue rounded-lg shadow-lg py-3 px-3 mb-4">
+                        <div key={place.place_id} className="w-full flex my-5 flex-col items-center justify-between bg-white border border-[1.5px] border-primaryBlue rounded-lg shadow-lg py-3 px-3 mb-4">
                             <div className='flex w-full flex-col'>
                             <div className='flex justify-between'>
                                 <h3 className="text-lg lora font-semibold pb-4">{place.name}</h3>

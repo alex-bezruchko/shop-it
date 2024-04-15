@@ -102,7 +102,7 @@ function PendingRequests() {
                             </svg>
                         </div>
                         {friendRequests.map(request => (
-                        <div key={request.sender._id} className="flex items-center justify-between bg-white rounded-lg shadow-lg px-3 py-4 mb-4 border border-1 border-primaryBlue">
+                        <div key={request.sender._id} className="flex items-center justify-between bg-white rounded-lg shadow-lg px-3 py-4 mb-4 border border-[1.5px] border-primaryBlue">
                             <div className="h-full flex flex-col text-left justify-between">
                                 <h3 className="text-left text-lg font-medium lora self-start pb-3">{request.sender.name}</h3>
                                 <p className="text-left text-sm nunito">{request.sender.email}</p>
@@ -133,7 +133,7 @@ function PendingRequests() {
                             </svg>
                         </div>
                         {outgoingRequests.map(request => (
-                            <div key={request.receiver._id} className="flex items-center justify-between bg-white rounded-lg shadow-lg px-3 py-4 mb-4 border border-1 border-primaryBlue">
+                            <div key={request.receiver._id} className="flex items-center justify-between bg-white rounded-lg shadow-lg px-3 py-4 mb-4 border border-[1.5px] border-primaryBlue">
                                 <div className="flex flex-col items-center">
                                     <h3 className="text-left text-lg font-medium lora self-start pb-3">{request.receiver.name}</h3>
                                     <p className="text-left text-sm nunito">{request.receiver.email}</p>
