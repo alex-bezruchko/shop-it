@@ -250,7 +250,10 @@ exports.initiatePasswordReset = async (req, res) => {
         const token = jwt.sign({ email: user.email, timestamp: Date.now() }, process.env.JWT_SECRET);
 
         // Construct the password reset link with the token
-        const resetLink = `${process.env.LOCAL_URL}/password-reset?token=${token}`;
+        const resetLink = process.env.LOCAL_URL.includes("localhost:5173")
+        ? `${process.env.LOCAL_URL}-password-reset?token=${token}`
+        : `${process.env.LOCAL_URL}/password-reset?token=${token}`;
+
 
         // Send email with password reset link
         const transporter = nodemailer.createTransport({
