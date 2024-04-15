@@ -2,6 +2,8 @@ const User = require('../models/User');
 const ShoppingList = require('../models/ShoppingList');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const nodemailer = require('nodemailer');
+require('dotenv').config();
 
 const Pusher = require("pusher");
 
@@ -13,7 +15,6 @@ const pusher = new Pusher({
   useTLS: true
 });
 
-const jwtSecret = 'pass123';
 
 function sendNotification(channel, event, data) {
     pusher.trigger(channel, event, data);
@@ -77,7 +78,6 @@ exports.getFriendInfo = async (req, res) => {
         res.status(500).json({ message: "Internal Server Error" });
     }
 }
-
 
 exports.places = async (req, res) => {
     const userId = req.params.userId;
@@ -203,7 +203,7 @@ exports.login = async (req, res) => {
         const passOk = bcrypt.compareSync(password, user.password);
 
         if (passOk) {
-            const token = jwt.sign({ email: user.email, id: user._id }, jwtSecret);
+            const token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET);
             // Set the cookie with an expiration time and additional attributes
             res.cookie('token', token, { 
                 httpOnly: true, 
@@ -224,7 +224,7 @@ exports.profile = async (req, res) => {
     const { token } = req.cookies;
 
     if (token) {
-        jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+        jwt.verify(token, process.env.JWT_SECRET, {}, async (err, userData) => {
             if (err) throw err;
             const { name, email, _id } = await User.findById(userData.id);
             res.json({ name, email, _id });
@@ -234,6 +234,80 @@ exports.profile = async (req, res) => {
     }
 };
 
+exports.initiatePasswordReset = async (req, res) => {
+    const { email } = req.body;
+
+    try {
+        // Find the user by email
+        const user = await User.findOne({ email });
+
+        // If user not found, return error
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Generate a JWT token with user's email and current timestamp
+        const token = jwt.sign({ email: user.email, timestamp: Date.now() }, process.env.JWT_SECRET);
+
+        // Construct the password reset link with the token
+        const resetLink = `${process.env.LOCAL_URL}/password-reset?token=${token}`;
+
+        // Send email with password reset link
+        const transporter = nodemailer.createTransport({
+            host: process.env.NODE_SMTP_SERVER,
+            port: 587, // or 465 for SSL
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: process.env.NODE_MAILER, // Your Gmail email address
+                pass: process.env.NODE_MAILER_KEY // Your Gmail password or app-specific password
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.NODE_MAILER, // Sender email
+            to: email,
+            subject: 'Password Reset Request',
+            text: `You are receiving this email because you (or someone else) has requested to reset the password for your account.\n\n
+            Please click on the following link, or paste it into your browser to complete the process:\n\n
+            ${resetLink}\n\n
+            If you did not request this, please ignore this email and your password will remain unchanged.\n`
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).json({ message: 'Password reset link sent successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
+
+exports.resetPassword = async (req, res) => {
+    const { token, newPassword } = req.body;
+    console.log('token', token)
+
+    try {
+        // Decode the token to get the email address
+        const decodedToken = decodeToken(token);
+
+        // Find the user by email
+        const user = await User.findOne({ email: decodedToken.email });
+
+        // If user not found or token is invalid, return error
+        if (!user || !isValidToken(decodedToken)) {
+            return res.status(400).json({ message: 'Invalid or expired token' });
+        }
+
+        // Update user's password
+        user.password = bcrypt.hashSync(newPassword, 10);
+        await user.save();
+
+        res.status(200).json({ message: 'Password reset successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+};
 exports.logout = (req, res) => {
     res.cookie('token', '').json(true);
 };
@@ -317,7 +391,6 @@ exports.send = async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 };
-
 
 exports.accept = async (req, res) => {
     const { userId, requesterId } = req.params;
@@ -434,4 +507,24 @@ async function areUsersFriends(userId, friendId) {
 
     // Check if the friendId exists in the user's friends array
     return user.friends.some(friend => friend._id.toString() === friendId);
+}
+
+function decodeToken(token) {
+    console.log('12324', token)
+    try {
+        // Decode the token to extract email and id
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('decodedToken', decodedToken)
+        return decodedToken;
+    } catch (error) {
+        // Handle token verification errors
+        throw new Error('Invalid token');
+    }
+}
+
+function isValidToken(decodedToken) {
+    // Check if the token is still valid (e.g., not expired)
+    const currentTime = Date.now();
+    const tokenExpirationTime = decodedToken.timestamp + (24 * 60 * 60 * 1000); // Token expires in 24 hours
+    return currentTime < tokenExpirationTime;
 }

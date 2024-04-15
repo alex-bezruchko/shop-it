@@ -6,6 +6,10 @@ router.post('/register', UserController.register);
 router.post('/login', UserController.login);
 router.get('/profile', UserController.profile);
 router.post('/logout', UserController.logout);
+router.post('/initiate-reset-password', UserController.initiatePasswordReset);
+router.post('/password-reset', UserController.resetPassword);
+
+
 router.get('/all', UserController.getAll);
 router.post('/send-request/:friendId', UserController.send);
 router.post('/accept-request/:userId/:requesterId', UserController.accept);
