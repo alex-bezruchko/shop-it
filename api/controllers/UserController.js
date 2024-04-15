@@ -277,10 +277,10 @@ exports.initiatePasswordReset = async (req, res) => {
 
         await transporter.sendMail(mailOptions);
 
-        res.status(200).json({ message: `Password reset link sent successfully, ${resetLink}`});
+        res.status(200).json({ message: `Password reset link sent successfully`});
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: `Internal Server Error ${resetLink}`});
+        res.status(500).json({ message: `Internal Server Error`});
     }
 };
 
