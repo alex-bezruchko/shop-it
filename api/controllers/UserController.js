@@ -309,7 +309,6 @@ exports.initiatePasswordReset = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
     const { token, newPassword } = req.body;
-    console.log('token', token)
     let log;
     try {
         // Decode the token to get the email address
@@ -346,9 +345,6 @@ exports.send = async (req, res) => {
     const { userId } = req.body;
     let receiverId = friendId;
     let senderId = userId;
-
-    console.log('senderId', senderId);
-    console.log('receiverId', receiverId);
 
     try {
         // Find sender and receiver
