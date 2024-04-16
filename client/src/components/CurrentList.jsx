@@ -73,20 +73,24 @@ export default function CurrentList({listLoading, isLoading}) {
     }
     
     async function addToList(product) {
-    
-        // Ensure that the state is updated based on the latest value
+        console.log('product', product); // Logging the product correctly
+        
         setCurrentList(prevList => {
             const isDuplicate = prevList.products.some(p => p.product._id === product._id);
             
             if (!isDuplicate) {
                 const updatedProducts = [...prevList.products, { product, completed: false }];
-                return { ...prevList, products: updatedProducts };
+                const updatedList = { ...prevList, products: updatedProducts }; // Updated list
+                
+                // Call updateShoppingList with the updated list
+                updateShoppingList(updatedList);
+                
+                return updatedList; // Return the updated list
             }
             
             return prevList;
         });
     }
-    
     
     async function checkItemFromList(itemId) {
         setIdLoaded(itemId);
