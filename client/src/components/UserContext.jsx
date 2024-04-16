@@ -12,7 +12,6 @@ export function UserContextProvider({ children }) {
         if (!ready) {
             axios.get(`/users/profile`, { withCredentials: true })
             .then(({ data }) => {
-                console.log('data', data)
                 setUser(data);
                 setReady(true);
             })
