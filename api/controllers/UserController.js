@@ -185,6 +185,30 @@ exports.register = async (req, res) => {
             email,
             password: bcrypt.hashSync(password, 10),
         });
+        resetLink = url.resolve(process.env.LOCAL_URL, "/login");
+
+        // Send email with password reset link
+        const transporter = nodemailer.createTransport({
+            host: process.env.NODE_SMTP_SERVER,
+            port: 587, // or 465 for SSL
+            secure: false, // true for 465, false for other ports
+            auth: {
+                user: process.env.NODE_MAILER, // Your Gmail email address
+                pass: process.env.NODE_MAILER_KEY // Your Gmail password or app-specific password
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.NODE_MAILER, // Sender email
+            to: email,
+            subject: 'Welcome to Shopit',
+            text: `You are receiving this email because you (or someone else) has requested to reset the password for your account.\n\n
+            Please click on the following link, or paste it into your browser to complete the process:\n\n
+            ${resetLink}\n\n
+            If you did not request this, please ignore this email and your password will remain unchanged.\n`
+        };
+
+        await transporter.sendMail(mailOptions);
         res.status(201).json(newUser);
     } catch (error) {
         res.status(422).json({ message: 'Failed to register user', error });
