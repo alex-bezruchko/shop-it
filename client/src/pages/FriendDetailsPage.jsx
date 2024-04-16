@@ -71,7 +71,7 @@ export default function FriendDetailPage({listLoading}) {
     try {
       const response = await axios.post(`/users/user/${user._id}/places`, { place });
       if (response) {
-        dispatch({ type: 'SET_ALERT', payload: {message: response.data.message, alertType: 'green'} });
+        dispatch({ type: 'SET_ALERT', payload: {message: response.data.message, alertType: 'primaryGreen'} });
         setPlace(prevValues => ({
           ...prevValues,
           favorite: !prevValues.favorite
@@ -106,7 +106,7 @@ export default function FriendDetailPage({listLoading}) {
     try {
       const response = await axios.post(`/users/${listId}/copy`, { userId: user._id });
       if (response) {
-        dispatch({ type: 'SET_ALERT', payload: {message: response.data.message, alertType: 'green'} });
+        dispatch({ type: 'SET_ALERT', payload: {message: response.data.message, alertType: 'primaryGreen'} });
         setCopyLoading(false);
         setIdLoading('');
       }
