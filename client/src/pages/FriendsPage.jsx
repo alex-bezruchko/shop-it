@@ -3,24 +3,37 @@ import { UserContext } from "../components/UserContext";
 import { Navigate, Link, useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import FriendList from "../components/FriendsList";
+import FriendsSearch from "../components/FriendsSearch";
 import PendingRequests from "../components/PendingRequests";
 import CurrentFriendsList from "../components/CurrentFriendsList";
 import FriendDetailPage from "./FriendDetailsPage";
 import Pusher from 'pusher-js';
 
-// import { connect } from 'react-redux';
-// import { setAlert } from '../../src/actions/alertActions';
-
 export default function FriendsPage() {
-    const [friendId, setFriendId] = useState(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { ready, user, setUser } = useContext(UserContext);
-    let {subpage} = useParams();
+    const { ready, user } = useContext(UserContext);
+    let { subpage } = useParams();
+    
+    const [friendId, setFriendId] = useState(null);
     const [listLoading, setListLoading] = useState(false);
+    const [friends, setFriends] = useState([]);
 
     useEffect(() => {
+        const fetchFriends = async () => {
+            try {
+                setListLoading(true);
+                const response = await axios.get(`/users/friends/${user._id}`);
+                setFriends(response.data);
+            } catch (error) {
+                console.error("Error fetching friends: ", error);
+            } finally {
+                setListLoading(false);
+            }
+        };
+        
+        fetchFriends();
+    
         // Initialize Pusher with your Pusher app key
         const pusher = new Pusher(`${import.meta.env.VITE_PUSHER_APP_KEY}`, {
             cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
@@ -48,16 +61,13 @@ export default function FriendsPage() {
         channel.bind('receiver-request-denied', data => {
             dispatch({ type: 'SET_ALERT', payload: { message: 'Friend request denied successfully', alertType: 'primaryOrange' } });
         });
-    
-    
-    
-    
+
         // Clean up subscription when component unmounts
         return () => {
             channel.unbind(); // Unbind from all events
             pusher.unsubscribe(`user-${user._id}`);
         };
-    }, []); // Dependency array to ensure effect runs only once
+    }, [user._id, dispatch]); // Dependency array to ensure effect runs only once
     
     if (subpage === undefined) {
         subpage = 'find';
@@ -145,13 +155,13 @@ export default function FriendsPage() {
                  <div className="w-full">
                      {subpage === 'find' && (
                         <div className="flex flex-col text-center">
-                            <FriendList />
+                            <FriendsSearch friends={friends}/>
                         </div>
                      )}
 
                     {subpage === 'current' && (
                         <div className="flex flex-col text-center">
-                            <CurrentFriendsList handleFriendClick={handleFriendClick}  isLoading={listLoading} listLoading={updateLoading}/>
+                            <CurrentFriendsList friends={friends} handleFriendClick={handleFriendClick}  isLoading={listLoading}/>
                         </div>
                      )}
 
@@ -165,7 +175,7 @@ export default function FriendsPage() {
 
                     {subpage === 'pending' && (
                          <div className="flex flex-col text-center">
-                            <PendingRequests isLoading={listLoading} listLoading={updateLoading}/>
+                            <PendingRequests updateFriends={setFriends} isLoading={listLoading} listLoading={updateLoading}/>
                          </div>
                      )}
                  </div>

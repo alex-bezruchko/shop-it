@@ -60,6 +60,7 @@ function PendingRequests() {
             const response = await axios.get(`/users/${user._id}/pending-requests`);
             const { friendRequests, outgoingRequests } = response.data;
             setFriendRequests(friendRequests);
+            console.log('outgoingRequests', outgoingRequests)
             setOutgoingRequests(outgoingRequests);
         } catch (error) {
             console.error(error);
