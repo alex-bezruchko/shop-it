@@ -16,15 +16,17 @@
   stroke: #b5e2fa;
 }
 
-.primaryGreen {
-  stroke: rgba(70, 153, 78 );
+.green {
+  stroke: #A5DD9B;
 }
-
+.primaryGray {
+  stroke: #C7C8CC;
+}
 .primaryRed {
   stroke: '#ad2831'
 }
-.border-primaryGreen {
-  border-color: rgba(70, 153, 78 );
+.border-green {
+  border-color: #A5DD9B;
 }
 .border-primaryRed {
   border-color: #ad2831;
@@ -37,6 +39,9 @@
 }
 .bg-lightOrange {
   background: rgba(247,160, 114, 0.2);
+}
+.bg-primaryGray {
+  background: #C7C8CC;
 }
 
 .listProduct {
