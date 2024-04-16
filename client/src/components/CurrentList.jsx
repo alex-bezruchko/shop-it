@@ -230,6 +230,10 @@ export default function CurrentList({listLoading, isLoading}) {
             ...prevState,
             products: updatedProducts
         }));
+        updateShoppingList({
+            ...currentList,
+            products: updatedProducts
+        });
     }
         
     return (
