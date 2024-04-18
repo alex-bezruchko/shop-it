@@ -32,18 +32,17 @@ export default function AccountPage() {
     
     let {subpage} = useParams();
 
-   
-
     if (subpage === undefined) {
         subpage = 'profile';
     }
+
     if (!ready) {
         let htmlString = '<div><img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" class="size-10 mx-auto mb-6"></div>'
         return (
-            
             <div dangerouslySetInnerHTML={{ __html: htmlString }} />
         )
     }
+
     if (ready && !user) {
         return <Navigate to={'/login'}/>
     }
@@ -55,40 +54,27 @@ export default function AccountPage() {
         }
         return classes
     }
-    
-    async function logOut() {
-        axios.post(`/users/logout`)
-        .then(res => {
-            console.log(res)
-            dispatch({ type: 'SET_ALERT', payload: {message: 'Logged out successfully', alertType: 'primaryGreen'} });
-            document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
-            setUser({ email: '', name: '', _id: '' });
-            navigate('/login');
-        }).catch(err => {
-            setUser({ email: '', name: '', _id: '' });
-            navigate('/login');
-        });
-        
-    }
 
     async function handleRoute(id) {
         subpage = 'current';
         navigate(`/account/current/${id}`);
     }
+
     async function updateCurrentLink(id) {
         setCurrentListLink(id);
     }
+
     if (redirect) {
         return <Navigate to={redirect}/>
     }
+
     function updateLoading(boolean) {
         setListLoading(boolean)
     }
+
     return (
         <div>
              <div className="flex justify-center">
-
                 <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-8 mb-8 text-md">
                     <Link 
                         className={linkClasses('profile')}
@@ -131,11 +117,6 @@ export default function AccountPage() {
                         {!loading && (
                             <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} listLoading={updateLoading} />
                         )}
-                        
-                        <div className="text-center nunito max-w-lg mx-auto mt-10">
-                            Logged in as {user.name}, {user.email}
-                            <button className="primaryBlue mt-5 ml-5" onClick={logOut}>Logout</button>
-                        </div>
                     </div>
                     )}
                     {subpage === 'new' && (
