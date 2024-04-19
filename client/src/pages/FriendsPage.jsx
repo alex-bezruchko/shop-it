@@ -7,11 +7,12 @@ import FriendsSearch from "../components/FriendsSearch";
 import PendingRequests from "../components/PendingRequests";
 import CurrentFriendsList from "../components/CurrentFriendsList";
 import FriendDetailPage from "./FriendDetailsPage";
-import Pusher from 'pusher-js';
+import { useRequestContext } from './../components/RequestContext'; // Correct import
 
 export default function FriendsPage() {
-    const dispatch = useDispatch();
     const navigate = useNavigate();
+    const dispatch = useDispatch(); // Add this line
+    const alertDispatch = useDispatch();
     const { ready, user } = useContext(UserContext);
     let { subpage } = useParams();
     
@@ -19,63 +20,38 @@ export default function FriendsPage() {
     const [listLoading, setListLoading] = useState(false);
     const [friends, setFriends] = useState([]);
 
+    const requests = useRequestContext();
+    const friendRequests = requests.requests.friendRequests;
+    const outgoingRequests = requests.requests.outgoingRequests;
+
+    const fetchFriends = async () => {
+        try {
+            setListLoading(true);
+            const response = await axios.get(`/users/friends/${user._id}`);
+            setFriends(response.data);
+        } catch (error) {
+            console.error("Error fetching friends: ", error);
+        } finally {
+            setListLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const fetchFriends = async () => {
-            try {
-                setListLoading(true);
-                const response = await axios.get(`/users/friends/${user._id}`);
-                setFriends(response.data);
-            } catch (error) {
-                console.error("Error fetching friends: ", error);
-            } finally {
-                setListLoading(false);
-            }
-        };
-        
+        if (user._id) {
+            fetchFriends();
+        }
+    }, [user._id]);
+    
+    useEffect(() => {
         fetchFriends();
-    
-        // Initialize Pusher with your Pusher app key
-        const pusher = new Pusher(`${import.meta.env.VITE_PUSHER_APP_KEY}`, {
-            cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-            // encrypted: true // Uncomment if you want to enable encrypted communication
-        });
-    
-        // Subscribe to private channel for user's pending requests
-        const channel = pusher.subscribe(`user-${user._id}`);
+    }, [friendRequests, outgoingRequests])
 
-        channel.bind('friend-request', data => {
-            console.log("Friend request received:", data);
-            dispatch({ type: 'SET_ALERT', payload: { message: 'You have a friend request', alertType: 'primaryGreen' } });
-        });
-    
-        // Bind to event for friend request received
-        channel.bind('sender-request-accepted', data => {
-            dispatch({ type: 'SET_ALERT', payload: { message: 'You request has been accepted', alertType: 'primaryGreen' } });
-        });
-        channel.bind('receiver-request-accepted', data => {
-            dispatch({ type: 'SET_ALERT', payload: { message: 'Friend added successfully', alertType: 'primaryGreen' } });
-        });
-        channel.bind('sender-request-denied', data => {
-            dispatch({ type: 'SET_ALERT', payload: { message: 'You friend request has been denied', alertType: 'primaryOrange' } });
-        });
-        channel.bind('receiver-request-denied', data => {
-            dispatch({ type: 'SET_ALERT', payload: { message: 'Friend request denied successfully', alertType: 'primaryOrange' } });
-        });
-
-        // Clean up subscription when component unmounts
-        return () => {
-            channel.unbind(); // Unbind from all events
-            pusher.unsubscribe(`user-${user._id}`);
-        };
-    }, [user._id, dispatch]); // Dependency array to ensure effect runs only once
-    
     if (subpage === undefined) {
         subpage = 'find';
     }
     if (!ready) {
         let htmlString = '<div><img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" class="size-10 mx-auto mb-6"></div>'
         return (
-            
             <div dangerouslySetInnerHTML={{ __html: htmlString }} />
         )
     }
@@ -83,7 +59,6 @@ export default function FriendsPage() {
         return <Navigate to={'/login'}/>
     }
   
-    
     function linkClasses(type=null) {
         let classes = 'w-full nunito text-md sm:text-lg items-center flex justify-around sm:justify-evenly py-2 px-1 sm:px-2';
         if (type === subpage) {
@@ -107,12 +82,12 @@ export default function FriendsPage() {
             {/* <nav className="w-medium flex justify-around mt-16 mb-12">
              */}
              <div className="flex justify-center">
-             
                 <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-8 mb-8">
                     <Link 
                         className={linkClasses('find')}
-                        to={'/friends/find'}>
-                            Find
+                        to={'/friends/find'}
+                        style={{ width: 'fit-content', paddingLeft: '.5rem', paddingRight: '.5rem' }}>
+                            Add
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-5 h-5 sm:w-6 sm:h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                             </svg>
@@ -155,24 +130,19 @@ export default function FriendsPage() {
                  <div className="w-full">
                      {subpage === 'find' && (
                         <div className="flex flex-col text-center">
-                            <FriendsSearch friends={friends}/>
+                            <FriendsSearch friends={friends} friendRequests={friendRequests} outgoingRequests={outgoingRequests} />
                         </div>
                      )}
-
                     {subpage === 'current' && (
                         <div className="flex flex-col text-center">
                             <CurrentFriendsList friends={friends} handleFriendClick={handleFriendClick}  isLoading={listLoading}/>
                         </div>
                      )}
-
-                    
-                     {/* Render FriendDetailPage if subpage is friendId */}
                      {subpage === 'friend' && (
                         <div className="flex flex-col text-center">
                             <FriendDetailPage  isLoading={listLoading} listLoading={updateLoading}/>
                         </div>
                     )}
-
                     {subpage === 'pending' && (
                          <div className="flex flex-col text-center">
                             <PendingRequests updateFriends={setFriends} isLoading={listLoading} listLoading={updateLoading}/>
