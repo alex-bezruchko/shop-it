@@ -430,7 +430,7 @@ exports.send = async (req, res) => {
         res.status(200).json(outgoingRequest);
 
         // Send Pusher notification to receiver
-        sendNotification(`user-${receiverId}`, 'friend-request', { 
+        sendNotification(`user-${receiverId}`, 'friend-request-received', { 
             message: 'You received a friend request.', 
             friendRequest: {
                 _id: friendRequest._id,
@@ -515,8 +515,8 @@ exports.accept = async (req, res) => {
 
         await transporter.sendMail(mailOptions);
 
-        sendNotification(`user-${userId}`, 'receiver-request-accepted', { message: 'Your friend request has been accepted.', receiver: requesterId });
-        sendNotification(`user-${requesterId}`, 'sender-request-accepted', { message: 'You are now friends.', sender: userId });
+        sendNotification(`user-${userId}`, 'receiver-request-accepted', { message: 'You are now friends.', receiver: requesterId });
+        sendNotification(`user-${requesterId}`, 'sender-request-accepted', { message: 'Your friend request has been accepted.', sender: userId });
 
     } catch (error) {
         console.error(error);

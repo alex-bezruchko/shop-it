@@ -9,7 +9,7 @@ export const RequestContext = createContext(); // Define the context
 
 export const RequestContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(requestReducer, initialState);
-  const { user } = useContext(UserContext) || {}; // Get user from UserContext
+  const { user } = useContext(UserContext); // Get user from UserContext
   const alertDispatch = useDispatch();
 
   useEffect(() => {
@@ -21,13 +21,13 @@ export const RequestContextProvider = ({ children }) => {
         dispatch({ type: 'FETCH_PENDING_REQUESTS_FAILURE', payload: { friendRequests: [], outgoingRequests: []} });
       }
     };
-    if (user._id) {
+    if (user && user._id) {
       fetchPendingRequests();
       initializePusher(user._id); // Initialize Pusher here
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user._id]);
+  }, [user]);
 
 
   function initializePusher(userId) {
@@ -49,19 +49,33 @@ export const RequestContextProvider = ({ children }) => {
       const newChannel = pusher.subscribe(`user-${userId}`);
       localStorage.setItem('channel', newChannel.name);
     });
-
-    channel.bind('sender-request-accepted', data => {
-      dispatch({ type: 'SET_NEW_OUTGOING_REQUESTS', payload: data.sender });
-      alertDispatch({ type: 'SET_ALERT', payload: { message: 'Your request has been accepted', alertType: 'primaryGreen' } });
-    });
+  
+    // YOUR REQUEST HAS BEEN SENT
     channel.bind('friend-request-submitted', data => {
       dispatch({ type: 'SET_ADD_NEW_OUTGOING_REQUEST', payload: data.outgoingRequest });
       alertDispatch({ type: 'SET_ALERT', payload: { message: 'Your request has been sent', alertType: 'primaryGreen' } });
     });
 
+    // YOU RECEIVED A FRIEND REQUEST
+    channel.bind('friend-request-received', data => {
+      // console.log('data', data)
+      dispatch({ type: 'SET_FRIEND_REQUEST_RECEIVED', payload: data.friendRequest });
+      alertDispatch({ type: 'SET_ALERT', payload: { message: 'Your received a friend request', alertType: 'primaryGreen' } });
+    });
+    
+    // FRIEND ADDED SUCCESSFULLY
     channel.bind('receiver-request-accepted', data => {
-      dispatch({ type: 'SET_NEW_FRIEND_REQUEST', payload: data.receiver });
+      console.log('receiver-request-accepted', data)
+      dispatch({ type: 'SET_FRIEND_REQUEST_ACCEPTED', payload: data.receiver });
       alertDispatch({ type: 'SET_ALERT', payload: { message: 'Friend added successfully', alertType: 'primaryGreen' } });
+      
+    });
+
+    // YOUR REQUEST HAS BEEN ACCEPTED
+    channel.bind('sender-request-accepted', data => {
+      console.log('sender-request-accepted', data)
+      dispatch({ type: 'SET_YOUR_REQUEST_ACCEPTED', payload: data.sender });
+      alertDispatch({ type: 'SET_ALERT', payload: { message: 'Your request has been accepted', alertType: 'primaryGreen' } });
     });
 
     channel.bind('sender-request-denied', data => {
@@ -74,10 +88,10 @@ export const RequestContextProvider = ({ children }) => {
       alertDispatch({ type: 'SET_ALERT', payload: { message: 'Friend request denied successfully', alertType: 'primaryOrange' } });
     });
 
-    channel.bind('friend-request', data => {
-      dispatch({ type: 'SET_FRIEND_REQUEST', payload: data.friendRequest });
-      alertDispatch({ type: 'SET_ALERT', payload: { message: 'You received a friend request.', alertType: 'primaryGreen' } });
-    });
+    // channel.bind('friend-request', data => {
+    //   dispatch({ type: 'SET_FRIEND_REQUEST', payload: data.friendRequest });
+    //   alertDispatch({ type: 'SET_ALERT', payload: { message: 'You received a friend request.', alertType: 'primaryGreen' } });
+    // });
 
     localStorage.setItem('pusherConnectionMade', 'true');
     localStorage.setItem('channel', channel.name);

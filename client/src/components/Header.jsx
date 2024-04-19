@@ -34,7 +34,7 @@ export default function Header() {
             setShowDot(false)
         }
         
-    }, [user._id, requests.requests])
+    }, [user, requests.requests])
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
