@@ -1,8 +1,10 @@
 // reducers/index.js
 import { combineReducers } from 'redux';
 import productReducer from './productReducer';
-import placeReducer, { queryReducer, placesReducer, coordinateReducer } from './placesReducer';
+import placeReducer, { queryReducer, placesReducer, coordinateReducer} from './placesReducer';
 import alertstReducer from './alertsReducer';
+import requestReducer from './requestReducer';
+
 
 const rootReducer = combineReducers({
   products: productReducer,
@@ -10,7 +12,8 @@ const rootReducer = combineReducers({
   place: placeReducer,
   places: placesReducer,
   coord: coordinateReducer,
-  query: queryReducer
+  query: queryReducer,
+  requests: requestReducer
 });
 
 export default rootReducer;

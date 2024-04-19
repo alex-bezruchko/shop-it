@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import {UserContextProvider} from './components/UserContext.jsx';
 import { PlaceProvider } from './components/PlaceContext.jsx';
+import { RequestContextProvider } from './components/RequestContext.jsx'; // Import RequestContextProvider
 import AccountPage from './pages/AccountPage.jsx';
 import IndexPage from './pages/IndexPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
@@ -26,26 +27,24 @@ function App() {
     <Provider store={store}>
       <UserContextProvider>
         <PlaceProvider>
-          <LoadScript googleMapsApiKey={googleApiKey}>
-            <Routes>
-              <Route path="/" element={<Layout/>}>
-                <Route index element={<AccountPage/>}/>
-                <Route path="/login" element={<LoginPage/>}/>
-                <Route path="/register" element={<RegisterPage/>}/>
-                <Route path="/password-request" element={<ResetPasswordPage/>}/>
-                {/* <Route path="/password-reset/:token?" element={<NewPasswordPage/>}/> */}
-                <Route path="/password-reset" element={<NewPasswordPage />} />
-
-                
-                {/* <Route path="/stores" element={<StoresPage/>}/> */}
-                <Route path="/account/:subpage?" element={<AccountPage/>}/>
-                <Route path="/account/:subpage?/:listId" element={<AccountPage/>}/>
-                <Route path="/friends/:subpage?" element={<FriendsPage/>}/>
-                <Route path="/friends/:subpage?/:friendId" element={<FriendsPage />} />
-                <Route path="/places/:subpage?" element={<PlacesPage/>}/>
-              </Route>
-            </Routes>
-          </LoadScript>
+          <RequestContextProvider>
+            <LoadScript googleMapsApiKey={googleApiKey}>
+              <Routes>
+                <Route path="/" element={<Layout/>}>
+                  <Route index element={<AccountPage/>}/>
+                  <Route path="/login" element={<LoginPage/>}/>
+                  <Route path="/register" element={<RegisterPage/>}/>
+                  <Route path="/password-request" element={<ResetPasswordPage/>}/>
+                  <Route path="/password-reset" element={<NewPasswordPage />} />
+                  <Route path="/account/:subpage?" element={<AccountPage/>}/>
+                  <Route path="/account/:subpage?/:listId" element={<AccountPage/>}/>
+                  <Route path="/friends/:subpage?" element={<FriendsPage/>}/>
+                  <Route path="/friends/:subpage?/:friendId" element={<FriendsPage />} />
+                  <Route path="/places/:subpage?" element={<PlacesPage/>}/>
+                </Route>
+              </Routes>
+            </LoadScript>
+          </RequestContextProvider>
         </PlaceProvider>
       </UserContextProvider>
     </Provider>

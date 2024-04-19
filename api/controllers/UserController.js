@@ -309,7 +309,6 @@ exports.initiatePasswordReset = async (req, res) => {
 
 exports.resetPassword = async (req, res) => {
     const { token, newPassword } = req.body;
-    console.log('token', token)
     let log;
     try {
         // Decode the token to get the email address
@@ -346,9 +345,6 @@ exports.send = async (req, res) => {
     const { userId } = req.body;
     let receiverId = friendId;
     let senderId = userId;
-
-    console.log('senderId', senderId);
-    console.log('receiverId', receiverId);
 
     try {
         // Find sender and receiver
@@ -421,7 +417,17 @@ exports.send = async (req, res) => {
             _id: sender._id
         };
 
-        res.status(200).json({ friendRequests: [friendRequest], outgoingRequests: [] });
+        const outgoingRequest = {
+            receiver: {
+                _id: receiver._id,
+                name: receiver.name,
+                email: receiver.email
+            },
+            status: newRequest.status,
+            _id: receiver._id
+        };
+
+        res.status(200).json(outgoingRequest);
 
         // Send Pusher notification to receiver
         sendNotification(`user-${receiverId}`, 'friend-request', { 
@@ -434,6 +440,21 @@ exports.send = async (req, res) => {
                     email: sender.email
                 },
                 receiver: receiverId,
+                status: 'pending'
+            }
+        });
+        // Send Pusher notification to sender
+
+        sendNotification(`user-${sender._id}`, 'friend-request-submitted', { 
+            message: 'You submitted a friend request.', 
+            outgoingRequest: {
+                _id: receiver._id,
+                receiver: {
+                    _id: receiver._id,
+                    name: receiver.name,
+                    email: receiver.email
+                },
+                sender: sender._id,
                 status: 'pending'
             }
         });
