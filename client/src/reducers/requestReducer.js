@@ -9,9 +9,7 @@ const requestReducer = (state = initialState, action) => {
   switch (action.type) {
       case "SET_ADD_NEW_OUTGOING_REQUEST":
       const newRequest = action.payload;
-      // Check if the new request already exists in the outgoingRequests array
-      const isDuplicate = state.requests.outgoingRequests.some(request => request.receiver._id === newRequest.receiver._id);
-  
+      const isDuplicate = state.requests.outgoingRequests.filter(request => request.receiver._id === newRequest.receiver._id).length > 0;
       if (isDuplicate) {
           // If the request is a duplicate, return the current state without modifying it
           return state;
@@ -27,7 +25,7 @@ const requestReducer = (state = initialState, action) => {
           return newState;
       }
     
-    case "SET_NEW_FRIEND_REQUEST":
+    case "SET_ADD_NEW_FRIEND_REQUEST":
       return {
         ...state,
         requests: {
@@ -37,16 +35,45 @@ const requestReducer = (state = initialState, action) => {
           ),
         },
       };
-    case "SET_NEW_OUTGOING_REQUESTS":
+    
+    case "SET_FRIEND_REQUEST_RECEIVED":
+      const newFriendRequest = action.payload;
+      const isDuplicateFriend = state.requests.friendRequests.filter(request => request.sender._id === newFriendRequest.sender._id).length > 0;
+      if (isDuplicateFriend) {
+          // If the request is a duplicate, return the current state without modifying it
+          return state;
+      } else {
+          // If the request is not a duplicate, add it to the outgoingRequests array
+          const newState = {
+              ...state,
+              requests: {
+                  ...state.requests,
+                  friendRequests: [...state.requests.friendRequests, newFriendRequest],
+              },
+          };
+          return newState;
+      }
+    case "SET_FRIEND_REQUEST_ACCEPTED":
       return {
         ...state,
         requests: {
           ...state.requests,
-          outgoingRequests: state.requests.outgoingRequests.filter(
-            request => request.receiver._id !== action.payload
+          friendRequests: state.requests.friendRequests.filter(
+            request => request.sender._id !== action.payload
           ),
         },
       };
+
+    case "SET_YOUR_REQUEST_ACCEPTED":
+        return {
+          ...state,
+          requests: {
+            ...state.requests,
+            outgoingRequests: state.requests.outgoingRequests.filter(
+              request => request.receiver._id !== action.payload
+            ),
+          },
+        };
     case "SET_SENDER_REQUEST_DENIAL":
         return {
           ...state,
