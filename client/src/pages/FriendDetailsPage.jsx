@@ -138,9 +138,10 @@ export default function FriendDetailPage({listLoading}) {
   return (
    
     <div>
-      <div className="tabs flex justify-around">
-        <button onClick={() => setActiveTab('lists')} className={activeTab === 'lists' || activeTab === 'list' ? 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists'}>Lists</button>
-        <button onClick={() => setActiveTab('places')} className={activeTab === 'places' ? 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists'}>Places</button>
+      {friend && (<h2 className='text-center lora text-3xl'> {friend.user.name.charAt(0).toUpperCase() + friend.user.name.slice(1)}</h2>)}
+      <div className="tabs flex justify-around my-5">
+        <button onClick={() => setActiveTab('lists')} className={activeTab === 'lists' || activeTab === 'list' ? 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists'}>Lists</button>
+        <button onClick={() => setActiveTab('places')} className={activeTab === 'places' ? 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists'}>Places</button>
       </div>
       {activeTab === 'lists' && (
         friend.lists.length !== 0 ? (
