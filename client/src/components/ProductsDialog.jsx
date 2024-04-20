@@ -200,7 +200,7 @@ import {
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-white">
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-sm overflow-y-auto p-0 flex justify-between" style={{ width: '90%', height: '100%', maxHeight: '95%' }}>
 
-                        <div className="mt-0 grid grid-cols-1 gap-y-2 sm:gap-x-6 sm:gap-y-6 grid-cols-1 overflow-y-scroll w-full">
+                        <div className="mt-0 grid grid-cols-1 gap-y-1 sm:gap-x-6 sm:gap-y-6 grid-cols-1 overflow-y-scroll w-full">
                             <div className="flex flex-col">
                                 <div className="mx-0">
                                 
@@ -209,11 +209,11 @@ import {
                                     )}
                                 </div>
                             </div>
-                            <h2 className="primaryBlue mt-0 lora text-3xl md:text-xl flex-shrink-0 ml-2 mr-0" onClick={formType === 'create' ? createProduct : editProduct}>{formType === 'create' ? 'New Product' : 'Edit Product'}</h2>
+                            <h2 className="text-center flex items-center justify-center w-full primaryBlue mt-0 lora text-3xl md:text-xl" onClick={formType === 'create' ? createProduct : editProduct}>{formType === 'create' ? 'New Product' : 'Edit Product'}</h2>
                             
-                            <div className="sm:col-span-3">
-                                <label htmlFor="name" className="block text-sm nunito font-medium leading-6 text-gray-900">Name</label>
-                                <div className="mt-2">
+                            <div className="sm:col-span-3 flex flex-col">
+                                <label htmlFor="name" className="w-full text-sm nunito font-medium leading-6 text-gray-900">Name</label>
+                                <div className="w-full mt-2">
                                     <input
                                         type="text"
                                         name="name"
@@ -268,7 +268,7 @@ import {
                                         </div>
                                     )}
                                     <div className={`w-${photo ? '1/2' : 'full'} flex flex-col h-full justify-left`}>
-                                        <FileUpload setFile={handleImageSelect} />
+                                        <FileUpload setFile={handleImageSelect} photo={photo}/>
                                     </div>
                                 </div>
                             </div>

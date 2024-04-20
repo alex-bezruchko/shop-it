@@ -25,7 +25,6 @@ function ImageSearch({ addPhoto }) {
                     page: pageNumber
                 }
             });
-            console.log(response)
             setResults(prevResults => [...prevResults, ...response.data.results]);
             setLoading(false);
             if (response.data.results.length === 0) {
@@ -51,7 +50,7 @@ function ImageSearch({ addPhoto }) {
     
     return (
         <div className="flex flex-col">
-            <label htmlFor="search" className="block text-sm nunito font-medium leading-6 text-gray-900">Searched Photo</label>
+            <label htmlFor="search" className="block text-sm nunito font-medium leading-6 text-gray-900">Photo</label>
             <div className="flex items-center mb-1 mt-2">
 
                 <input 
