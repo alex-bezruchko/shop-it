@@ -78,7 +78,7 @@ function ImageSearch({ addPhoto }) {
     return (
                 <div className="flex flex-col">
                     <label htmlFor="search" className="flex text-left text-sm nunito font-medium leading-6 text-gray-900">Photo</label>
-                    <div className="flex items-center mb-1 mt-2">
+                    <div className="flex items-center mb-1 mt-1">
         
                         <input 
                             type="text"
