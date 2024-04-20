@@ -68,7 +68,7 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
       <ul className='w-full'>
         {products.products.map(product => (
             <div key={product._id} className="flex w-full justify-between">
-              <div className="flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-0 mb-4 border border-2 border-primaryBlue">
+              <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-0 mb-4 border border-2 ${isProductAdded(product) ? 'border-primaryGray' : 'border-primaryGreen'}`}>
                 <div className="w-full flex justify-between mt-0 h-full">
                   <div className="flex items-center w-full justify-between">
                     <div className="mr-4 flex flex-col justify-between h-full">

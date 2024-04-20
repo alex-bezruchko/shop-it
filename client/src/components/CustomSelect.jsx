@@ -27,7 +27,7 @@ function CustomSelect({ options, handleSelect, selectedOption: externalSelectedO
         type="button"
         className="w-full bg-white border border-gray-300 rounded-md shadow-sm px-4 py-2 text-left flex items-center justify-between"
       >
-        <span className="block truncate text-black nunito text-sm">{selectedOption ? options.find(opt => opt._id === selectedOption)?.name : 'Select an option'}</span>
+        <span className="text-left truncate text-black nunito text-sm">{selectedOption ? options.find(opt => opt._id === selectedOption)?.name : 'Select an option'}</span>
         <svg
           className={`w-4 h-4 ml-2 transition-transform ${isOpen ? 'transform rotate-180' : ''}`}
           viewBox="0 0 20 20"

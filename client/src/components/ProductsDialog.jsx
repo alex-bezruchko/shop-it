@@ -83,7 +83,6 @@ import {
         let body = {
             name,
             category,
-            description,
             price,
         }
 
@@ -99,6 +98,7 @@ import {
         } else {
             setErrors([])
             body.photo = photo;
+            body.description = description;
                 try  {
                 const { data } = await axios.post(`/products`, body);
                 dispatch({ type: 'ADD_PRODUCT', payload: data });
@@ -122,7 +122,6 @@ import {
         let body = {
             name,
             category,
-            description,
             price,
         }
 
@@ -137,7 +136,9 @@ import {
             }
 
         } else {
-            setErrors([])
+            setErrors([]);
+            body.description = description;
+            body.photo = photo;
             try {
                 const response = await axios.put(`/products/${id}`, body);
                 // Update local state with the updated name
@@ -212,7 +213,7 @@ import {
                             <h2 className="text-center flex items-center justify-center w-full primaryBlue mt-0 lora text-3xl md:text-xl" onClick={formType === 'create' ? createProduct : editProduct}>{formType === 'create' ? 'New Product' : 'Edit Product'}</h2>
                             
                             <div className="sm:col-span-3 flex flex-col">
-                                <label htmlFor="name" className="w-full text-sm nunito font-medium leading-6 text-gray-900">Name</label>
+                                <label htmlFor="name" className="w-full text-left text-sm nunito font-medium leading-6 text-gray-900">Name</label>
                                 <div className="w-full mt-2">
                                     <input
                                         type="text"
@@ -226,7 +227,7 @@ import {
                                 </div>
                             </div>
                             <div className="sm:col-span-3">
-                                <span className="block text-sm nunito font-medium leading-6 text-gray-900 pb-0">Category</span>
+                                <span className="flex text-left text-sm nunito font-medium leading-6 text-gray-900 pb-0">Category</span>
 
                                 {categories.length > 0 && (
                                     <CustomSelect 
@@ -237,7 +238,7 @@ import {
                                 )}
                             </div>
                             <div className="sm:col-span-3">
-                                <label htmlFor="description" className="block text-sm nunito font-medium leading-6 text-gray-900">Description</label>
+                                <label htmlFor="description" className="flex text-left text-sm nunito font-medium leading-6 text-gray-900">Description</label>
                                 <div className="mt-2">
                                     <input
                                         type="text"
@@ -273,7 +274,7 @@ import {
                                 </div>
                             </div>
                             <div className="sm:col-span-3 pb-2">
-                                <label htmlFor="price" className="block text-sm nunito font-medium leading-6 text-gray-900 mt-3">Price</label>
+                                <label htmlFor="price" className="block text-sm nunito font-medium leading-6 text-gray-900 mt-0">Price</label>
                                 <div className="mt-2">
                                     <input
                                         type="text"
