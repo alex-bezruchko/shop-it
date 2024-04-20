@@ -17,6 +17,7 @@ import NewPasswordPage from './pages/NewPasswordPage.jsx';
 import FriendsPage from './pages/FriendsPage.jsx';
 import PlacesPage from './pages/PlacesPage.jsx';
 import { LoadScript } from '@react-google-maps/api';
+import NotFoundPage from './pages/NotFoundPage.jsx';
 
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 const googleApiKey = import.meta.env.VITE_GOOGLE_MAPS_API;
@@ -41,8 +42,11 @@ function App() {
                   <Route path="/friends/:subpage?" element={<FriendsPage/>}/>
                   <Route path="/friends/:subpage?/:friendId" element={<FriendsPage />} />
                   <Route path="/places/:subpage?" element={<PlacesPage/>}/>
+                  <Route path="*" element={<NotFoundPage />} />
+
                 </Route>
               </Routes>
+
             </LoadScript>
           </RequestContextProvider>
         </PlaceProvider>
