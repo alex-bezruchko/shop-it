@@ -201,7 +201,7 @@ import {
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-white">
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-sm overflow-y-auto p-0 flex justify-between" style={{ width: '90%', height: '100%', maxHeight: '95%' }}>
 
-                        <div className="mt-0 grid grid-cols-1 gap-y-1 sm:gap-x-6 sm:gap-y-6 grid-cols-1 overflow-y-scroll w-full">
+                        <div className="flex flex-col justify-center overflow-y-scroll w-full">
                             <div className="flex flex-col">
                                 <div className="mx-0">
                                 
@@ -212,9 +212,9 @@ import {
                             </div>
                             <h2 className="text-center flex items-center justify-center w-full primaryBlue mt-0 lora text-3xl md:text-xl" onClick={formType === 'create' ? createProduct : editProduct}>{formType === 'create' ? 'New Product' : 'Edit Product'}</h2>
                             
-                            <div className="sm:col-span-3 flex flex-col">
+                            <div className="mb-2 flex flex-col">
                                 <label htmlFor="name" className="w-full text-left text-sm nunito font-medium leading-6 text-gray-900">Name</label>
-                                <div className="w-full mt-2">
+                                <div className="w-full mt-1">
                                     <input
                                         type="text"
                                         name="name"
@@ -226,7 +226,7 @@ import {
                                     />
                                 </div>
                             </div>
-                            <div className="sm:col-span-3">
+                            <div className="mb-2">
                                 <span className="flex text-left text-sm nunito font-medium leading-6 text-gray-900 pb-0">Category</span>
 
                                 {categories.length > 0 && (
@@ -237,9 +237,9 @@ import {
                                     />
                                 )}
                             </div>
-                            <div className="sm:col-span-3">
+                            <div className="mb-2">
                                 <label htmlFor="description" className="flex text-left text-sm nunito font-medium leading-6 text-gray-900">Description</label>
-                                <div className="mt-2">
+                                <div className="mt-1">
                                     <input
                                         type="text"
                                         name="description"
@@ -251,18 +251,18 @@ import {
                                     />
                                 </div>
                             </div>
-                            <div className="sm:col-span-3">
+                            <div className="mb-2">
                                 <ImageSearch addPhoto={handleImageSelect} />
                             </div>
-                            <div className="sm:col-span-3 flex justify-between">
+                            <div className="mb-2 flex justify-between">
                                                             
                                 <div className="flex items-center justify-between w-full">
                                     {photo && (        
                                     
-                                        <div className="flex items-center border-r w-1/2">
+                                        <div className="flex items-center justify-between border-r w-1/2">
                                             <img src={photo} alt="Selected" className="m-0 h-[7rem] w-[7rem] sm:w-40 sm:h-40" />
-                                            <button onClick={removePhoto} className="text-primaryRed mt-2 ml-1 text-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7 sm:w-10 sm:h-10 ml-1">
+                                            <button onClick={removePhoto} className="text-primaryRed mt-2 mx-auto text-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7 sm:w-10 sm:h-10">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
                                                 </svg>
                                             </button>
@@ -273,9 +273,9 @@ import {
                                     </div>
                                 </div>
                             </div>
-                            <div className="sm:col-span-3 pb-2">
+                            <div className="mb-2 pb-2">
                                 <label htmlFor="price" className="block text-sm nunito font-medium leading-6 text-gray-900 mt-0">Price</label>
-                                <div className="mt-2">
+                                <div className="mt-1">
                                     <input
                                         type="text"
                                         name="price"

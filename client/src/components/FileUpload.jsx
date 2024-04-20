@@ -53,7 +53,7 @@ export default function FileUpload({ setFile, photo }) {
                     <div className="flex flex justify-around w-full items-start">
                         <input id="hello123" type="file" className="items-center mr-0 py-1 pl-0 text-xs w-1/2" onChange={handleFile}/>
                         <div className="flex justify-between items-center">
-                            <button onClick={chooseFile} className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-1.5 ml-0 rounded">
+                            <button onClick={chooseFile} className="flex items-center bg-blue-500 hover:bg-blue-700 text-white font-md py-1 px-1.5 ml-0 rounded">
                                 <p className="nunito px-1 py-0 text-sm">Select</p>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 pl-2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
@@ -71,8 +71,8 @@ export default function FileUpload({ setFile, photo }) {
                     <div className="flex flex-col justify-around w-full">
                         <input id="hello123" type="file" className="mr-2 py-2 pl-3 text-xs" onChange={handleFile}/>
                         <div className="flex justify-between">
-                            <button onClick={chooseFile} className="flex bg-blue-500 mt-4 hover:bg-blue-700 text-white font-bold py-1 px-1.5 ml-3 rounded">
-                                <p className="nunito px-1 py-0">Select</p>
+                            <button onClick={chooseFile} className="flex bg-blue-500 mt-4 hover:bg-blue-700 text-white font-md py-1 px-1.5 ml-3 rounded items-center">
+                                <p className="nunito px-1 py-0 text-sm">Select</p>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 pl-2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
                                 </svg>

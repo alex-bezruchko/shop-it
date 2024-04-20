@@ -21,7 +21,7 @@ function CustomSelect({ options, handleSelect, selectedOption: externalSelectedO
   };
 
   return (
-    <div className="relative mt-2 mb-1">
+    <div className="relative mt-1 mb-0">
       <button
         onClick={toggleDropdown}
         type="button"
