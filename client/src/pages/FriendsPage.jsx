@@ -25,14 +25,17 @@ export default function FriendsPage() {
     const outgoingRequests = requests.requests.outgoingRequests;
 
     const fetchFriends = async () => {
-        try {
-            setListLoading(true);
-            const response = await axios.get(`/users/friends/${user._id}`);
-            setFriends(response.data);
-        } catch (error) {
-            console.error("Error fetching friends: ", error);
-        } finally {
-            setListLoading(false);
+        if (user && user._id) {
+
+            try {
+                setListLoading(true);
+                const response = await axios.get(`/users/friends/${user._id}`);
+                setFriends(response.data);
+            } catch (error) {
+                console.error("Error fetching friends: ", error);
+            } finally {
+                setListLoading(false);
+            }
         }
     };
 
