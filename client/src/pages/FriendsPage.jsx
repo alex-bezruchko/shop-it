@@ -37,10 +37,10 @@ export default function FriendsPage() {
     };
 
     useEffect(() => {
-        if (user._id) {
+        if (user && user._id) {
             fetchFriends();
         }
-    }, [user._id]);
+    }, [user]);
     
     useEffect(() => {
         fetchFriends();

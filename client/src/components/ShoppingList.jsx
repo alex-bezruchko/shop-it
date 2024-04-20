@@ -127,7 +127,7 @@ export default function ShoppingList({listLoading}) {
                 </div>
             )}  
             <div className="sm:col-span-3">
-                <label htmlFor="name" className="block lora text-3xl pb-5 mt-0">Name</label>
+                <label htmlFor="name" className="block lora text-3xl pb-3 mt-0">Name</label>
                 <div className="mt-2">
                     <input 
                     type="text"
@@ -143,7 +143,7 @@ export default function ShoppingList({listLoading}) {
             
             
             <div className="flex flex-col text-center justify-center">
-                <label htmlFor="name" className="block lora text-3xl pt-8 pb-3">Products</label>
+                <label htmlFor="name" className="block lora text-3xl pt-6 pb-3">Products</label>
                 {selectedProducts.products.length < 1 && (
                     <div className="flex flex-col nunito text-center justify-center mt-1">
                         <h2 className="text-lg nunito">No products added yet.</h2>

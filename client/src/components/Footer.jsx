@@ -10,7 +10,7 @@ function Footer() {
     return (
         
         <div className="">
-            <div className="flex justify-center items-center">
+            <div className="flex justify-center items-center my-4">
                 <p className="nunito text-md">Shopit &copy; {currentYear}</p> {/* Display current year */}
             </div>
         </div>
