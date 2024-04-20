@@ -201,8 +201,8 @@ import {
                 <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-white">
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-sm overflow-y-auto p-0 flex justify-between" style={{ width: '90%', height: '100%', maxHeight: '95%' }}>
 
-                        <div className="flex flex-col justify-center overflow-y-scroll w-full">
-                            <div className="flex flex-col">
+                        <div className="mx-auto overflow-y-scroll w-full">
+                            <div className="flex flex-col mb-3">
                                 <div className="mx-0">
                                 
                                     {errors.length > 0 && (
