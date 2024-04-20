@@ -11,12 +11,12 @@ const ValidationErrorDisplay = ({ errors }) => {
   }, [errors]);
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full mb-3">
       {errors.map((error, index) => (
         <div
           key={error.field}
           ref={index === 0 ? topErrorRef : null}
-          className="text-left flex justify-start mt-0 mb-6 mx-0 p-2 py-1.5 sm:p-3 rounded border border-[1.5px] border-primaryRed bg-lightRed text-black"
+          className={`text-left flex justify-start mt-0 ${index === errors.length - 1 ? 'mb-0' : 'mb-6'} mx-0 p-2 py-1.5 sm:p-3 rounded border border-[1.5px] border-primaryRed bg-lightRed text-black`}
         >
           <span className="self-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
