@@ -75,7 +75,7 @@ export default function AccountPage() {
     return (
         <div>
              <div className="flex justify-center">
-                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-8 mb-8 text-md">
+                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-6 mb-6 text-md">
                     <Link 
                         className={linkClasses('profile')}
                         to={'/account'}>
@@ -115,7 +115,7 @@ export default function AccountPage() {
                     {subpage === 'profile' && (
                     <div className="flex flex-col text-center">
                         {!loading && (
-                            <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} listLoading={updateLoading} />
+                            <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} isLoading={listLoading} listLoading={updateLoading} />
                         )}
                     </div>
                     )}
