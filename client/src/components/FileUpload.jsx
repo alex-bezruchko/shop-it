@@ -79,17 +79,19 @@ export default function FileUpload({ setFile, photo }) {
                 {image === '' ? (
                     <div className="flex flex justify-around w-full items-start">
                         <input id="hello123" type="file" className="items-center mr-0 py-1 pl-0 text-xs w-1/2" onChange={handleFile}/>
-                        {loading && (
-                            <div className="flex mt-1">
-                                <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='w-5 mx-auto '/>
-                            </div>
-                        )}
+                        
                         <div className="flex justify-between items-center">
                             <button disabled={isDisabled} onClick={chooseFile} className={`flex items-center text-white font-md py-1 px-1.5 ml-0 rounded ${isDisabled ? 'bg-primaryGray' : 'bg-primaryBlue'}`}>
                                 <p className="nunito px-1 py-0 text-sm">Select</p>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 pl-2">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-                                </svg>
+                                {loading ? (
+                                    <div className="flex mt-1">
+                                        <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='w-5 mx-auto '/>
+                                    </div>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 pl-2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                                    </svg>
+                                )}
                             </button>
                            
                         </div>
@@ -105,9 +107,15 @@ export default function FileUpload({ setFile, photo }) {
                         <div className="flex">
                             <button disabled={isDisabled} onClick={chooseFile} className={`flex mt-4 text-white font-md py-1 px-1.5 ml-3 rounded items-center ${isDisabled ? 'bg-primaryGray' : 'bg-primaryBlue'}`}>
                                 <p className="nunito px-1 py-0 text-sm">Select</p>
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 pl-2">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
-                                </svg>
+                                {loading ? (
+                                    <div className="flex mt-1">
+                                        <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='w-5 mx-auto '/>
+                                    </div>
+                                ) : (
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 pl-2">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+                                    </svg>
+                                )}
                             </button>
                             <button onClick={clearFile} disabled={isDisabled} className="flex text-primaryRed ml-0 text-center items-end mb-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"  className="w-6 h-6 sm:w-10 sm:h-10 ml-2">
