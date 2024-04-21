@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function ImageSearch({ addPhoto }) {
+function ImageSearch({ addPhoto, photo }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [page, setPage] = useState(1);
@@ -110,7 +110,7 @@ function ImageSearch({ addPhoto }) {
                     </svg>
                 </button>
             </div>
-            <div className={`flex overflow-x-auto ${results.length === 0 ? 'h-0' : ''}`}>
+            <div className={`flex overflow-x-auto ${!showResults  ? 'h-0' : 'h-auto'}`}>
                 {loading ? (
                     <div className='flex mx-auto mt-6 min-h-32 items-center'>
                         <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-10 mx-auto mb-6 self-center'/>

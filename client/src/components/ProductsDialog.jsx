@@ -252,11 +252,11 @@ import {
                                 </div>
                             </div>
                             <div className="mb-0">
-                                <ImageSearch addPhoto={handleImageSelect} />
+                                <ImageSearch addPhoto={handleImageSelect} ifPhoto={photo} />
                             </div>
-                            <div className="mb-2 flex justify-between">
+                            <div className="mt-1 mb-2 flex justify-between">
                                                             
-                                <div className="flex items-center justify-between w-full">
+                                <div className="flex items-center justify-between w-full mt-2">
                                     {photo && (        
                                     
                                         <div className="flex items-center justify-between border-r w-1/2">
