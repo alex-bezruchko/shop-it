@@ -72,7 +72,7 @@ export default function PlacesPage() {
     
     
     function linkClasses(type=null) {
-        let classes = 'w-full nunito text-md items-center flex justify-around sm:justify-evenly py-2 px-2';
+        let classes = 'w-full nunito text-lg items-center flex justify-around sm:justify-evenly py-1 px-2';
         if (type === subpage) {
             classes += ' bg-secondaryBlue rounded';
         }
@@ -82,7 +82,7 @@ export default function PlacesPage() {
     return (
         <div>
              <div className="flex justify-center">
-             <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-8 mb-8">
+             <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-6 mb-6">
                     <Link 
                         className={linkClasses('find')}
                         to={'/places/find'}>

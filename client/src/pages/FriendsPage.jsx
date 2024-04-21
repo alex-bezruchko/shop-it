@@ -85,7 +85,7 @@ export default function FriendsPage() {
             {/* <nav className="w-medium flex justify-around mt-16 mb-12">
              */}
              <div className="flex justify-center">
-                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-8 mb-8">
+                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-6 mb-6">
                     <Link 
                         className={linkClasses('find')}
                         to={'/friends/find'}
