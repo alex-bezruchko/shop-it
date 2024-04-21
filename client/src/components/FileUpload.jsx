@@ -76,7 +76,7 @@ export default function FileUpload({ setFile, photo }) {
         <div className="h-full">
             <div className="flex items-left mt-2 justify-left h-full">
 
-                {image === '' ? (
+                {image === '' || photo === '' ? (
                     <div className="flex flex justify-around w-full items-start">
                         <input id="hello123" type="file" className="items-center mr-0 py-1 pl-0 text-xs w-1/2" onChange={handleFile}/>
                         
