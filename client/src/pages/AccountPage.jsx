@@ -1,14 +1,13 @@
-import { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { UserContext } from "../components/UserContext";
 import { Navigate, Link, useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductsSuccess } from '../actions/productActions'; // Import the action creator
-import ShoppingList from "../components/ShoppingList";
-import CurrentList from "../components/CurrentList";
-import UsersLists from "../components/UsersLists";
-// import { connect } from 'react-redux';
-// import { setAlert } from '../../src/actions/alertActions';
+
+const ShoppingList = React.lazy(() => import("../components/ShoppingList"));
+const CurrentList = React.lazy(() => import("../components/CurrentList"));
+const UsersLists = React.lazy(() => import("../components/UsersLists"));
 
 export default function AccountPage() {
     const dispatch = useDispatch();
