@@ -298,9 +298,9 @@ export default function CurrentList({listLoading, isLoading}) {
                                     <ul className="flex flex-col justify-between">
                                         {currentList.products?.map(product => (
                                             <div key={product.product._id} className="flex w-full justify-between">
-                                                <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-3 mb-4 border border-2 ${updateLoading && product._id === idLoaded ? 'border-primaryBlue' : (product.completed ? 'border-primaryGreen' : 'border-primaryOrange')}`}>
+                                                <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 mb-4 border border-2 ${updateLoading && product._id === idLoaded ? 'border-primaryBlue' : (product.completed ? 'border-primaryGreen' : 'border-primaryOrange')}`}>
 
-                                                {/* <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-3 mb-4 border border-2 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}> */}
+                                                {/* <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 mb-4 border border-2 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}> */}
                                                     <div className="flex items-center w-full h-full justify-between">
                                                         <div className="mr-0 flex flex-col w-full justify-between h-full">
                                                             <h3 className="pl-2 pr-0 pt-2 text-left text-lg font-medium lora self-start">{product.product.name}</h3>
@@ -354,7 +354,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                         <img 
                                                             src={product.product.photo || 'placeholder.svg'} 
                                                             alt="Product Photo" 
-                                                            className="cursor-pointer mr-0 max-h-[100px] min-h-[100px] min-w-[100px] max-w-[100px] rounded-r-md"
+                                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%]rounded-r-md"
                                                             onClick={() => checkItemFromList(product._id)}
                                                         />
                                                     </div>
