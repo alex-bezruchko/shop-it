@@ -84,8 +84,8 @@ export default function FileUpload({ setFile, photo }) {
                             <button disabled={isDisabled} onClick={chooseFile} className={`flex items-center text-white font-md py-1 px-1.5 ml-0 rounded ${isDisabled ? 'bg-primaryGray' : 'bg-primaryBlue'}`}>
                                 <p className="nunito px-1 py-0 text-sm">Select</p>
                                 {loading ? (
-                                    <div className="flex mt-1">
-                                        <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='w-5 mx-auto '/>
+                                    <div className="flex mt-0">
+                                        <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='w-4 mx-auto '/>
                                     </div>
                                 ) : (
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 pl-2">
@@ -108,8 +108,8 @@ export default function FileUpload({ setFile, photo }) {
                             <button disabled={isDisabled} onClick={chooseFile} className={`flex mt-4 text-white font-md py-1 px-1.5 ml-3 rounded items-center ${isDisabled ? 'bg-primaryGray' : 'bg-primaryBlue'}`}>
                                 <p className="nunito px-1 py-0 text-sm">Select</p>
                                 {loading ? (
-                                    <div className="flex mt-1">
-                                        <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='w-5 mx-auto '/>
+                                    <div className="flex mt-0">
+                                        <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='w-4 mx-auto '/>
                                     </div>
                                 ) : (
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6 pl-2">
