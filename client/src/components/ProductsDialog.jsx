@@ -251,7 +251,7 @@ import {
                                     />
                                 </div>
                             </div>
-                            <div className="mb-2">
+                            <div className="mb-0">
                                 <ImageSearch addPhoto={handleImageSelect} />
                             </div>
                             <div className="mb-2 flex justify-between">
