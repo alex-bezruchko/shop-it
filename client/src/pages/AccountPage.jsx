@@ -9,6 +9,8 @@ const ShoppingList = React.lazy(() => import("../components/ShoppingList"));
 const CurrentList = React.lazy(() => import("../components/CurrentList"));
 const UsersLists = React.lazy(() => import("../components/UsersLists"));
 
+  
+
 export default function AccountPage() {
     const dispatch = useDispatch();
     const { ready, user, setUser } = useContext(UserContext);
@@ -111,7 +113,24 @@ export default function AccountPage() {
             
             <div className="flex flex-col w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-center mt-0 mb-1 mx-auto">
                 <div className="w-full">
+                    <React.Suspense fallback={<div>Loading...</div>}>
                     {subpage === 'profile' && (
+                        <div className="flex flex-col text-center">
+                        {!loading && <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} isLoading={listLoading} listLoading={updateLoading} />}
+                        </div>
+                    )}
+                    {subpage === 'new' && (
+                        <div className="flex flex-col text-center">
+                        <ShoppingList isLoading={listLoading} listLoading={updateLoading}/>
+                        </div>
+                    )}
+                    {subpage === 'current' && (
+                        <div className="flex flex-col text-center">
+                        <CurrentList isLoading={listLoading} listLoading={updateLoading}/>
+                        </div>
+                    )}
+                    </React.Suspense>
+                    {/* {subpage === 'profile' && (
                     <div className="flex flex-col text-center">
                         {!loading && (
                             <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} isLoading={listLoading} listLoading={updateLoading} />
@@ -127,7 +146,7 @@ export default function AccountPage() {
                         <div className="flex flex-col text-center">
                             <CurrentList isLoading={listLoading} listLoading={updateLoading}/>
                         </div>
-                    )}
+                    )} */}
                 </div>
             </div>
         </div>
