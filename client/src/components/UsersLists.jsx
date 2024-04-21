@@ -67,10 +67,10 @@ export default function UsersLists({sendTo, currentLink, listLoading, isLoading}
                 <></>
             ) : (
                 <div className="flex flex-col">
-                
+                    <h2 className="lora text-3xl pb-5">Your Lists</h2>
+                    
                     {currentLists.length !== 0 && (
                         <div className="w-full">
-                            <h2 className="lora text-3xl pb-5">Your Lists</h2>
                             <div className="tabs flex justify-around">
                                 <button onClick={() => handleTab('current')} className={activeTab === 'current' ? 'text-center nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists bg-primaryOrange flex justify-around items-center text-white' : 'text-center text-black nunito text-xl p-2 w-1/2 rounded sm:text-3xl lists flex justify-around items-center'}>
                                     <span>Current</span>
