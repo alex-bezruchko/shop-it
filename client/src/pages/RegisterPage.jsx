@@ -71,7 +71,7 @@ export default function RegisterPage() {
                         onChange={e => setPassword(e.target.value)}
                         className="mb-2"
                         placeholder="password"/>
-                    <button className="primaryBlue nunito w-full mt-3">Register</button>
+                    <button aria-label="Register button" className="primaryBlue nunito w-full mt-3">Register</button>
                     <div className="text-center py-2 nunito text-gray-500">
                         Already a member? 
                         <Link to={'/login'} className="ml-3 nunito text text-primaryBlue"> Login here</Link>

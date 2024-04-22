@@ -139,8 +139,8 @@ export default function FriendDetailPage({listLoading}) {
     <div>
       {friend && (<h2 className='text-center lora text-3xl'> {friend.user.name.charAt(0).toUpperCase() + friend.user.name.slice(1)}</h2>)}
       <div className="tabs flex justify-around my-5">
-        <button onClick={() => setActiveTab('lists')} className={activeTab === 'lists' || activeTab === 'list' ? 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists'}>Lists</button>
-        <button onClick={() => setActiveTab('places')} className={activeTab === 'places' ? 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists'}>Places</button>
+        <button aria-label="Select Lists Tab button" onClick={() => setActiveTab('lists')} className={activeTab === 'lists' || activeTab === 'list' ? 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists'}>Lists</button>
+        <button aria-label="Select Places Tab button" onClick={() => setActiveTab('places')} className={activeTab === 'places' ? 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists bg-secondaryBlue' : 'text-center nunito text-xl p-2 px-0 w-1/2 rounded sm:text-3xl lists'}>Places</button>
       </div>
       {activeTab === 'lists' && (
         friend.lists.length !== 0 ? (
@@ -160,20 +160,20 @@ export default function FriendDetailPage({listLoading}) {
                         </ul>
                     </div>
                     <div className="flex items-center">
-                      <button onClick={() => viewList(list._id)} className="text-primaryBlue self-center">
+                      <button aria-label="View List button" onClick={() => viewList(list._id)} className="text-primaryBlue self-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 -mb-1">
                           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
                         </svg>
                       </button>
                       
                       {copyLoading && idLoading === list._id? (
-                          <button className="bg-white nunito font-medium text-sm  px-0 sm:text-lg  flex-grow flex-shrink-0 ml-4">
+                          <button disabled aria-label="Loading icon" className="bg-white nunito font-medium text-sm  px-0 sm:text-lg  flex-grow flex-shrink-0 ml-4">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="text-primaryOrange w-8 h-8">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                               </svg>
                           </button>
                       ): (
-                        <button onClick={() => copyList(list._id)} className="text-primaryGreen ml-4 self-center">
+                        <button aria-label="Copy List button" onClick={() => copyList(list._id)} className="text-primaryGreen ml-4 self-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 text-green">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" clipRule="evenodd" />
                             </svg>
@@ -238,13 +238,13 @@ export default function FriendDetailPage({listLoading}) {
                     <div className='flex  mb-2'>
                       <h2 className="lora text-3xl w-full text-center pb-1 border-b-2 border-transparent">{currentList.name}</h2>
                       {copyLoading ? (
-                          <button className="bg-white nunito font-medium text-sm  px-0 sm:text-lg  flex-grow flex-shrink-0 ml-4">
+                          <button disabled aria-label="Loading icon" className="bg-white nunito font-medium text-sm  px-0 sm:text-lg  flex-grow flex-shrink-0 ml-4">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="text-primaryOrange w-8 h-8">
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                               </svg>
                           </button>
                       ): (
-                        <button onClick={() => copyList(currentList._id)} className="text-primaryRed ml-4 self-center">
+                        <button aria-label="Copy List button" onClick={() => copyList(currentList._id)} className="text-primaryRed ml-4 self-center">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 text-primaryGreen">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" clipRule="evenodd" />
                             </svg>

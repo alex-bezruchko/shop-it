@@ -74,7 +74,7 @@ export default function Header() {
 
             {user && user._id && (
                 <div className="relative">
-                    <button className="relative flex items-center justify-between gap-2 border border-blue-200 rounded-full px-2 py-1 shadow-lg shadow-gray-300 focus:outline-none" onClick={toggleDropdown}>
+                    <button aria-label="User menu toggle button" className="relative flex items-center justify-between gap-2 border border-blue-200 rounded-full px-2 py-1 shadow-lg shadow-gray-300 focus:outline-none" onClick={toggleDropdown}>
                         <div className="flex justify-between">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -144,7 +144,7 @@ export default function Header() {
                             </Link>
                             {/* <Link to="/stores" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" onClick={handleLinkClick}>Find Places</Link> */}
                             <div className="flex justify-end mt-1">
-                                <button className="bg-primaryBlue nunito px-2 py-1 sm:py-3  text-white rounded tracking-wide" onClick={logOut}>Logout</button>
+                                <button aria-label="" className="bg-primaryBlue nunito px-2 py-1 sm:py-3  text-white rounded tracking-wide" onClick={logOut}>Logout</button>
                             </div>
                         </div>
                     )}
