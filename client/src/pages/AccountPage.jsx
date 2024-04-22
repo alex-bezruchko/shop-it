@@ -120,7 +120,7 @@ export default function AccountPage() {
                         )}
                         {subpage === 'new' && (
                             <div className="flex flex-col text-center">
-                                <ShoppingList isLoading={listLoading} listLoading={updateLoading}/>
+                                <ShoppingList />
                             </div>
                         )}
                         {subpage === 'current' && (

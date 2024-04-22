@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-function ImageSearch({ addPhoto, photo }) {
+function ImageSearch({ addPhoto }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [page, setPage] = useState(1);

@@ -1,5 +1,4 @@
 
-// import './App.css';
 import {Route, Routes} from 'react-router-dom';
 import Layout from './layouts/Layout.jsx';
 import axios from 'axios';
@@ -22,6 +21,7 @@ axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 const googleApiKey = import.meta.env.VITE_GOOGLE_MAPS_API;
 axios.defaults.withCredentials = true;
 axios.defaults.headers = true;
+
 function App() {
   return (
     <Provider store={store}>

@@ -2,7 +2,7 @@ import { useEffect, useContext, useState } from "react";
 import { UserContext } from "../components/UserContext";
 import { Navigate, Link, useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import FriendsSearch from "../components/FriendsSearch";
 import PendingRequests from "../components/PendingRequests";
 import CurrentFriendsList from "../components/CurrentFriendsList";
@@ -11,8 +11,6 @@ import { useRequestContext } from './../components/RequestContext'; // Correct i
 
 export default function FriendsPage() {
     const navigate = useNavigate();
-    const dispatch = useDispatch(); // Add this line
-    const alertDispatch = useDispatch();
     const { ready, user } = useContext(UserContext);
     let { subpage } = useParams();
     

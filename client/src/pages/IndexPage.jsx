@@ -1,5 +1,4 @@
-import {Link, useNavigate} from "react-router-dom";
-import Header from "./../components/Header.jsx";
+import {useNavigate} from "react-router-dom";
 import { useContext } from "react"; // Importing useState
 import { UserContext } from "./../components/UserContext.jsx";
 

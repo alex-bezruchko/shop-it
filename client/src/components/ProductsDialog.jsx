@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CustomSelect from "./CustomSelect";
 import ImageSearch from "./ImageSearch";
 import FileUpload from './FileUpload';
@@ -259,7 +259,7 @@ import ValidationErrorDisplay from "./../components/ValidationErrors";
                                         </div>
                                     )}
                                     <div className={`w-${photo ? '1/2' : 'full'} flex flex-col h-full justify-left`}>
-                                        <FileUpload setFile={handleImageSelect} photo={photo}/>
+                                        <FileUpload setFile={handleImageSelect}/>
                                     </div>
                                 </div>
                             </div>

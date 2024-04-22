@@ -1,12 +1,10 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from "./UserContext";
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
 import { useRequestContext } from './RequestContext'; // Correct import
 
 
 function PendingRequests() {
-    const dispatch = useDispatch();
     const { user } = useContext(UserContext);
     const requests = useRequestContext();
 
@@ -30,8 +28,6 @@ function PendingRequests() {
             console.error(error);
         }
     }
-    // console.log('friendRequests', friendRequests)
-    // console.log('outgoingRequests', outgoingRequests)
 
     return (
         <div >

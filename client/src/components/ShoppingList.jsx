@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import ValidationErrorDisplay from "./ValidationErrors";
 import { Validation } from "./Validation";
 
-export default function ShoppingList({listLoading}) {
+export default function ShoppingList() {
     const dispatch = useDispatch();
 
     const {user} = useContext(UserContext);
