@@ -264,7 +264,7 @@ import ValidationErrorDisplay from "./../components/ValidationErrors";
                                 </div>
                             </div>
                             <div className="mb-2 pb-2">
-                                <label htmlFor="price" className="block text-sm nunito font-medium leading-6 text-gray-900 mt-0">Price</label>
+                                <label htmlFor="price" className="flex text-left text-sm nunito font-medium leading-6 text-gray-900 mt-0">Price</label>
                                 <div className="mt-1">
                                     <input
                                         type="text"

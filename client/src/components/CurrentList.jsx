@@ -46,7 +46,14 @@ export default function CurrentList({listLoading, isLoading}) {
         });
     }, [user]);
     
-
+    useEffect(() => {
+        // Preload the LCP images for each product when the component mounts
+        currentList.products.forEach(product => {
+            const preloadImage = new Image();
+            preloadImage.src = '/placeholder.png'; // Ensure the correct path relative to the public directory
+        });
+    }, [currentList.products]);
+    
 
     async function updateShoppingList(updatedList) {
         let body = {
@@ -344,18 +351,18 @@ export default function CurrentList({listLoading, isLoading}) {
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center">
-                                                    {product.product.photo !== '' ? (
-                                                        <img 
-                                                            src={product.product.photo}
-                                                            alt="Product Photo" 
-                                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] pr-0 rounded-r-md"
-                                                        />
-                                                    ) : (
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] p-1">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-                                                        </svg>
-                                                    )}
-
+                                                        {product.product.photo !== '' ? (
+                                                            <img 
+                                                                src={product.product.photo}
+                                                                alt={`product.produt.name ${product.product.name}`}
+                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] pr-0 rounded-r-md"
+                                                                loading="lazy" // Add this attribute
+                                                            />
+                                                        ) : (
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] p-1">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                                            </svg>
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <button aria-label="Delete Product From List button" onClick={() => deleteProductFromShoppingList(product.product._id)} className="text-primaryRed ml-2 mb-4 p-0 self-center">
