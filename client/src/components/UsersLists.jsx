@@ -13,9 +13,9 @@ export default function UsersLists({sendTo, currentLink, listLoading, isLoading}
     const [filteredList, setFilteredList] = useState([]);
     const [activeTab, setActiveTab] = useState('current');
 
-    let url = `/shoppinglists/owner/${user._id}`;
     removeAlert();
     useEffect(() => {
+        let url = `/shoppinglists/owner/${user._id}`;
         listLoading(true);
         axios.get(url).then(({ data }) => {
             if (data.shoppingLists) {
@@ -29,7 +29,7 @@ export default function UsersLists({sendTo, currentLink, listLoading, isLoading}
             listLoading(false);
             console.log(error);
         });
-    }, []);
+    }, [user]);
 
     async function viewList(id) {
         sendTo(id)

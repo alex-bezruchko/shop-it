@@ -114,8 +114,8 @@ export default function AccountPage() {
             <div className="flex flex-col w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-center mt-0 mb-1 mx-auto">
                 <div className="w-full">
                     <React.Suspense fallback={<div>
-                    <img src="/loading.gif" className='size-10 mx-auto mb-6'/>
-                </div>}>
+                        <img src="/loading.gif" className='size-10 mx-auto mb-6'/>
+                    </div>}>
                         {subpage === 'profile' && (
                             <div className="flex flex-col text-center">
                             {!loading && <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} isLoading={listLoading} listLoading={updateLoading} />}
@@ -132,23 +132,6 @@ export default function AccountPage() {
                             </div>
                         )}
                     </React.Suspense>
-                    {/* {subpage === 'profile' && (
-                    <div className="flex flex-col text-center">
-                        {!loading && (
-                            <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} isLoading={listLoading} listLoading={updateLoading} />
-                        )}
-                    </div>
-                    )}
-                    {subpage === 'new' && (
-                        <div className="flex flex-col text-center">
-                            <ShoppingList isLoading={listLoading} listLoading={updateLoading}/>
-                        </div>
-                    )}
-                    {subpage === 'current' && (
-                        <div className="flex flex-col text-center">
-                            <CurrentList isLoading={listLoading} listLoading={updateLoading}/>
-                        </div>
-                    )} */}
                 </div>
             </div>
         </div>
