@@ -230,7 +230,7 @@ export default function FriendDetailPage({listLoading}) {
         <div className='mt-8'>
           {individualLoading ? (
              <div className='mt-5'>
-                <img src="./../src/assets/loading.gif" className='size-10 mx-auto mb-6'/>
+                <img src="proces.env.VITE_LOADING_GIF_PATH" className='size-10 mx-auto mb-6'/>
             </div>
           ) : (
             <div className="flex flex-col text-center justify-center">
