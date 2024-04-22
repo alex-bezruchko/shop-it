@@ -42,7 +42,7 @@ export default function NewPasswordPage() {
             <div className="mb-64 w-full mx-5">
                 <h1 className="text-3xl lora text-center mb-6">Reset Password</h1>
                 { loading && (
-                    <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-20 mx-auto my-6'/>
+                    <img src="./../src/assets/loading.gif" className='size-20 mx-auto my-6'/>
                 )}
                 {errors.length > 0 && (
                     <ValidationErrorDisplay errors={errors} />

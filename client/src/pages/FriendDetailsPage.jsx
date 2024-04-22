@@ -230,7 +230,7 @@ export default function FriendDetailPage({listLoading}) {
         <div className='mt-8'>
           {individualLoading ? (
              <div className='mt-5'>
-                <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-10 mx-auto mb-6'/>
+                <img src="./../src/assets/loading.gif" className='size-10 mx-auto mb-6'/>
             </div>
           ) : (
             <div className="flex flex-col text-center justify-center">

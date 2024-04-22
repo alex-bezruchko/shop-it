@@ -7,12 +7,7 @@ import Pusher from 'pusher-js';
 import GoogleSearchComponent from "../components/GoogleSearchComponent";
 import FavoritesList from "../components/PlacesList";
 
-
-// import { connect } from 'react-redux';
-// import { setAlert } from '../../src/actions/alertActions';
-
 export default function PlacesPage() {
-    const dispatch = useDispatch();
     const { ready, user, setUser } = useContext(UserContext);
     const [fav, setFav] = useState([]);
   
@@ -27,50 +22,7 @@ export default function PlacesPage() {
     if (ready && !user) {
         return <Navigate to={'/login'}/>
     }
-    // useEffect(() => {
-    //     // Initialize Pusher with your Pusher app key
-    //     const pusher = new Pusher(`${import.meta.env.VITE_PUSHER_APP_KEY}`, {
-    //         cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    //         // encrypted: true // Uncomment if you want to enable encrypted communication
-    //     });
-    
-    //     // Subscribe to private channel for user's pending requests
-    //     const channel = pusher.subscribe(`user-${user._id}`);
-
-    //     channel.bind('friend-request', data => {
-    //         console.log("Friend request received:", data);
-    //         dispatch({ type: 'SET_ALERT', payload: { message: 'You have a friend request', alertType: 'primaryGreen' } });
-    //     });
-    
-    //     // Bind to event for friend request received
-    //     channel.bind('sender-request-accepted', data => {
-    //         dispatch({ type: 'SET_ALERT', payload: { message: 'You request has been accepted', alertType: 'primaryGreen' } });
-    //     });
-    //     channel.bind('receiver-request-accepted', data => {
-    //         dispatch({ type: 'SET_ALERT', payload: { message: 'Friend added successfully', alertType: 'primaryGreen' } });
-    //     });
-    //     channel.bind('sender-request-denied', data => {
-    //         dispatch({ type: 'SET_ALERT', payload: { message: 'You friend request has been denied', alertType: 'primaryOrange' } });
-    //     });
-    //     channel.bind('receiver-request-denied', data => {
-    //         dispatch({ type: 'SET_ALERT', payload: { message: 'Friend request denied successfully', alertType: 'primaryOrange' } });
-    //     });
-    
-    
-    
-    
-    //     // Clean up subscription when component unmounts
-    //     return () => {
-    //         channel.unbind(); // Unbind from all events
-    //         pusher.unsubscribe(`user-${user._id}`);
-    //     };
-    // }, [user._id]); // Dependency array to ensure effect runs only once
-    function updatePlaces(places) {
-        setFav(places)
-    }
-
-    
-    
+        
     function linkClasses(type=null) {
         let classes = 'w-full nunito text-lg items-center flex justify-around sm:justify-evenly py-1 px-2';
         if (type === subpage) {

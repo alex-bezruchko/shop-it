@@ -43,7 +43,7 @@ function FavoritesList() {
             <h2 className='text-center lora text-3xl'>Favorite Places</h2>
             {loading ? (
                 <div>
-                    <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-10 mx-auto mt-6 mb-6'/>
+                    <img src="./../../src/assets/loading.gif" className='size-10 mx-auto mt-6 mb-6'/>
                 </div>
             ) : (
                 <div className="user-list">
