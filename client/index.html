@@ -3,7 +3,74 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <style>
+      .nunito {
+        font-family: "Nunito Sans", sans-serif;
+      }
+      .lora {
+        font-family: "Josefin Sans", sans-serif;
+      }
+
+      .primaryBlue {
+        stroke: #0fa3b1;
+      }
+      .secondaryBlue {
+        stroke: #b5e2fa;
+      }
+
+      .green {
+        stroke: #A5DD9B;
+      }
+      .primaryGray {
+        stroke: #C7C8CC;
+      }
+      .primaryRed {
+        stroke: '#ad2831'
+      }
+      .border-green {
+        border-color: #A5DD9B;
+      }
+      .border-primaryRed {
+        border-color: #ad2831;
+      }
+      .bg-lightRed {
+        background: rgba(255, 0, 0, .1);
+      }
+      .bg-lightGreen {
+        background: rgba(0, 255, 0, .1);
+      }
+      .bg-lightOrange {
+        background: rgba(247,160, 114, 0.2);
+      }
+      .bg-primaryGray {
+        background: #C7C8CC;
+      }
+
+      .listProduct {
+        min-width: 100px;
+        max-width: 100px;
+        min-height: 100px;
+        max-height: 100px;
+        margin-right: 15px;
+      }
+
+      @media (max-width: 640px) {
+        .listProduct {
+          min-width: 80px;
+          max-width: 80px;
+          min-height: 80px;
+          max-height: 80px;
+          margin-right: 8px;
+        }
+        .mb-2 {
+          margin-bottom: 1rem !important;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" defer>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="Shopit app" content="One-stop social shopping list app">
     <title>Shop-it</title>
   </head>
   <body>
