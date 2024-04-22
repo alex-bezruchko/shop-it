@@ -25,7 +25,7 @@ export default function StoresPage() {
     if (!ready) {
         return (
             <div className='mt-5'>
-                <img src="proces.env.VITE_LOADING_GIF_PATH" className='size-10 mx-auto mb-6'/>
+                <img src="/loading.gif" className='size-10 mx-auto mb-6'/>
             </div>
         );
     }
