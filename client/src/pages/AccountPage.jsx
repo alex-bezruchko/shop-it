@@ -9,25 +9,23 @@ const ShoppingList = React.lazy(() => import("../components/ShoppingList"));
 const CurrentList = React.lazy(() => import("../components/CurrentList"));
 const UsersLists = React.lazy(() => import("../components/UsersLists"));
 
-  
-
 export default function AccountPage() {
     const dispatch = useDispatch();
-    const { ready, user, setUser } = useContext(UserContext);
+    const { ready, user } = useContext(UserContext);
     
-    const [redirect, setRedirect] = useState(false);
     const [currentListLink, setCurrentListLink] = useState('');
-    const [loading, setLoading] = useState(true);
     const [listLoading, setListLoading] = useState(false);
     
     const navigate = useNavigate();
+    
     useEffect(() => {
+        setListLoading(true);
         axios.get(`/products/all`).then(({ data }) => {
             dispatch(fetchProductsSuccess(data)); // Dispatch the action with fetched products
-            setLoading(false);
+            setListLoading(false);
         }).catch(error => {
             console.log(error);
-            setLoading(false);
+            setListLoading(false);
         });
     }, [user]);
     
@@ -38,7 +36,7 @@ export default function AccountPage() {
     }
 
     if (!ready) {
-        let htmlString = '<div><img src="/loading.gif" class="size-10 mx-auto mb-6"></div>'
+        let htmlString = '<div><img src="/loading.gif" class="w-8 mx-auto mt-3 mb-6"></div>'
         return (
             <div dangerouslySetInnerHTML={{ __html: htmlString }} />
         )
@@ -65,9 +63,9 @@ export default function AccountPage() {
         setCurrentListLink(id);
     }
 
-    if (redirect) {
-        return <Navigate to={redirect}/>
-    }
+    // if (redirect) {
+    //     return <Navigate to={redirect}/>
+    // }
 
     function updateLoading(boolean) {
         setListLoading(boolean)
