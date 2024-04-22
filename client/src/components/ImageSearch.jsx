@@ -113,7 +113,7 @@ function ImageSearch({ addPhoto, photo }) {
             <div className={`flex overflow-x-auto ${!showResults  ? 'h-0' : 'h-auto'}`}>
                 {loading ? (
                     <div className='flex mx-auto mt-6 min-h-32 items-center'>
-                        <img src="./../src/assets/loading.gif" className='size-10 mx-auto mb-6 self-center'/>
+                        <img src="proces.env.VITE_LOADING_GIF_PATH" className='size-10 mx-auto mb-6 self-center'/>
                     </div>
                 ) : (
                     <div className='flex mt-4 mb-4'>

@@ -43,7 +43,7 @@ function FavoritesList() {
             <h2 className='text-center lora text-3xl'>Favorite Places</h2>
             {loading ? (
                 <div>
-                    <img src="./../../src/assets/loading.gif" className='size-10 mx-auto mt-6 mb-6'/>
+                    <img src="./.proces.env.VITE_LOADING_GIF_PATH" className='size-10 mx-auto mt-6 mb-6'/>
                 </div>
             ) : (
                 <div className="user-list">

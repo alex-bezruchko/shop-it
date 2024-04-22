@@ -47,7 +47,7 @@ export default function RegisterPage() {
             <div className="mb-64">
                 <h1 className="text-4xl lora text-center mb-5">Register</h1>
                 { loading && (
-                    <img src="./../src/assets/loading.gif" className='size-20 mx-auto my-6'/>
+                    <img src="proces.env.VITE_LOADING_GIF_PATH" className='size-8 mx-auto my-6'/>
                 )}
                 {errors.length > 0 && (
                     <ValidationErrorDisplay errors={errors} />

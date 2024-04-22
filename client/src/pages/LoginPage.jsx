@@ -49,7 +49,7 @@ export default function LoginPage() {
             <div className="mb-64">
                 <h1 className="text-4xl lora text-center mb-5">Login</h1>
                 { loading && (
-                    <img src="./../src/assets/loading.gif" className='size-20 mx-auto my-6'/>
+                    <img src="proces.env.VITE_LOADING_GIF_PATH" className='w-10 mx-auto my-6'/>
                 )}
                 {errors.length > 0 && (
                     <ValidationErrorDisplay errors={errors} className="mb-0"/>
