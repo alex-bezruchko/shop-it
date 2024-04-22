@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 
 export default function FileUpload({ setFile, photo }) {
     const preset_key = "te8akgdc";
-    const cloud_name = "doyhq5lew"
     const [image, setImage] = useState('');
     const [uploadedImageUrl, setUploadedImageUrl] = useState('');
     const [isDisabled, setIsDisabled] = useState(true);

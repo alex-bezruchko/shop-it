@@ -26,7 +26,6 @@ export const RequestContextProvider = ({ children }) => {
       initializePusher(user._id); // Initialize Pusher here
     }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
 
@@ -65,7 +64,6 @@ export const RequestContextProvider = ({ children }) => {
     
     // FRIEND ADDED SUCCESSFULLY
     channel.bind('receiver-request-accepted', data => {
-      console.log('receiver-request-accepted', data)
       dispatch({ type: 'SET_FRIEND_REQUEST_ACCEPTED', payload: data.receiver });
       alertDispatch({ type: 'SET_ALERT', payload: { message: 'Friend added successfully', alertType: 'primaryGreen' } });
       
@@ -73,7 +71,6 @@ export const RequestContextProvider = ({ children }) => {
 
     // YOUR REQUEST HAS BEEN ACCEPTED
     channel.bind('sender-request-accepted', data => {
-      console.log('sender-request-accepted', data)
       dispatch({ type: 'SET_YOUR_REQUEST_ACCEPTED', payload: data.sender });
       alertDispatch({ type: 'SET_ALERT', payload: { message: 'Your request has been accepted', alertType: 'primaryGreen' } });
     });
@@ -87,11 +84,6 @@ export const RequestContextProvider = ({ children }) => {
       dispatch({ type: 'SET_RECEIVER_REQUEST_DENIAL', payload: data.receiver });
       alertDispatch({ type: 'SET_ALERT', payload: { message: 'Friend request denied successfully', alertType: 'primaryOrange' } });
     });
-
-    // channel.bind('friend-request', data => {
-    //   dispatch({ type: 'SET_FRIEND_REQUEST', payload: data.friendRequest });
-    //   alertDispatch({ type: 'SET_ALERT', payload: { message: 'You received a friend request.', alertType: 'primaryGreen' } });
-    // });
 
     localStorage.setItem('pusherConnectionMade', 'true');
     localStorage.setItem('channel', channel.name);

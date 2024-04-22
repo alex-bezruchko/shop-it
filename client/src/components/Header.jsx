@@ -1,13 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react"; // Importing useState
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { UserContext } from "./UserContext";
 import { RequestContext } from './RequestContext';
 import ProductsDialog from "./ProductsDialog";
 import axios from "axios";
 
 const RedDot = ({ w, h, cx, cy, r, className }) => {
-    // Remove leading "-" if present and handle negative margins
+    
     return (
         <svg width={w} height={h} viewBox="0 0 8 8" className={className} fill="#F12802" stroke="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx={cx} cy={cy} r={r} />

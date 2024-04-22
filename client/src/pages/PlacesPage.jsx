@@ -1,14 +1,11 @@
-import { useEffect, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../components/UserContext";
-import { Navigate, Link, useParams, useNavigate } from "react-router-dom";
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import Pusher from 'pusher-js';
+import { Navigate, Link, useParams } from "react-router-dom";
 import GoogleSearchComponent from "../components/GoogleSearchComponent";
 import FavoritesList from "../components/PlacesList";
 
 export default function PlacesPage() {
-    const { ready, user, setUser } = useContext(UserContext);
+    const { ready, user } = useContext(UserContext);
     const [fav, setFav] = useState([]);
   
     let {subpage} = useParams();
@@ -17,7 +14,10 @@ export default function PlacesPage() {
         subpage = 'find';
     }
     if (!ready) {
-        return 'Loading...';
+        let htmlString = '<div><img src="/loading.gif" class="w-8 mx-auto mt-3 mb-6"></div>'
+        return (
+            <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+        )
     }
     if (ready && !user) {
         return <Navigate to={'/login'}/>

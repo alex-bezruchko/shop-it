@@ -1,4 +1,4 @@
-import {Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
@@ -14,6 +14,7 @@ export default function NewPasswordPage() {
     const token = new URLSearchParams(location.search).get('token');
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(false);
+
     async function handleNewPassword(e) {
         e.preventDefault();
         let body = { newPassword, confirmPassword };

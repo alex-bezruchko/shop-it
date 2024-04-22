@@ -15,7 +15,6 @@ export default function CurrentList({listLoading, isLoading}) {
     let { listId } = useParams();
     const [currentList, setCurrentList] = useState({products: []});
     const [selectedListId, setSelectedListId] = useState('');
-    const [selectedProducts, setSelectedProducts] = useState({products: []});
     const [errors, setErrors] = useState([]);
     const [updateLoading, setUpdateLoading] = useState(false)
     const [idLoaded, setIdLoaded] = useState(false);

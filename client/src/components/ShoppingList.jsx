@@ -6,9 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import ValidationErrorDisplay from "./ValidationErrors";
 import { Validation } from "./Validation";
-// import { updateProduct } from "../../../api/controllers/ProductController";
 
-export default function ShoppingList({listLoading}) {
+export default function ShoppingList() {
     const dispatch = useDispatch();
 
     const {user} = useContext(UserContext);
@@ -164,6 +163,7 @@ export default function ShoppingList({listLoading}) {
                                     {product.photo && (
                                         <img
                                             data-src={product.photo} // Change src to data-src
+                                            src={product.photo || 'placeholder.svg'}
                                             alt="Product Photo"
                                             className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] rounded-r-md"
                                             loading="lazy" // Add loading="lazy" attribute for lazy loading

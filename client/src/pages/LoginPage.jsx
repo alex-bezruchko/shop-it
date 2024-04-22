@@ -14,7 +14,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
     const [errors, setErrors] = useState([]);
-    const { ready, user, setUser } = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
 
     async function handleSubmitLogin(e) {
