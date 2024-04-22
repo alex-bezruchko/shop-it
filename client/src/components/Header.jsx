@@ -144,7 +144,7 @@ export default function Header() {
                             </Link>
                             {/* <Link to="/stores" className="block px-4 py-2 text-gray-800 hover:bg-gray-100" onClick={handleLinkClick}>Find Places</Link> */}
                             <div className="flex justify-end mt-1">
-                                <button aria-label="" className="bg-primaryBlue nunito px-2 py-1 sm:py-3  text-white rounded tracking-wide" onClick={logOut}>Logout</button>
+                                <button aria-label="Logout button" className="bg-primaryBlue nunito px-2 py-1 sm:py-3  text-white rounded tracking-wide" onClick={logOut}>Logout</button>
                             </div>
                         </div>
                     )}

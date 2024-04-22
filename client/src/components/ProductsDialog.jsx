@@ -251,7 +251,7 @@ import ValidationErrorDisplay from "./../components/ValidationErrors";
                                     
                                         <div className="flex items-center justify-between border-r w-1/2">
                                             <img src={photo} alt="Selected" className="m-0 h-[7rem] w-[7rem] sm:w-40 sm:h-40" />
-                                            <button aria-label="" onClick={removePhoto} className="text-primaryRed mt-2 mx-auto text-center">
+                                            <button aria-label="Remove photo button" onClick={removePhoto} className="text-primaryRed mt-2 mx-auto text-center">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-7 h-7 sm:w-10 sm:h-10">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 4.478v.227a48.816 48.816 0 0 1 3.878.512.75.75 0 1 1-.256 1.478l-.209-.035-1.005 13.07a3 3 0 0 1-2.991 2.77H8.084a3 3 0 0 1-2.991-2.77L4.087 6.66l-.209.035a.75.75 0 0 1-.256-1.478A48.567 48.567 0 0 1 7.5 4.705v-.227c0-1.564 1.213-2.9 2.816-2.951a52.662 52.662 0 0 1 3.369 0c1.603.051 2.815 1.387 2.815 2.951Zm-6.136-1.452a51.196 51.196 0 0 1 3.273 0C14.39 3.05 15 3.684 15 4.478v.113a49.488 49.488 0 0 0-6 0v-.113c0-.794.609-1.428 1.364-1.452Zm-.355 5.945a.75.75 0 1 0-1.5.058l.347 9a.75.75 0 1 0 1.499-.058l-.346-9Zm5.48.058a.75.75 0 1 0-1.498-.058l-.347 9a.75.75 0 0 0 1.5.058l.345-9Z" clipRule="evenodd" />
                                                 </svg>
@@ -279,15 +279,15 @@ import ValidationErrorDisplay from "./../components/ValidationErrors";
                             </div>
                             <div className="sm:col-span-3 pb-0">
                                 <div className="flex justify-end">
-                                    <button aria-label="" className="primaryOrange mt-0 nunito font-medium text-sm md:text-xl" onClick={handleOpen}>Cancel</button>
+                                    <button aria-label="Close Product Form button" className="primaryOrange mt-0 nunito font-medium text-sm md:text-xl" onClick={handleOpen}>Cancel</button>
                                     { loading ? (
-                                        <button aria-label="" className="primaryBlue mt-0 nunito font-medium text-sm  px-4 sm:text-lg  flex-shrink-0 ml-2">
+                                        <button aria-label="Loadgin gif" className="primaryBlue mt-0 nunito font-medium text-sm  px-4 sm:text-lg  flex-shrink-0 ml-2">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="white text-white w-5">
                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                             </svg>
                                         </button>
                                     ) : (
-                                        <button aria-label="" className="bg-primaryBlue mt-0 nunito font-medium text-white px-4 rounded text-sm md:text-xl flex-shrink-0 ml-2 mr-0" onClick={formType === 'create' ? createProduct : editProduct}>{formType === 'create' ? 'Create' : 'Edit'}</button>
+                                        <button aria-label="Product Form Action button" className="bg-primaryBlue mt-0 nunito font-medium text-white px-4 rounded text-sm md:text-xl flex-shrink-0 ml-2 mr-0" onClick={formType === 'create' ? createProduct : editProduct}>{formType === 'create' ? 'Create' : 'Edit'}</button>
                                     )}
                                 </div>
                             </div>
