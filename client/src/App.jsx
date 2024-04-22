@@ -9,7 +9,6 @@ import {UserContextProvider} from './components/UserContext.jsx';
 import { PlaceProvider } from './components/PlaceContext.jsx';
 import { RequestContextProvider } from './components/RequestContext.jsx'; // Import RequestContextProvider
 import AccountPage from './pages/AccountPage.jsx';
-import IndexPage from './pages/IndexPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
