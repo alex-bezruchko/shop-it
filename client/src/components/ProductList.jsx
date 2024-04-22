@@ -85,8 +85,13 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
                 </div>
                 
                 {product.photo && (
-                    <img src={product.photo} alt="Product Photo" className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] rounded-r-md"/>)
-                }
+                    <img
+                        data-src={product.photo} // Change src to data-src
+                        alt="Product Photo"
+                        className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] rounded-r-md"
+                        loading="lazy" // Add loading="lazy" attribute for lazy loading
+                    />
+                )}
 
                 {product.photo == ''  && (
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor"  className="min-w-32 min-h-32 w-32 h-32 pr-2">

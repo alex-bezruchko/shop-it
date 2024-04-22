@@ -353,10 +353,12 @@ export default function CurrentList({listLoading, isLoading}) {
                                                     </div>
                                                     <div className="flex items-center">
                                                         <img 
-                                                            src={product.product.photo || 'placeholder.svg'} 
+                                                            src={product.product.photo || 'placeholder.svg'}
+                                                            data-src={product.product.photo || 'placeholder.svg'} // Change src to data-src
                                                             alt="Product Photo" 
                                                             className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] rounded-r-md"
                                                             onClick={() => checkItemFromList(product._id)}
+                                                            loading="lazy" // Add loading="lazy"
                                                         />
                                                     </div>
                                                 </div>
