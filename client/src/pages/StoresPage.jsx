@@ -25,7 +25,7 @@ export default function StoresPage() {
     if (!ready) {
         return (
             <div className='mt-5'>
-                <img src="https://media.tenor.com/wpSo-8CrXqUAAAAi/loading-loading-forever.gif" className='size-10 mx-auto mb-6'/>
+                <img src="./../src/assets/loading.gif" className='size-10 mx-auto mb-6'/>
             </div>
         );
     }
