@@ -65,7 +65,7 @@ export default function NewPasswordPage() {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className="mb-2"
                         />
-                        <button type="submit" className="primaryBlue nunito w-full mt-3" disabled={loading}>
+                        <button aria-label="Loading Or Confirm Password button" type="submit" className="primaryBlue nunito w-full mt-3" disabled={loading}>
                             {loading ? 'Loading...' : 'Confirm Password'}
                         </button>
                     </form>

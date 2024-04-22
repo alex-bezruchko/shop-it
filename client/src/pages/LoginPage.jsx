@@ -70,7 +70,7 @@ export default function LoginPage() {
                         placeholder="password"
                         className="mb-2"
                     />
-                    <button className="primaryBlue w-full nunito mt-4">Login</button>
+                    <button aria-label="Login button" className="primaryBlue w-full nunito mt-4">Login</button>
                     <div className="text-center nunito py-2 text-gray-500 mt-2">
                         Don't have an account yet? 
                         <Link to={'/register'} className="ml-3 nunito text text-primaryBlue"> Register now</Link>

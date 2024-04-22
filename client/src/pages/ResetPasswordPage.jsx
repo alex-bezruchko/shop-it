@@ -60,7 +60,7 @@ export default function ResetPasswordPage() {
                             required
                         />
                     </div>
-                    <button type="submit" className="primaryBlue w-full mt-4 nunito text-md" disabled={loading}>
+                    <button aria-label="Loading Or Reset Password button" type="submit" className="primaryBlue w-full mt-4 nunito text-md" disabled={loading}>
                         {loading ? 'Loading...' : 'Reset Password'}
                     </button>
                 </form>
