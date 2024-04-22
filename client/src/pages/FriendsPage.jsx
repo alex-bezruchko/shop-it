@@ -53,7 +53,7 @@ export default function FriendsPage() {
         subpage = 'find';
     }
     if (!ready) {
-        let htmlString = '<div><img src="proces.env.VITE_LOADING_GIF_PATH" class="size-10 mx-auto mb-6"></div>'
+        let htmlString = '<div><img src="/loading.gif" class="size-10 mx-auto mb-6"></div>'
         return (
             <div dangerouslySetInnerHTML={{ __html: htmlString }} />
         )
@@ -126,7 +126,7 @@ export default function FriendsPage() {
              </div>
              {listLoading && (
                 <div>
-                    <img src="proces.env.VITE_LOADING_GIF_PATH" className='size-10 mx-auto mb-6'/>
+                    <img src="/loading.gif" className='size-10 mx-auto mb-6'/>
                 </div>
             )}
              <div className="flex flex-col w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-center mt-0 mb-1 mx-auto">
