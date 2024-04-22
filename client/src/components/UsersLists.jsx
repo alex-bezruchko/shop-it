@@ -10,57 +10,64 @@ export default function UsersLists({sendTo, currentLink, listLoading, isLoading}
 
     const {user} = useContext(UserContext);
     const [currentLists, setCurrentLists] = useState([]);
+    const [completedLists, setCompletedLists] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
     const [activeTab, setActiveTab] = useState('current');
 
     removeAlert();
+
     useEffect(() => {
-        let url = `/shoppinglists/owner/${user._id}`;
-        listLoading(true);
-        axios.get(url).then(({ data }) => {
-            if (data.shoppingLists) {
-                currentLink(data.shoppingLists[0]._id);
-                let newList = data.shoppingLists.filter(list => list.completed === false);
-                setCurrentLists(data.shoppingLists)
-                setFilteredList(newList);
+        async function fetchLists(completed) {
+            listLoading(true);
+            try {
+                const response = await axios.get(`/shoppinglists/owner/${user._id}?completed=${completed}`);
+                if (response.data.shoppingLists) {
+                    if (completed) {
+                        setCompletedLists(response.data.shoppingLists);
+                    } else {
+                        setCurrentLists(response.data.shoppingLists);
+                        currentLink(response.data.shoppingLists[0]._id);
+                        setFilteredList(response.data.shoppingLists.filter(list => !list.completed));
+                    }
+                }
+            } catch (error) {
+                console.error(error);
+            } finally {
+                listLoading(false);
             }
-            listLoading(false);
-        }).catch(error => {
-            listLoading(false);
-            console.log(error);
-        });
+        }
+
+        fetchLists(false); // Fetch current lists
+        fetchLists(true);  // Fetch completed lists
     }, [user]);
 
     async function viewList(id) {
         sendTo(id)
     }
-    function handleTab(foo) {
-        let newList = '';
-        if (foo === 'current') {
-            setActiveTab(foo);
-            newList = currentLists.filter(list => list.completed === false)
+
+    function handleTab(tab) {
+        setActiveTab(tab);
+        if (tab === 'current') {
+            setFilteredList(currentLists.filter(list => !list.completed));
         } else {
-            setActiveTab(foo);
-            newList = currentLists.filter(list => list.completed === true)
+            setFilteredList(completedLists.filter(list => list.completed));
         }
-        setFilteredList(newList)
     }
+
     async function deleteList(id) {
         try {
             const response = await axios.delete(`/shoppinglists/${id}`);
             // Update local state with the updated name
-            let newList = currentLists.filter(list => list._id !== id);
-            let newFilterList = filteredList.filter(list => list._id !== id);
-
-            setCurrentLists(newList);
-            setFilteredList(newFilterList);
-            dispatch({ type: 'SET_ALERT', payload: {message: 'Shopping list deleted successfully', alertType: 'primaryGreen'} });
-
+            setCurrentLists(currentLists.filter(list => list._id !== id));
+            setCompletedLists(completedLists.filter(list => list._id !== id));
+            setFilteredList(filteredList.filter(list => list._id !== id));
+            dispatch({ type: 'SET_ALERT', payload: { message: 'Shopping list deleted successfully', alertType: 'primaryGreen' } });
         } catch (error) {
-            dispatch({ type: 'SET_ALERT', payload: {message: 'Unable to delete list', alertType: 'primaryRed'} });
+            dispatch({ type: 'SET_ALERT', payload: { message: 'Unable to delete list', alertType: 'primaryRed' } });
             console.error('Error updating shopping list name:', error);
         }
     }
+
     return (
         <div>
             {isLoading ? (

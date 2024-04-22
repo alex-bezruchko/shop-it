@@ -89,8 +89,8 @@ exports.getShoppingListsByOwner = async (req, res) => {
         const { completed } = req.query;
 
         let query = { owner: ownerId };
-        if (completed && completed.toLowerCase() === 'true') {
-            query.completed = true;
+        if (completed) {
+            query.completed = completed.toLowerCase() === 'true';
         }
 
         const shoppingLists = await ShoppingList.find(query).sort({ createdAt: -1 });
