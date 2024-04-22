@@ -259,7 +259,7 @@ import ValidationErrorDisplay from "./../components/ValidationErrors";
                                         </div>
                                     )}
                                     <div className={`w-${photo ? '1/2' : 'full'} flex flex-col h-full justify-left`}>
-                                        <FileUpload setFile={handleImageSelect}/>
+                                        <FileUpload setFile={handleImageSelect} photo={photo}/>
                                     </div>
                                 </div>
                             </div>
