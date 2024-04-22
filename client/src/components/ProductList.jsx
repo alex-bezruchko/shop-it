@@ -1,13 +1,9 @@
-import React, {useState} from 'react';
 import ProductsDialog from './ProductsDialog';
 
 const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateProducts, deleteProduct }) => {
-  // const [addedProducts, setAddedProducts] = useState([]);
-
 
   const handleAddToList = (product) => {
     if (!currentList.products || !Array.isArray(currentList.products) || currentList.products.length === 0) {
-        // Assuming addToList function adds the product to the list
         addToList(product);
         return;
     }
@@ -32,8 +28,8 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
             addToList(product);
         }
     } else {
+      console.log('')
     }
-  
   }
 
   async function updateProduct(product) {
@@ -67,7 +63,7 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
       {noHeader === false && (<h2>Product List</h2>)}
       <ul className='w-full'>
         {products.products.map(product => (
-            <div key={product._id} className="flex w-full justify-between">
+            <li key={product._id} className="flex w-full justify-between">
               <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 md:p-0 mb-4 border border-2 ${isProductAdded(product) ? 'border-primaryGray' : 'border-primaryGreen'}`}>
                 <div className="w-full flex justify-between mt-0 h-full">
                   <div className="flex items-center w-full justify-between">
@@ -103,8 +99,7 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
                     <path fillRule="evenodd" d="M7.5 6v.75H5.513c-.96 0-1.764.724-1.865 1.679l-1.263 12A1.875 1.875 0 0 0 4.25 22.5h15.5a1.875 1.875 0 0 0 1.865-2.071l-1.263-12a1.875 1.875 0 0 0-1.865-1.679H16.5V6a4.5 4.5 0 1 0-9 0ZM12 3a3 3 0 0 0-3 3v.75h6V6a3 3 0 0 0-3-3Zm-3 8.25a3 3 0 1 0 6 0v-.75a.75.75 0 0 1 1.5 0v.75a4.5 4.5 0 1 1-9 0v-.75a.75.75 0 0 1 1.5 0v.75Z" clipRule="evenodd" />
                   </svg>
                 </button>
-            </div>
-         
+            </li>
         ))}
       </ul>
     </div>

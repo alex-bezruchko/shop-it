@@ -86,7 +86,6 @@ export default function FriendDetailPage({listLoading}) {
         } else {
           const placeCopy = { ...place };
 
-          // Create a new array by concatenating the existing favPlaces array with the new place object
           const updatedPlaces = [...favPlaces, placeCopy];
 
           // Update the state with the new array
@@ -149,41 +148,38 @@ export default function FriendDetailPage({listLoading}) {
             {friend.lists.map(list => (
               <div key={list._id} className="flex w-full justify-between mt-5 ">
                 <div className={'flex w-full items-center justify-between bg-white rounded-lg shadow-lg py-2 h-24 px-3 border border-[1.5px] border-primaryBlue'}>
-                    {/* <div className="flex w-full items-center w-full justify-between "> */}
-                        <div className="mr-4 flex flex-col justify-between h-full">
-                            <h2 className="text-left text-xl lora font-medium">{list.name}</h2>
-                            <ul className="flex text-left ">
-                                {list.products.slice(0, 3).map((product, idx) => (
-                                    <React.Fragment key={idx}>
-                                        <li className="nunito text-sm sm:text-xl pr-1">{product.product.name}{idx < 2 && (list.products.length > idx + 1 ? ', ' : '')}</li>
-                                    </React.Fragment>
-                                ))}
-                                {list.products.length > 3 && <li className="nunito text-sm sm:text-xl">...</li>}
-                            </ul>
-                        </div>
-                        <div className="flex items-center">
-                          <button onClick={() => viewList(list._id)} className="text-primaryBlue self-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 -mb-1">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
-                            </svg>
+                    <div className="mr-4 flex flex-col justify-between h-full">
+                        <h2 className="text-left text-xl lora font-medium">{list.name}</h2>
+                        <ul className="flex text-left ">
+                            {list.products.slice(0, 3).map((product, idx) => (
+                                <React.Fragment key={idx}>
+                                    <li className="nunito text-sm sm:text-xl pr-1">{product.product.name}{idx < 2 && (list.products.length > idx + 1 ? ', ' : '')}</li>
+                                </React.Fragment>
+                            ))}
+                            {list.products.length > 3 && <li className="nunito text-sm sm:text-xl">...</li>}
+                        </ul>
+                    </div>
+                    <div className="flex items-center">
+                      <button onClick={() => viewList(list._id)} className="text-primaryBlue self-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 -mb-1">
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v16.5c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Zm3.75 11.625a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" />
+                        </svg>
+                      </button>
+                      
+                      {copyLoading && idLoading === list._id? (
+                          <button className="bg-white nunito font-medium text-sm  px-0 sm:text-lg  flex-grow flex-shrink-0 ml-4">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="text-primaryOrange w-8 h-8">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                              </svg>
                           </button>
-                         
-                          {copyLoading && idLoading === list._id? (
-                              <button className="bg-white nunito font-medium text-sm  px-0 sm:text-lg  flex-grow flex-shrink-0 ml-4">
-                                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="text-primaryOrange w-8 h-8">
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                  </svg>
-                              </button>
-                          ): (
-                            <button onClick={() => copyList(list._id)} className="text-primaryGreen ml-4 self-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 text-green">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" clipRule="evenodd" />
-                                </svg>
-                            </button>
-                          )}
-                        </div>
-                        
-                    {/* </div>                  */}
+                      ): (
+                        <button onClick={() => copyList(list._id)} className="text-primaryGreen ml-4 self-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 text-green">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" clipRule="evenodd" />
+                            </svg>
+                        </button>
+                      )}
+                    </div>
                 </div>    
               </div>
             ))}
@@ -241,11 +237,6 @@ export default function FriendDetailPage({listLoading}) {
                 <div className="w-full">
                     <div className='flex  mb-2'>
                       <h2 className="lora text-3xl w-full text-center pb-1 border-b-2 border-transparent">{currentList.name}</h2>
-                      {/* <button onClick={() => copyList(currentList._id)} className="text-primaryRed ml-4 self-center">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 text-green">
-                              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" clipRule="evenodd" />
-                          </svg>
-                      </button> */}
                       {copyLoading ? (
                           <button className="bg-white nunito font-medium text-sm  px-0 sm:text-lg  flex-grow flex-shrink-0 ml-4">
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="text-primaryOrange w-8 h-8">
@@ -262,15 +253,12 @@ export default function FriendDetailPage({listLoading}) {
                     </div>
                     <ul className="flex flex-col justify-between">
                       {currentList.products?.map(product => (
-                          <div key={product.product._id} className="flex w-full justify-between">
+                          <li key={product.product._id} className="flex w-full justify-between">
                               <div className="flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 mb-4 border border-2 border-primaryBlue">
-
-                              {/* <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 mb-4 border border-2 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}> */}
                                   <div className="flex items-center w-full h-full justify-between">
                                       <div className="mr-0 flex flex-col w-full justify-between h-full">
                                           <h3 className="pl-2 pr-0 pt-2 text-left text-lg font-medium lora self-start">{product.product.name}</h3>
                                           <div className="pl-2 pr-0 pb-2">
-                                              {/* <p className="text-left text-sm nunito">{product.product.description}</p> */}
                                               <p className="text-left text-md lora">${product.product.price}</p>
                                           </div>
                                       </div>
@@ -283,7 +271,7 @@ export default function FriendDetailPage({listLoading}) {
                                       />
                                   </div>
                               </div>
-                          </div>
+                          </li>
                       ))}
                   </ul>
                 </div>
