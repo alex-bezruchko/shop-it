@@ -278,7 +278,6 @@ export default function CurrentList({listLoading, isLoading}) {
                                                 <svg onClick={toggleEditing} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8 sm:w-8 sm:h-8 ml-2 text-primaryBlue">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 0 1 9 9v.375M10.125 2.25A3.375 3.375 0 0 1 13.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 0 1 3.375 3.375M9 15l2.25 2.25L15 12" />
                                                 </svg>
-                                                {/* <label htmlFor="name" className="block lora text-3xl pb-5">Name</label> */}
                                                 <div className="mt-0 flex justify-center w-full items-center">
                                                     <input 
                                                     type="text"
@@ -298,13 +297,10 @@ export default function CurrentList({listLoading, isLoading}) {
                                         {currentList.products?.map(product => (
                                             <li key={product.product._id} className="flex w-full justify-between">
                                                 <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 mb-4 border border-2 ${updateLoading && product._id === idLoaded ? 'border-primaryBlue' : (product.completed ? 'border-primaryGreen' : 'border-primaryOrange')}`}>
-
-                                                {/* <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 mb-4 border border-2 ${product.completed ? 'border-primaryBlue' : 'border-primaryOrange'}`}> */}
                                                     <div className="flex items-center w-full h-full justify-between">
                                                         <div className="mr-0 flex flex-col w-full justify-between h-full">
                                                             <h3 className="pl-2 pr-0 pt-2 text-left text-lg font-medium lora self-start">{product.product.name}</h3>
                                                             <div className="pl-2 pr-0 pb-2">
-                                                                {/* <p className="text-left text-sm nunito">{product.product.description}</p> */}
                                                                 <p className="text-left text-md lora">${product.product.price}</p>
                                                             </div>
                                                         </div>
@@ -324,16 +320,13 @@ export default function CurrentList({listLoading, isLoading}) {
                                                                     ) : (
                                                                         <div>
                                                                             {product.completed ? (
-
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#6CB462" className="w-[35px] h-[35px]">
                                                                                     <path stroke="white" fillRule="evenodd" d="M8.603 3.799A4.49 4.49 0 0 1 12 2.25c1.357 0 2.573.6 3.397 1.549a4.49 4.49 0 0 1 3.498 1.307 4.491 4.491 0 0 1 1.307 3.497A4.49 4.49 0 0 1 21.75 12a4.49 4.49 0 0 1-1.549 3.397 4.491 4.491 0 0 1-1.307 3.497 4.491 4.491 0 0 1-3.497 1.307A4.49 4.49 0 0 1 12 21.75a4.49 4.49 0 0 1-3.397-1.549 4.49 4.49 0 0 1-3.498-1.306 4.491 4.491 0 0 1-1.307-3.498A4.49 4.49 0 0 1 2.25 12c0-1.357.6-2.573 1.549-3.397a4.49 4.49 0 0 1 1.307-3.497 4.49 4.49 0 0 1 3.497-1.307Zm7.007 6.387a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z" clipRule="evenodd" />
                                                                                 </svg>
-
                                                                             ) : (
                                                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-[32px] h-[32px] text-primaryOrange">
                                                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
                                                                                 </svg>
-
                                                                             )}
                                                                         </div>
                                                                     )}
@@ -351,14 +344,18 @@ export default function CurrentList({listLoading, isLoading}) {
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center">
+                                                    {product.product.photo !== '' ? (
                                                         <img 
-                                                            src={product.product.photo || 'placeholder.svg'}
-                                                            data-src={product.product.photo || 'placeholder.svg'} // Change src to data-src
+                                                            src={product.product.photo}
                                                             alt="Product Photo" 
-                                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] rounded-r-md"
-                                                            onClick={() => checkItemFromList(product._id)}
-                                                            loading="lazy" // Add loading="lazy"
+                                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] pr-0 rounded-r-md"
                                                         />
+                                                    ) : (
+                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] p-1">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                                                        </svg>
+                                                    )}
+
                                                     </div>
                                                 </div>
                                                 <button aria-label="Delete Product From List button" onClick={() => deleteProductFromShoppingList(product.product._id)} className="text-primaryRed ml-2 mb-4 p-0 self-center">
