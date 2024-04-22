@@ -1,4 +1,3 @@
-// AlertContainer.js
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { removeAlert } from './../actions/alertActions';
@@ -10,7 +9,7 @@ const AlertContainer = ({ alert, removeAlert }) => {
     if (message && alertType) {
       const timer = setTimeout(() => {
         removeAlert();
-      }, 3800); // 3 seconds
+      }, 3800);
 
       return () => clearTimeout(timer);
     }

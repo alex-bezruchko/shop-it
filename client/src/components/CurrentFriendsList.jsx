@@ -1,7 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { UserContext } from "./UserContext";
+import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 function CurrentFriendsList({handleFriendClick, friends, isLoading}) {
 
@@ -10,7 +8,7 @@ function CurrentFriendsList({handleFriendClick, friends, isLoading}) {
             <h2 className='text-center lora text-3xl'>Friends</h2>
 
             {isLoading ? (
-                <></>
+                <div></div>
             ) : (
                 friends && friends.length !== 0 ? (
                     <div className="user-list  mt-5">
