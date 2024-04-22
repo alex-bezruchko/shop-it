@@ -7,8 +7,7 @@ import { removeAlert } from '../actions/alertActions';
 
 export default function UsersLists({sendTo, currentLink, listLoading, isLoading}) {
     const dispatch = useDispatch();
-
-    const {user} = useContext(UserContext);
+    const { user } = useContext(UserContext);
     const [currentLists, setCurrentLists] = useState([]);
     const [completedLists, setCompletedLists] = useState([]);
     const [filteredList, setFilteredList] = useState([]);
@@ -38,7 +37,6 @@ export default function UsersLists({sendTo, currentLink, listLoading, isLoading}
         }
 
         fetchLists(false); // Fetch current lists
-        fetchLists(true);  // Fetch completed lists
     }, [user]);
 
     async function viewList(id) {
@@ -49,15 +47,30 @@ export default function UsersLists({sendTo, currentLink, listLoading, isLoading}
         setActiveTab(tab);
         if (tab === 'current') {
             setFilteredList(currentLists.filter(list => !list.completed));
-        } else {
-            setFilteredList(completedLists.filter(list => list.completed));
+        } else if (tab === 'completed') {
+            // Fetch completed lists only when the 'Completed' tab is clicked
+            fetchCompletedLists();
         }
-    }, [currentLists, completedLists]);
+    }, [currentLists]);
+
+    async function fetchCompletedLists() {
+        try {
+            listLoading(true);
+            const response = await axios.get(`/shoppinglists/owner/${user._id}?completed=true`);
+            if (response.data.shoppingLists) {
+                setCompletedLists(response.data.shoppingLists);
+                setFilteredList(response.data.shoppingLists);
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            listLoading(false);
+        }
+    }
 
     async function deleteList(id) {
         try {
             const response = await axios.delete(`/shoppinglists/${id}`);
-            // Update local state with the updated name
             setCurrentLists(currentLists.filter(list => list._id !== id));
             setCompletedLists(completedLists.filter(list => list._id !== id));
             setFilteredList(filteredList.filter(list => list._id !== id));
@@ -67,6 +80,7 @@ export default function UsersLists({sendTo, currentLink, listLoading, isLoading}
             console.error('Error updating shopping list name:', error);
         }
     }
+
 
     return (
         <div>
