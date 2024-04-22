@@ -217,7 +217,7 @@ const GoogleSearchComponent = () => {
             <input
               type="text"
               placeholder="Location Name"
-              className="w-64 p-2 border border-gray-300 rounded mr-2 mb-2"
+              className="w-64 p-2 border border-gray-300 nunito rounded mr-2 mb-2"
               value={query.name}
               onChange={(e) => setQuery({...query, name: e.target.value})}
               // onChange={(e) => setQuery(prevQuery => ({...prevQuery, name: e.target.value}))}
@@ -226,20 +226,18 @@ const GoogleSearchComponent = () => {
             <input
               type="text"
               placeholder="Zip Code"
-              className="w-32 p-2 border border-gray-300 rounded mr-2 mb-2"
+              className="w-32 p-2 border border-gray-300 nunito rounded mr-2 mb-2"
               value={query.zip}
               onChange={(e) => setQuery({...query, zip: e.target.value})}
               // onChange={(e) => setQuery(prevQuery => ({...prevQuery, name: e.target.value}))}
             />
             <button
-              className="primaryBlue mt-2 w-full mx-auto"
+              className="primaryBlue nunito mt-2 w-full mx-auto"
               onClick={handleSearch}
             >
               Search
             </button>
           </div>
-        
-
 
         <div className="mt-6">
           <h1 className='lora text-3xl text-center mt-6'>Location</h1>
