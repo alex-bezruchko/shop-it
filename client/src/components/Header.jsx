@@ -67,14 +67,14 @@ export default function Header() {
             </Link>
 
             {user && user._id ? (
-                <div className="flex gap-2 border border-1 border-primaryBlue rounded-full p-0 shadow-lg shadow-gray-300">
+                <div className="flex gap-2 border border-2 border-primaryBlue rounded-full p-0">
                     <ProductsDialog />
                 </div>
             ): (<></>)}
 
             {user && user._id && (
                 <div className="relative">
-                    <button aria-label="User menu toggle button" className="relative flex items-center justify-between gap-2 border border-1 border-primaryBlue rounded-full px-2 py-1 shadow-lg shadow-gray-300 focus:outline-none" onClick={toggleDropdown}>
+                    <button aria-label="User menu toggle button" className="relative flex items-center justify-between gap-2 border border-2 border-primaryBlue rounded-full px-2 py-1 focus:outline-none" onClick={toggleDropdown}>
                         <div className="flex justify-between">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
