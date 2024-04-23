@@ -10,11 +10,7 @@ const PORT = process.env.PORT || 4000;
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors({
-//     origin: '*',
-//     credentials: true,
-//     allowedHeaders: ['Content-Type', 'Authorization'],
-// }));
+
 const corsOptions = {
     origin: function (origin, callback) {
         callback(null, true);
@@ -22,19 +18,24 @@ const corsOptions = {
     credentials: true
 };
 
-
 app.use(cors(corsOptions));
 
+// Preconnect Header
+app.use((req, res, next) => {
+    // Add preconnect header for Google Fonts
+    res.setHeader('Link', '<https://fonts.gstatic.com>; rel=preconnect');
+    next();
+});
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URL);
+
 
 // Routes
 const usersRoutes = require('./routes/users');
 const productsRoutes = require('./routes/products');
 const categoriesRoutes = require('./routes/categories');
 const shoppingListRoutes = require('./routes/shoppinglists');
-
 
 app.use('/users', usersRoutes);
 app.use('/products', productsRoutes);
