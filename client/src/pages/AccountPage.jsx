@@ -115,6 +115,7 @@ export default function AccountPage() {
                     >
                         {subpage === 'profile' && (
                             <div className="flex flex-col text-center">
+                                <h2 className="lora text-3xl pb-5">Your Lists</h2>
                                 <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} isLoading={listLoading} listLoading={updateLoading} />
                             </div>
                         )}

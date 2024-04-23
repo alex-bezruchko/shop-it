@@ -81,14 +81,12 @@ export default function UsersLists({sendTo, currentLink, listLoading, isLoading}
         }
     }
 
-
     return (
         <div>
             {isLoading ? (
                 <div></div>
             ) : (
                 <div className="flex flex-col">
-                    <h2 className="lora text-3xl pb-5">Your Lists</h2>
                     
                     {currentLists.length !== 0 ? (
                         <div className="w-full">
