@@ -6,7 +6,7 @@ import ProductList from "../components/ProductList";
 import ProductsDialog from "../components/ProductsDialog";
 import ValidationErrorDisplay from "./ValidationErrors";
 import { Validation } from "./Validation";
-import ImageWithPlaceholder from "./ImageWithPlaceholder"; // Import the ImageWithPlaceholder component
+import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
 
 export default function CurrentList({listLoading, isLoading}) {
 
@@ -142,7 +142,9 @@ export default function CurrentList({listLoading, isLoading}) {
             setErrors([]);
             setIfNotEditing(!ifNotEditing);
         }
-    }    
+    }
+    
+
     async function searchProducts(e) {
         e.preventDefault();
         let body = e.target.value;
@@ -202,6 +204,7 @@ export default function CurrentList({listLoading, isLoading}) {
             return { ...prevProducts, products: updatedProducts };
         });
     }
+    
     
     async function deleteProduct(product) {
         console.log('current list deleteProduc(product)', product)
@@ -339,8 +342,16 @@ export default function CurrentList({listLoading, isLoading}) {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div onClick={() => checkItemFromList(product._id)} className="flex items-center">    
-                                                        <ImageWithPlaceholder imageUrl={product.product.photo} />
+                                                    <div onClick={() => checkItemFromList(product._id)} className="flex items-center">
+                                                        {product.product.photo !== '' ? (
+                                                            <img 
+                                                                src={`${product.product.photo}?fit=crop&w=175&h=175&crop=entropy`}
+                                                                alt={`Photo for ${product.product.name}`}
+                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] pr-0 rounded-r-md"                                                                
+                                                            />
+                                                        ) : (
+                                                            <img src={placeholderImg} alt="Placeholder Image" className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] pr-0 rounded-r-md"/>
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <button aria-label="Delete Product From List button" onClick={() => deleteProductFromShoppingList(product.product._id)} className="text-primaryRed ml-2 mb-4 p-0 self-center">
