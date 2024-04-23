@@ -347,7 +347,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                                 src={`${product.product.photo}?w=143&h=143&fit=scale`}
                                                                 alt={`product.produt.name ${product.product.name}`}
                                                                 className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] pr-0 rounded-r-md"
-                                                                loading="lazy"
+                                                                
                                                             />
                                                         ) : (
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] p-1">

@@ -166,7 +166,7 @@ export default function ShoppingList() {
                                             src={`${product.photo}?w=143&h=143&fit=scale`}
                                             alt="Product Photo"
                                             className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] rounded-r-md"
-                                            loading="lazy" // Add loading="lazy" attribute for lazy loading
+                                             // Add  attribute for lazy loading
                                         />
                                     )}
                             
