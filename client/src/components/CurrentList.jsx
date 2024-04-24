@@ -7,6 +7,8 @@ import ProductsDialog from "../components/ProductsDialog";
 import ValidationErrorDisplay from "./ValidationErrors";
 import { Validation } from "./Validation";
 import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
+// import { LazyLoadImage } from 'react-lazy-load-image-component';
+import MyImage from "./MyImage";
 
 export default function CurrentList({listLoading, isLoading}) {
 
@@ -20,6 +22,8 @@ export default function CurrentList({listLoading, isLoading}) {
     const [updateLoading, setUpdateLoading] = useState(false)
     const [idLoaded, setIdLoaded] = useState(false);
     const [products, setProducts] = useState({products: []});
+    const [loadingImages, setLoadingImages] = useState([]);
+    const [imageLoading, setImageLoading] = useState(false);
 
     useEffect(() => {
         listLoading(true);
@@ -37,6 +41,7 @@ export default function CurrentList({listLoading, isLoading}) {
                 setSelectedListId(data.data._id);
                 setNewName(data.data.name);
                 setCurrentList(data.data);
+                console.log('data.data', data.data)
                 listLoading(false);
             }
         }).catch(error => {
@@ -45,7 +50,28 @@ export default function CurrentList({listLoading, isLoading}) {
             console.log(error);
         });
     }, [user]);
+
+    useEffect(() => {
+        if (imageLoading === true) {
+            let currentProducts = currentList;
+            console.log('currentProducts', currentProducts)
+            setCurrentList(currentProducts);
+        }
+    }, [imageLoading])
     
+    async function updateLoadingImages(ind) {
+        let current = loadingImages;
+        const ifDupe = loadingImages.filter(index => index == ind)
+        if (ifDupe.length == 0) {
+            current.push(ind)
+            setLoadingImages(current);
+        }
+        if (current.length === currentList.products.length) {
+            console.log('we got a final now');
+            setImageLoading(true)
+        }
+
+    }
   
     async function updateShoppingList(updatedList) {
         let body = {
@@ -293,7 +319,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                     </div>
 
                                     <ul className="flex flex-col justify-between">
-                                        {currentList.products?.map(product => (
+                                        {currentList.products?.map((product, index) => (
                                             <li key={product.product._id} className="flex w-full justify-between">
                                                 <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 mb-4 border border-2 ${updateLoading && product._id === idLoaded ? 'border-primaryBlue' : (product.completed ? 'border-primaryGreen' : 'border-primaryOrange')}`}>
                                                     <div className="flex items-center w-full h-full justify-between">
@@ -343,15 +369,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                         </div>
                                                     </div>
                                                     <div onClick={() => checkItemFromList(product._id)} className="flex items-center">
-                                                        {product.product.photo !== '' ? (
-                                                            <img 
-                                                                src={`${product.product.photo}?fit=crop&w=175&h=175&crop=entropy`}
-                                                                alt={`Photo for ${product.product.name}`}
-                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] pr-0 rounded-r-md"                                                                
-                                                            />
-                                                        ) : (
-                                                            <img src={placeholderImg} alt="Placeholder Image" className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] pr-0 rounded-r-md"/>
-                                                        )}
+                                                        <MyImage classStyle={`cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] pr-0 rounded-r-md`} updateImageCount={updateLoadingImages} image={{src: product.product.photo, alt: `Photo for ${product.product.name}`, height: '95px', width: '95px', index: index + 1, placeholder: placeholderImg }}/>
                                                     </div>
                                                 </div>
                                                 <button aria-label="Delete Product From List button" onClick={() => deleteProductFromShoppingList(product.product._id)} className="text-primaryRed ml-2 mb-4 p-0 self-center">
