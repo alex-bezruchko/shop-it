@@ -69,23 +69,32 @@
       }
     </style>
 
-      <!-- Preconnect to required origins -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+    <!-- Preconnect to required origins -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://shop-api.alex-bezruchko.com" crossorigin>
     <link rel="preconnect" href="https://maps.googleapis.com" crossorigin>
 
-    <!-- Asynchronously load non-critical JavaScript after initial rendering -->
-    <script type="module">
-      import '/src/main.jsx';
-    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Shopit app - One-stop social shopping list app">
     <title>Shop-it</title>
-
   </head>
   <body>
     <div id="root"></div>
-      <!-- Asynchronously load non-critical CSS after initial rendering -->
-      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" media="print" onload="this.media='all'">
+
+    <!-- Load main.jsx asynchronously -->
+    <script type="module" src="/src/main.jsx" async></script>
+
+    <!-- Load critical CSS after fonts are loaded -->
+    <script>
+      // Wait for fonts to be loaded before applying critical styles
+      window.onload = function() {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = 'https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap';
+        document.head.appendChild(link);
+      };
+    </script>
   </body>
-  </html>
+</html>
