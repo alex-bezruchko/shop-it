@@ -36,9 +36,13 @@ import placeholderImg from "../../public/placeholder.png"; // Import the placeho
                 setCategory(category || '');
                 setDescription(description || '');
                 if (photo !== '') {
-                    setPhoto(photo);
+                    if (photo === 'placeholder.png') {
+                        setPhoto("placeholder.png");
+                    } else {
+                        setPhoto(photo)
+                    }
                 } else {
-                    setPhoto(placeholderImg);
+                    setPhoto("placeholder.png");
                 }
                 setPrice(price || '');
                 setFormType('edit')
@@ -97,7 +101,7 @@ import placeholderImg from "../../public/placeholder.png"; // Import the placeho
             if (photo !== '') {
                 body.photo = photo;
             } else {
-                body.photo = placeholderImg;
+                body.photo = "placeholder.png";
             }
             body.description = description;
                 try  {
@@ -142,7 +146,7 @@ import placeholderImg from "../../public/placeholder.png"; // Import the placeho
             if (photo !== '') {
                 body.photo = photo;
             } else {
-                body.photo = placeholderImg;
+                body.photo = "placeholder.png";
             }
             try {
                 const response = await axios.put(`/products/${id}`, body);
@@ -152,7 +156,7 @@ import placeholderImg from "../../public/placeholder.png"; // Import the placeho
                 if (photo !== '') {
                     body.photo = photo;
                 } else {
-                    body.photo = placeholderImg;
+                    body.photo = "placeholder.png";
                 }
                 handleUpdateProducts(body)
                 setOpen(false);
