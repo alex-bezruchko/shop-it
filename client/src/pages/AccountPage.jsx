@@ -96,11 +96,6 @@ export default function AccountPage() {
                     </Link>
                 </nav>
             </div>
-            {listLoading && (
-                <div>
-                    <img src="/loading.gif" className='size-10 mx-auto mb-6'/>
-                </div>
-            )}
             
             <div className="flex flex-col w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-center mt-0 mb-1 mx-auto">
                 <div className="w-full">

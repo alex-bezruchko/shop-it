@@ -252,7 +252,9 @@ export default function CurrentList({listLoading, isLoading}) {
     return (
         <div className="flex flex-col">
             {isLoading ? (
-                <></>
+                <div>
+                    <img src="/loading.gif" className='w-8 mx-auto mb-6'/>
+                </div>
             ) : (
                 <div>
                     {selectedListId === '' ? (

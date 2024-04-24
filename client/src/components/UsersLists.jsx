@@ -84,7 +84,9 @@ export default function UsersLists({sendTo, currentLink, listLoading, isLoading}
     return (
         <div>
             {isLoading ? (
-                <div></div>
+                <div>
+                    <img src="/loading.gif" className='w-8 mx-auto mb-6'/>
+                </div>
             ) : (
                 <div className="flex flex-col">
                     
