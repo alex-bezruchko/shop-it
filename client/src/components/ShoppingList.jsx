@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
 import ValidationErrorDisplay from "./ValidationErrors";
 import { Validation } from "./Validation";
+import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
 
 export default function ShoppingList() {
     const dispatch = useDispatch();
@@ -165,14 +166,18 @@ export default function ShoppingList() {
                                             data-src={product.photo} // Change src to data-src
                                             src={product.photo === 'placeholder.png' ? placeholderImg : `${product.photo}?fit=crop&w=175&h=175&crop=entropy`}
                                             alt={`Photo for ${product.name}`}
-                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] rounded-r-md"
+                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
+                                            height="95"
+                                            width="95"
                                         />
                                     )}
                                     {product.photo == ''  && (
                                         <img
                                             src={placeholderImg}
                                             alt={`Photo for ${product.name}`}
-                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] rounded-r-md"
+                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
+                                            height="95"
+                                            width="95"
                                         />
                                     )}
                                 </div>

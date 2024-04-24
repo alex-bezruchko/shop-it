@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { UserContext } from "./../components/UserContext";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-
+import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
 
 export default function FriendDetailPage({listLoading}) {
   const { user } = useContext(UserContext);
@@ -265,9 +265,11 @@ export default function FriendDetailPage({listLoading}) {
                                   </div>
                                   <div className="flex items-center">
                                       <img 
-                                          src={`${product.product.photo}?fit=crop&w=175&h=175&crop=entropy` || "/placeholder.png"}
+                                          src={product.photo === 'placeholder.png' ? placeholderImg : `${product.photo}?fit=crop&w=175&h=175&crop=entropy`}
                                           alt={`Photo for ${product.product.name}`}
-                                          className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] rounded-r-md"
+                                          className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
+                                          height="95"
+                                          width="95"
                                       />
                                   </div>
                               </div>
