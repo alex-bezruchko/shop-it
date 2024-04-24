@@ -34,10 +34,6 @@ export default function AccountPage() {
         subpage = 'profile';
     }
 
-    if (!ready) {
-        setListLoading(true);
-    }
-
     if (ready && !user) {
         setListLoading(false)
 
