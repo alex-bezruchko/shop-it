@@ -41,7 +41,6 @@ export default function CurrentList({listLoading, isLoading}) {
                 setSelectedListId(data.data._id);
                 setNewName(data.data.name);
                 setCurrentList(data.data);
-                console.log('data.data', data.data)
                 listLoading(false);
             }
         }).catch(error => {
@@ -54,7 +53,7 @@ export default function CurrentList({listLoading, isLoading}) {
     useEffect(() => {
         if (imageLoading === true) {
             let currentProducts = currentList;
-            console.log('currentProducts', currentProducts)
+            console.log('happend once')
             setCurrentList(currentProducts);
         }
     }, [imageLoading])
@@ -66,8 +65,10 @@ export default function CurrentList({listLoading, isLoading}) {
             current.push(ind)
             setLoadingImages(current);
         }
+        console.log('current', current)
+        console.log('currentList.products', currentList.products)
+
         if (current.length === currentList.products.length) {
-            console.log('we got a final now');
             setImageLoading(true)
         }
 
