@@ -36,7 +36,7 @@ export default function UsersLists({sendTo, currentLink, listLoading, isLoading}
             }
         }
         if (user && user._id) {
-            fetchLists(false); // Fetch current lists
+            fetchLists(false);
         }
     }, [user]);
 
