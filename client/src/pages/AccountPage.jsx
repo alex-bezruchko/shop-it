@@ -5,14 +5,13 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { fetchProductsSuccess } from '../actions/productActions'; // Import the action creator
 
-const ShoppingList = React.lazy(() => import("../components/ShoppingList"));
-const CurrentList = React.lazy(() => import("../components/CurrentList"));
-const UsersLists = React.lazy(() => import("../components/UsersLists"));
+import ShoppingList from "../components/ShoppingList";
+import CurrentList from "../components/CurrentList";
+import UsersLists from "../components/UsersLists";
 
 export default function AccountPage() {
     const dispatch = useDispatch();
     const { ready, user } = useContext(UserContext);
-    
     const [currentListLink, setCurrentListLink] = useState('');
     const [listLoading, setListLoading] = useState(false);
     
@@ -36,13 +35,12 @@ export default function AccountPage() {
     }
 
     if (!ready) {
-        let htmlString = '<div><img src="/loading.gif" class="w-8 mx-auto mt-3 mb-6"></div>'
-        return (
-            <div dangerouslySetInnerHTML={{ __html: htmlString }} />
-        )
+        setListLoading(true);
     }
 
     if (ready && !user) {
+        setListLoading(false)
+
         return <Navigate to={'/login'}/>
     }
 
@@ -62,10 +60,6 @@ export default function AccountPage() {
     async function updateCurrentLink(id) {
         setCurrentListLink(id);
     }
-
-    // if (redirect) {
-    //     return <Navigate to={redirect}/>
-    // }
 
     function updateLoading(boolean) {
         setListLoading(boolean)
@@ -110,12 +104,11 @@ export default function AccountPage() {
             
             <div className="flex flex-col w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-center mt-0 mb-1 mx-auto">
                 <div className="w-full">
-                    <React.Suspense 
+                    {/* <React.Suspense 
                         fallback={<div><img src="/loading.gif" className='w-8 mx-auto mb-6'/></div>}
-                    >
+                    > */}
                         {subpage === 'profile' && (
                             <div className="flex flex-col text-center">
-                                <h2 className="lora text-3xl pb-5">Your Lists</h2>
                                 <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} isLoading={listLoading} listLoading={updateLoading} />
                             </div>
                         )}
@@ -129,7 +122,7 @@ export default function AccountPage() {
                                 <CurrentList isLoading={listLoading} listLoading={updateLoading}/>
                             </div>
                         )}
-                    </React.Suspense>
+                    {/* </React.Suspense> */}
                 </div>
             </div>
         </div>
