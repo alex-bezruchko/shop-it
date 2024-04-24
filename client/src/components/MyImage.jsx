@@ -36,7 +36,7 @@ export default function MyImage ({ image, updateImageCount, classStyle }) {
         onError={handleError}
         index={image.index}
         className={classStyle}
-        alt={`${image}image.alt`}
+        alt={image.alt}
         height={image.height}
         src={image.src}
         width={image.width}
