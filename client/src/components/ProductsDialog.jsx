@@ -6,6 +6,7 @@ import ImageSearch from "./ImageSearch";
 import FileUpload from './FileUpload';
 import { Validation } from './Validation';
 import ValidationErrorDisplay from "./../components/ValidationErrors";
+import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
 
   export default function ProductsDialog({product, handleUpdateProducts}) {
     
@@ -34,10 +35,14 @@ import ValidationErrorDisplay from "./../components/ValidationErrors";
                 setName(name || '');
                 setCategory(category || '');
                 setDescription(description || '');
-                setPhoto(photo || '');
+                if (photo !== '') {
+                    setPhoto(photo);
+                } else {
+                    setPhoto(placeholderImg);
+                }
                 setPrice(price || '');
                 setFormType('edit')
-                setPhoto(product.photo || null)
+                // setPhoto(product.photo || null)
                 setErrors([]);
 
             } else {
@@ -89,7 +94,11 @@ import ValidationErrorDisplay from "./../components/ValidationErrors";
 
         } else {
             setErrors([])
-            body.photo = photo;
+            if (photo !== '') {
+                body.photo = photo;
+            } else {
+                body.photo = placeholderImg;
+            }
             body.description = description;
                 try  {
                 const { data } = await axios.post(`/products`, body);
@@ -130,13 +139,21 @@ import ValidationErrorDisplay from "./../components/ValidationErrors";
         } else {
             setErrors([]);
             body.description = description;
-            body.photo = photo;
+            if (photo !== '') {
+                body.photo = photo;
+            } else {
+                body.photo = placeholderImg;
+            }
             try {
                 const response = await axios.put(`/products/${id}`, body);
                 dispatch({ type: 'SET_ALERT', payload: {message: 'Product updated successfully', alertType: 'primaryGreen'} });
                 setLoading(false);
                 body.id = id;
-                body.photo = photo;
+                if (photo !== '') {
+                    body.photo = photo;
+                } else {
+                    body.photo = placeholderImg;
+                }
                 handleUpdateProducts(body)
                 setOpen(false);
             } catch (error) {

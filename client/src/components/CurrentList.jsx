@@ -7,8 +7,6 @@ import ProductsDialog from "../components/ProductsDialog";
 import ValidationErrorDisplay from "./ValidationErrors";
 import { Validation } from "./Validation";
 import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
-// import { LazyLoadImage } from 'react-lazy-load-image-component';
-import MyImage from "./MyImage";
 
 export default function CurrentList({listLoading, isLoading}) {
 
@@ -254,7 +252,9 @@ export default function CurrentList({listLoading, isLoading}) {
     return (
         <div className="flex flex-col">
             {isLoading ? (
-                <></>
+                <div>
+                    <img src="/loading.gif" className='w-8 mx-auto mb-6'/>
+                </div>
             ) : (
                 <div>
                     {selectedListId === '' ? (
@@ -360,15 +360,14 @@ export default function CurrentList({listLoading, isLoading}) {
                                                         </div>
                                                     </div>
                                                     <div onClick={() => checkItemFromList(product._id)} className="flex items-center">
-                                                        
                                                         {product.product.photo !== '' ? (
                                                              <img 
                                                                 src={`${product.product.photo}?fit=crop&w=175&h=175&crop=entropy`}
                                                                 alt={`Photo for ${product.product.name}`}
-                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] pr-0 rounded-r-md"                                                                
+                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"                                                                
                                                             />
                                                         ) : (
-                                                            <img src={placeholderImg} alt="Placeholder Image" className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[100%] sm:min-h-[100%] sm:min-w-[100%] sm:max-w-[100%] pr-0 rounded-r-md"/>
+                                                            <img src={placeholderImg} alt="Placeholder Image" className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"/>
                                                         )}
                                                     </div>
                                                 </div>
