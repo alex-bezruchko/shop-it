@@ -362,7 +362,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                     <div onClick={() => checkItemFromList(product._id)} className="flex items-center">
                                                         {product.product.photo !== '' ? (
                                                              <img 
-                                                                src={`${product.product.photo}?fit=crop&w=175&h=175&crop=entropy`}
+                                                                src={product.product.photo === 'placeholder.png' ? placeholderImg : `${product.product.photo}?fit=crop&w=175&h=175&crop=entropy`}
                                                                 alt={`Photo for ${product.product.name}`}
                                                                 className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"                                                                
                                                             />
