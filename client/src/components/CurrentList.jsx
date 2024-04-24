@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useCallback} from "react";
 import { UserContext } from "./UserContext";
 import axios from 'axios';
 import { useParams, Link } from "react-router-dom";
@@ -20,8 +20,9 @@ export default function CurrentList({listLoading, isLoading}) {
     const [updateLoading, setUpdateLoading] = useState(false)
     const [idLoaded, setIdLoaded] = useState(false);
     const [products, setProducts] = useState({products: []});
-    const [loadingImages, setLoadingImages] = useState([])
+    const [loadedImages, setLoadedImages] = useState({});
 
+    
     useEffect(() => {
         listLoading(true);
         let url = '';
@@ -47,20 +48,45 @@ export default function CurrentList({listLoading, isLoading}) {
         });
     }, [user]);
     
-    async function updateLoadingImages(ind) {
-        console.log('ind',ind)
-        let current = loadingImages;
-        const ifDupe = loadingImages.filter(index => index !== ind)
-        if (!ifDupe) {
-            current.push(ind)
+    useEffect(() => {
+        // Access the image elements by their IDs and update the src attribute if loadedImages state is true
+        for (const photoUrl in loadedImages) {
+            if (loadedImages[photoUrl] && photoUrl !== placeholderImg) {
+                const imgElement = document.getElementById(photoUrl);
+                if (imgElement && imgElement.src !== photoUrl) {
+                    imgElement.src = photoUrl;
+                }
+            }
         }
-        setLoadingImages(current);
-        console.log('products', currentList.products)
-        if (current.length === currentList.products.length) {
-            console.log('we got a final now');
-        }
+    }, [loadedImages]);
+    
+    // Memoized onLoad handler
+    const handleImageLoad = useCallback((photoUrl) => {
+        return () => {
+            // Set the flag to true when the image is loaded
+            setLoadedImages(prevState => ({
+                ...prevState,
+                [photoUrl]: true
+            }));
+        };
+    }, [setLoadedImages]);
+    
 
-    }
+    
+    // async function updateLoadingImages(ind) {
+    //     console.log('ind',ind)
+    //     let current = loadingImages;
+    //     const ifDupe = loadingImages.filter(index => index !== ind)
+    //     if (!ifDupe) {
+    //         current.push(ind)
+    //     }
+    //     setLoadingImages(current);
+    //     console.log('products', currentList.products)
+    //     if (current.length === currentList.products.length) {
+    //         console.log('we got a final now');
+    //     }
+
+    // }
   
     async function updateShoppingList(updatedList) {
         let body = {
@@ -310,7 +336,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                     </div>
 
                                     <ul className="flex flex-col justify-between">
-                                        {currentList.products?.map((product, index) => (
+                                        {currentList.products?.map(product => (
                                             <li key={product.product._id} className="flex w-full justify-between">
                                                 <div className={`flex items-center w-full justify-between bg-white rounded-lg shadow-lg p-0 mb-4 border border-2 ${updateLoading && product._id === idLoaded ? 'border-primaryBlue' : (product.completed ? 'border-primaryGreen' : 'border-primaryOrange')}`}>
                                                     <div className="flex items-center w-full h-full justify-between">
@@ -360,7 +386,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                         </div>
                                                     </div>
                                                     <div onClick={() => checkItemFromList(product._id)} className="flex items-center">
-                                                        {product.product.photo !== '' ? (
+                                                        {/* {product.product.photo !== '' ? (
                                                              <img 
                                                                 src={product.product.photo === 'placeholder.png' ? placeholderImg : `${product.product.photo}?fit=crop&w=175&h=175&crop=entropy`}
                                                                 alt={`Photo for ${product.product.name}`}
@@ -371,6 +397,25 @@ export default function CurrentList({listLoading, isLoading}) {
                                                         ) : (
                                                             <img src={placeholderImg} alt="Placeholder Image" className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md" width="95"
                                                             height="95"/>
+                                                        )} */}
+                                                       {product.product.photo !== '' && product.product.photo !== 'placeholder.png' ? (
+                                                            <img 
+                                                                src={loadedImages[product.product.photo] ? product.product.photo : placeholderImg}
+                                                                onLoad={handleImageLoad(product.product.photo)}
+                                                                alt={`Photo for ${product.product.name}`}
+                                                                id={product.product.photo}
+                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
+                                                                width="95"
+                                                                height="95"                                                               
+                                                            />
+                                                        ) : (
+                                                            <img 
+                                                                src={placeholderImg}
+                                                                alt="Placeholder Image"
+                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
+                                                                width="95"
+                                                                height="95"
+                                                            />
                                                         )}
                                                     </div>
                                                 </div>
