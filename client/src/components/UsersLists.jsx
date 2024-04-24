@@ -35,8 +35,9 @@ export default function UsersLists({sendTo, currentLink, listLoading, isLoading}
                 listLoading(false);
             }
         }
-
-        fetchLists(false); // Fetch current lists
+        if (user && user._id) {
+            fetchLists(false); // Fetch current lists
+        }
     }, [user]);
 
     async function viewList(id) {
