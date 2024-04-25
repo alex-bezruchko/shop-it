@@ -11,7 +11,7 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
         if (loadedImages[photoUrl] && photoUrl !== placeholderImg) {
             const imgElement = document.getElementById(photoUrl);
             if (imgElement && imgElement.src !== photoUrl) {
-                imgElement.src = `${photoUrl}?fit=crop&h=175&w=175&crop=entropy&q=80`;
+                imgElement.src = `${photoUrl}?fit=crop&h=125&w=125&crop=entropy&q=80`;
             }
         }
     }
@@ -115,7 +115,7 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
                   
                   {product.photo !== '' && product.photo !== 'placeholder.png' ? (
                       <img
-                          src={loadedImages[product.photo] ? `${product.photo}?fit=crop&h=175&w=175&crop=entropy&q=80` : placeholderImg}
+                          src={loadedImages[product.photo] ? `${product.photo}?fit=crop&h=125&w=125&crop=entropy&q=80` : placeholderImg}
                           onLoad={handleImageLoad(product.photo)}
                           id={product.photo}
                           alt={`Photo for ${product.name}`}

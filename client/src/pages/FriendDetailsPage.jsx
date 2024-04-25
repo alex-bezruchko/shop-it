@@ -265,7 +265,7 @@ export default function FriendDetailPage({listLoading}) {
                                   </div>
                                   <div className="flex items-center">
                                       <img 
-                                          src={product.product.photo === 'placeholder.png' ? placeholderImg : `${product.product.photo}?fit=crop&h=175&w=175&crop=entropy&q=80`}
+                                          src={product.product.photo === 'placeholder.png' ? placeholderImg : `${product.product.photo}?fit=crop&h=125&w=125&crop=entropy&q=80`}
                                           alt={`Photo for ${product.product.name}`}
                                           className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
                                           height="95"
