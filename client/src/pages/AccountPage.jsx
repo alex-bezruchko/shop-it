@@ -18,26 +18,34 @@ export default function AccountPage() {
     const navigate = useNavigate();
     
     useEffect(() => {
-        setListLoading(true);
-        axios.get(`/products/all`).then(({ data }) => {
-            dispatch(fetchProductsSuccess(data)); // Dispatch the action with fetched products
-            setListLoading(false);
-        }).catch(error => {
-            console.log(error);
-            setListLoading(false);
-        });
+        if (user && user._id) {
+            setListLoading(true);
+            axios.get(`/products/all`).then(({ data }) => {
+                dispatch(fetchProductsSuccess(data)); // Dispatch the action with fetched products
+                setListLoading(false);
+            }).catch(error => {
+                console.log(error);
+                setListLoading(false);
+            });
+        }
     }, [user]);
     
-    let {subpage} = useParams();
-
+    let { subpage = 'profile'} = useParams();
+    console.log('subpage', subpage)
     if (subpage === undefined) {
         subpage = 'profile';
     }
 
-    if (ready && !user) {
-        setListLoading(false)
-
-        return <Navigate to={'/login'}/>
+   // Handle navigation based on user's authentication state
+   if (!ready) {
+    // User context not ready yet
+        let htmlString = '<div><img src="/loading.gif" class="w-8 mx-auto mb-6"></div>'
+        return (
+            <div dangerouslySetInnerHTML={{ __html: htmlString }} />
+        )
+    } else if (!user) {
+        // User not authenticated, navigate to login page
+        return <Navigate to="/login" />;
     }
 
     function linkClasses(type=null) {
