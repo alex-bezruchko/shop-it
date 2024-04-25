@@ -5,17 +5,52 @@ import placeholderImg from "../../public/placeholder.png"; // Import the placeho
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [loadedImages, setLoadedImages] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true); // Flag to indicate if there are more products to fetch
 
   useEffect(() => {
-    // Fetch products from the API
-    axios.get('https://shop-api.alex-bezruchko.com/products/all')
+      fetchProducts();
+  }, [page]); // Fetch products whenever page changes
+
+  const fetchProducts = () => {
+    if (!hasMore || loading) return; // If there are no more products to fetch, do nothing
+    setLoading(true);
+    axios.get(`/products/paged?page=${page}`)
       .then(response => {
-        setProducts(response.data);
+        const newProducts = response.data;
+        setProducts(prevProducts => {
+          // Filter out duplicate products
+          const uniqueNewProducts = newProducts.filter(newProduct => !prevProducts.some(prevProduct => prevProduct._id === newProduct._id));
+          return [...prevProducts, ...uniqueNewProducts]; // Concatenate only unique new products with existing ones
+        });
+        setLoading(false);
+        if (newProducts.length === 0) {
+          // If no new products were fetched, it means we've reached the end
+          setHasMore(false);
+        }
       })
       .catch(error => {
         console.error('Error fetching products:', error);
+        setLoading(false);
       });
-  }, []);
+  };
+
+    const handleScroll = useCallback(() => {
+      const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight || window.innerHeight;
+      if (scrollTop + clientHeight >= scrollHeight - 100 && !loading) {
+        setPage(prevPage => prevPage + 1);
+      }
+    }, [loading]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [handleScroll]);
 
   // Memoized onLoad handler for images
   const handleImageLoad = useCallback((photoUrl) => {
@@ -40,10 +75,7 @@ const HomePage = () => {
         <span className='font-light mt-1'>Your one-stop social shopping list app</span>
       </h1>
       </div>
-      {/* <div>
-        <h1 className="text-lg nunito font-medium mb-4"></h1>
-      </div> */}
-      <h1 className="text-lg sm:text-3xl lora font-medium my-4">Latest products from other users</h1>
+      <h1 className="text-lg sm:text-3xl lora font-medium my-4">Latest products from users</h1>
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
         {products.map(product => (
           product.name !== '' && (
@@ -54,7 +86,7 @@ const HomePage = () => {
               </div>
               {product.photo ? (
                 <img
-                  src={loadedImages[product.photo] ? `${product.photo}?fit=crop&h=150&w=150&crop=entropy&q=80` : placeholderImg}
+                  src={loadedImages[product.photo] ? `${product.photo}?fit=crop&h=200&w=200&crop=entropy&q=100` : placeholderImg}
                   alt={product.name}
                   onLoad={handleImageLoad(product.photo)}
                   className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[100%] max-w-[100%] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[200px] sm:max-w-[200px] rounded-r-md"
@@ -66,6 +98,8 @@ const HomePage = () => {
           )
         ))}
       </div>
+      {loading && <img src="loading.gif" alt="loading" className="w-8 mx-auto mt-4" />}
+
     </div>
 
 
