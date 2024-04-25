@@ -10,6 +10,20 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
+exports.paged = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
+        const limit = 6; // Number of products per page
+        const skip = (page - 1) * limit;
+
+        const products = await Product.find().skip(skip).limit(limit);
+        res.json(products);
+    } catch (error) {
+        console.log('error', error)
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+
 // Controller for fetching a product by ID
 exports.getProductById = async (req, res) => {
     const productId = req.params.id;
