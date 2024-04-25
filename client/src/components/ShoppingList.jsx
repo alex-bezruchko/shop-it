@@ -164,7 +164,7 @@ export default function ShoppingList() {
                                     {product.photo !== '' && (
                                         <img
                                             data-src={product.photo} // Change src to data-src
-                                            src={product.photo === 'placeholder.png' ? placeholderImg : `${product.photo}?fit=crop&h=125&w=125&crop=entropy&q=80`}
+                                            src={product.photo === 'placeholder.png' ? placeholderImg : `${product.photo}?fit=crop&h=150&w=150&crop=entropy&q=80`}
                                             alt={`Photo for ${product.name}`}
                                             className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
                                             height="95"
