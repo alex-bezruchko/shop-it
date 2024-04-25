@@ -8,6 +8,7 @@ import {UserContextProvider} from './components/UserContext.jsx';
 import { PlaceProvider } from './components/PlaceContext.jsx';
 import { RequestContextProvider } from './components/RequestContext.jsx'; // Import RequestContextProvider
 import AccountPage from './pages/AccountPage.jsx';
+import HomePage from './pages/HomePage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import RegisterPage from './pages/RegisterPage.jsx';
 import ResetPasswordPage from './pages/ResetPasswordPage.jsx';
@@ -31,7 +32,7 @@ function App() {
             <LoadScript googleMapsApiKey={googleApiKey}>
               <Routes>
                 <Route path="/" element={<Layout/>}>
-                  <Route index element={<AccountPage/>}/>
+                  <Route index element={<HomePage/>}/>
                   <Route path="/login" element={<LoginPage/>}/>
                   <Route path="/register" element={<RegisterPage/>}/>
                   <Route path="/password-request" element={<ResetPasswordPage/>}/>
