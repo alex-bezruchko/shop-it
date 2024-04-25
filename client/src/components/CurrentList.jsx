@@ -54,7 +54,7 @@ export default function CurrentList({listLoading, isLoading}) {
             if (loadedImages[photoUrl] && photoUrl !== placeholderImg) {
                 const imgElement = document.getElementById(photoUrl);
                 if (imgElement && imgElement.src !== photoUrl) {
-                    imgElement.src = photoUrl;
+                    imgElement.src = `${photoUrl}?fit=crop&h=175&w=175&crop=entropy&q=80`;
                 }
             }
         }
@@ -400,10 +400,10 @@ export default function CurrentList({listLoading, isLoading}) {
                                                         )} */}
                                                        {product.product.photo !== '' && product.product.photo !== 'placeholder.png' ? (
                                                             <img 
-                                                                src={loadedImages[product.product.photo] ? product.product.photo : placeholderImg}
-                                                                onLoad={handleImageLoad(product.product.photo)}
+                                                                src={loadedImages[`${product.product.photo}?fit=crop&h=175&w=175&crop=entropy&q=80`] ? `${product.product.photo}?fit=crop&h=175&w=175&crop=entropy&q=80` : placeholderImg}
+                                                                onLoad={handleImageLoad(`${product.product.photo}?fit=crop&h=175&w=175&crop=entropy&q=80`)}
                                                                 alt={`Photo for ${product.product.name}`}
-                                                                id={product.product.photo}
+                                                                id={`${product.product.photo}?fit=crop&h=175&w=175&crop=entropy&q=80`}
                                                                 className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
                                                                 width="95"
                                                                 height="95"                                                               

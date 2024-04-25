@@ -1,7 +1,32 @@
 import ProductsDialog from './ProductsDialog';
 import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
+import React, { useEffect, useCallback, useState } from 'react';
 
 const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateProducts, deleteProduct }) => {
+  const [loadedImages, setLoadedImages] = useState({});
+
+  useEffect(() => {
+    // Access the image elements by their IDs and update the src attribute if loadedImages state is true
+    for (const photoUrl in loadedImages) {
+        if (loadedImages[photoUrl] && photoUrl !== placeholderImg) {
+            const imgElement = document.getElementById(photoUrl);
+            if (imgElement && imgElement.src !== photoUrl) {
+                imgElement.src = `${photoUrl}?fit=crop&h=175&w=175&crop=entropy&q=80`;
+            }
+        }
+    }
+}, [loadedImages]);
+
+ // Memoized onLoad handler
+ const handleImageLoad = useCallback((photoUrl) => {
+  return () => {
+      // Set the flag to true when the image is loaded
+      setLoadedImages(prevState => ({
+          ...prevState,
+          [photoUrl]: true
+      }));
+  };
+}, [setLoadedImages]);
 
   const handleAddToList = (product) => {
     if (!currentList.products || !Array.isArray(currentList.products) || currentList.products.length === 0) {
@@ -88,25 +113,25 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
                       </div>
                   </div>
                   
-                  {product.photo !== '' && (
+                  {product.photo !== '' && product.photo !== 'placeholder.png' ? (
                       <img
-                          data-src={product.photo} // Change src to data-src
-                          src={product.photo === 'placeholder.png' ? placeholderImg : `${product.photo}?fit=crop&w=175&h=175&crop=entropy`}
+                          src={loadedImages[product.photo] ? `${product.photo}?fit=crop&h=175&w=175&crop=entropy&q=80` : placeholderImg}
+                          onLoad={handleImageLoad(product.photo)}
+                          id={product.photo}
                           alt={`Photo for ${product.name}`}
                           className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
                           width="95"
                           height="95"
                       />
-                  )}
-                  {product.photo == ''  && (
-                       <img
-                          src={placeholderImg}
-                          alt={`Photo for ${product.name}`}
-                          className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
-                          height="95"
-                          width="95"
-                      />
-                  )}
+                      ) : (
+                        <img 
+                            src={placeholderImg}
+                            alt="Placeholder Image"
+                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
+                            width="95"
+                            height="95"
+                        />
+                    )}
                 </div>
                 <button aria-label="Add to List button" onClick={() => handleAddToList(product)} className={`text-primaryGreen ml-2 focus:outline-none ${isProductAdded(product) ? 'text-primaryGray' : ''}`}>
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill={`${isProductAdded(product) ? '#C7C8CC' : '#6CB462'}`} className="w-7 h-7">
