@@ -119,7 +119,7 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
                           onLoad={handleImageLoad(product.photo)}
                           id={product.photo}
                           alt={`Photo for ${product.name}`}
-                          className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
+                          className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
                           width="95"
                           height="95"
                       />
@@ -127,7 +127,7 @@ const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateP
                         <img 
                             src={placeholderImg}
                             alt="Placeholder Image"
-                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
+                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
                             width="95"
                             height="95"
                         />
