@@ -82,14 +82,14 @@ const HomePage = () => {
             <div key={product._id} className="bg-white rounded-lg shadow-lg p-4">
               <div className="flex justify-between items-end mb-1">
                 <h2 className="text-sm sm:text-lg lora font-md mb-0 sm:mb-2">{product.name}</h2>
-                <p className="text-xs sm:text-lg nunito font-semibold text-black">${product.price}</p>
+                {/* <p className="text-xs sm:text-lg nunito font-semibold text-black">${product.price}</p> */}
               </div>
               {product.photo ? (
                 <img
                   src={loadedImages[product.photo] ? `${product.photo}?fit=crop&h=200&w=200&crop=entropy&q=100` : placeholderImg}
                   alt={product.name}
                   onLoad={handleImageLoad(product.photo)}
-                  className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[100%] max-w-[100%] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[200px] sm:max-w-[200px] rounded-r-md"
+                  className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[100%] max-w-[100%] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[200px] sm:max-w-[200px] rounded-sm"
                 />
               ) : (
                 <div className="w-full h-32 bg-gray-200 mt-2 rounded-md"></div>

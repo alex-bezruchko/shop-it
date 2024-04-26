@@ -390,12 +390,12 @@ export default function CurrentList({listLoading, isLoading}) {
                                                              <img 
                                                                 src={product.product.photo === 'placeholder.png' ? placeholderImg : `${product.product.photo}?fit=crop&w=175&h=175&crop=entropy`}
                                                                 alt={`Photo for ${product.product.name}`}
-                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
+                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
                                                                 width="95"
                                                                 height="95"                                                               
                                                             />
                                                         ) : (
-                                                            <img src={placeholderImg} alt="Placeholder Image" className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md" width="95"
+                                                            <img src={placeholderImg} alt="Placeholder Image" className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md" width="95"
                                                             height="95"/>
                                                         )} */}
                                                        {product.product.photo !== '' && product.product.photo !== 'placeholder.png' ? (
@@ -404,7 +404,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                                 onLoad={handleImageLoad(`${product.product.photo}?fit=crop&h=150&w=150&crop=entropy&q=80`)}
                                                                 alt={`Photo for ${product.product.name}`}
                                                                 id={`${product.product.photo}?fit=crop&h=150&w=150&crop=entropy&q=80`}
-                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
+                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
                                                                 width="95"
                                                                 height="95"                                                               
                                                             />
@@ -412,7 +412,7 @@ export default function CurrentList({listLoading, isLoading}) {
                                                             <img 
                                                                 src={placeholderImg}
                                                                 alt="Placeholder Image"
-                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
+                                                                className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[250px] sm:max-w-[250px] pr-0 rounded-r-md"
                                                                 width="95"
                                                                 height="95"
                                                             />

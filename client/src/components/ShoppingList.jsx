@@ -166,7 +166,7 @@ export default function ShoppingList() {
                                             data-src={product.photo} // Change src to data-src
                                             src={product.photo === 'placeholder.png' ? placeholderImg : `${product.photo}?fit=crop&h=150&w=150&crop=entropy&q=80`}
                                             alt={`Photo for ${product.name}`}
-                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
+                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
                                             height="95"
                                             width="95"
                                         />
@@ -175,7 +175,7 @@ export default function ShoppingList() {
                                         <img
                                             src={placeholderImg}
                                             alt={`Photo for ${product.name}`}
-                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
+                                            className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
                                             height="95"
                                             width="95"
                                         />

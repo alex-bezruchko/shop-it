@@ -267,7 +267,7 @@ export default function FriendDetailPage({listLoading}) {
                                       <img 
                                           src={product.product.photo === 'placeholder.png' ? placeholderImg : `${product.product.photo}?fit=crop&h=150&w=150&crop=entropy&q=80`}
                                           alt={`Photo for ${product.product.name}`}
-                                          className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[250px] sm:min-h-[250px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
+                                          className="cursor-pointer mr-0 max-h-[95px] min-h-[95px] min-w-[95px] max-w-[95px] sm:max-h-[200px] sm:min-h-[200px] sm:min-w-[250px] sm:max-w-[250px] rounded-r-md"
                                           height="95"
                                           width="95"
                                       />
