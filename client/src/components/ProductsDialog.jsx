@@ -1,9 +1,20 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, lazy, Suspense } from "react";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import CustomSelect from "./CustomSelect";
-import ImageSearch from "./ImageSearch";
-import FileUpload from './FileUpload';
+// import CustomSelect from "./CustomSelect";
+// import ImageSearch from "./ImageSearch";
+// import FileUpload from './FileUpload';
+const CustomSelect = lazy(() => import("./CustomSelect"));
+const ImageSearch = lazy(() => import("./ImageSearch"));
+const FileUpload = lazy(() => import('./FileUpload'));
+
+// Wrap lazy-loaded components with Suspense and specify a fallback UI
+const SuspenseLoader = ({ children }) => (
+    <Suspense fallback={<div><img src="/loading.gif" className='w-8 mx-auto mb-6'/></div>}>
+      {children}
+    </Suspense>
+);
+
 import { Validation } from './Validation';
 import ValidationErrorDisplay from "./../components/ValidationErrors";
 import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
@@ -241,11 +252,13 @@ import placeholderImg from "../../public/placeholder.png"; // Import the placeho
                                 <span className="flex text-left text-sm nunito font-medium leading-6 text-gray-900 pb-0">Category</span>
 
                                 {categories.length > 0 && (
-                                    <CustomSelect 
-                                        selectedOption={category} 
-                                        handleSelect={setCategory} 
-                                        options={categories}
-                                    />
+                                    <SuspenseLoader>
+                                        <CustomSelect 
+                                            selectedOption={category} 
+                                            handleSelect={setCategory} 
+                                            options={categories}
+                                        />
+                                    </SuspenseLoader>
                                 )}
                             </div>
                             <div className="mb-2">
@@ -263,7 +276,9 @@ import placeholderImg from "../../public/placeholder.png"; // Import the placeho
                                 </div>
                             </div>
                             <div className="mb-0">
-                                <ImageSearch addPhoto={handleImageSelect} ifPhoto={photo} />
+                                <SuspenseLoader>
+                                    <ImageSearch addPhoto={handleImageSelect} ifPhoto={photo} />
+                                </SuspenseLoader>
                             </div>
                             <div className="mt-1 mb-2 flex justify-between">
                                                             
@@ -280,7 +295,9 @@ import placeholderImg from "../../public/placeholder.png"; // Import the placeho
                                         </div>
                                     )}
                                     <div className={`w-${photo ? '1/2' : 'full'} flex flex-col h-full justify-left`}>
-                                        <FileUpload setFile={handleImageSelect} photo={photo}/>
+                                        <SuspenseLoader>
+                                            <FileUpload setFile={handleImageSelect} photo={photo}/>
+                                        </SuspenseLoader>
                                     </div>
                                 </div>
                             </div>
