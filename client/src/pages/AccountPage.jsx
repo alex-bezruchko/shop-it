@@ -1,14 +1,20 @@
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useContext, useState, lazy, Suspense } from "react";
 import { UserContext } from "../components/UserContext";
 import { Navigate, Link, useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { fetchProductsSuccess } from '../actions/productActions'; // Import the action creator
 
-import ShoppingList from "../components/ShoppingList";
-import CurrentList from "../components/CurrentList";
-import UsersLists from "../components/UsersLists";
+const ShoppingList =  lazy(() => import("../components/ShoppingList"));
+const CurrentList =  lazy(() => import("../components/CurrentList"));
+const UsersLists =  lazy(() => import("../components/UsersLists"));
 
+// Wrap lazy-loaded components with Suspense and specify a fallback UI
+const SuspenseLoader = ({ children }) => (
+    <Suspense fallback={<div><img src="/loading.gif" className='w-8 mx-auto mb-6'/></div>}>
+      {children}
+    </Suspense>
+);
 export default function AccountPage() {
     const dispatch = useDispatch();
     const { ready, user } = useContext(UserContext);
@@ -103,25 +109,27 @@ export default function AccountPage() {
             
             <div className="flex flex-col w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-center mt-0 mb-1 mx-auto">
                 <div className="w-full">
-                    {/* <React.Suspense 
-                        fallback={<div><img src="/loading.gif" className='w-8 mx-auto mb-6'/></div>}
-                    > */}
-                        {subpage === 'profile' && (
-                            <div className="flex flex-col text-center">
+                    {subpage === 'profile' && (
+                        <div className="flex flex-col text-center">
+                            <SuspenseLoader>
                                 <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} isLoading={listLoading} listLoading={updateLoading} />
-                            </div>
-                        )}
-                        {subpage === 'new' && (
-                            <div className="flex flex-col text-center">
+                            </SuspenseLoader>
+                        </div>
+                    )}
+                    {subpage === 'new' && (
+                        <div className="flex flex-col text-center">
+                            <SuspenseLoader>
                                 <ShoppingList />
-                            </div>
-                        )}
-                        {subpage === 'current' && (
-                            <div className="flex flex-col text-center">
+                            </SuspenseLoader>
+                        </div>
+                    )}
+                    {subpage === 'current' && (
+                        <div className="flex flex-col text-center">
+                            <SuspenseLoader>
                                 <CurrentList isLoading={listLoading} listLoading={updateLoading}/>
-                            </div>
-                        )}
-                    {/* </React.Suspense> */}
+                            </SuspenseLoader>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
