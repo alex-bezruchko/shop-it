@@ -33,7 +33,7 @@
 //         </UserContext.Provider>
 //     );
 // }
-import { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
@@ -45,51 +45,53 @@ export function UserContextProvider({ children }) {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const token = localStorage.getItem('token');
-    
-                if (token && token !== null) {
+        const checkToken = async () => {
+            const token = localStorage.getItem('token');
+            if (token && token !== null) {
+                try {
                     const decodedToken = parseJwt(token);
                     const isExpired = decodedToken.exp < Date.now() / 1000;
                     if (isExpired) {
-                        axios.post(`/users/logout`)
-                            .then(res => {
-                                dispatch({ type: 'SET_ALERT', payload: {message: 'Logged out successfully', alertType: 'primaryGreen'} });
-                                localStorage.setItem('token', null);
-                                setUser({ email: '', name: '', _id: '' });
-                                navigate('/login');
-                            }).catch(err => {
-                                localStorage.setItem('token', null);
-                                setUser({ email: '', name: '', _id: '' });
-                                navigate('/login');
-                            }); 
+                        await handleExpiredToken();
                     } else {
-                        const { email, name, id } = decodedToken;
-                        setUser({email: email, name: name, _id: id});
+                        setUser({
+                            email: decodedToken.email,
+                            name: decodedToken.name,
+                            _id: decodedToken.id
+                        });
                         setReady(true);
                     }
-                } else {
+                } catch (error) {
+                    console.error('Error decoding token:', error);
                     setUser({ email: '', name: '', _id: '' });
-                    localStorage.setItem('token', null);
                     setReady(true);
-                    navigate('/login');
-                    throw new Error('No token found');
                 }
-            } catch (error) {
-                localStorage.setItem('token', null);
-                setUser({ email: '', name: '', _id: '' });
-                setReady(true);
-                navigate('/login');
+            } else {
+                handleMissingToken();
             }
         };
-    
-        if (!ready) {
-            fetchData();
-        }
-    }, [ready, navigate]);
 
-    // Function to parse JWT token
+        checkToken();
+    }, []);
+
+    const handleExpiredToken = async () => {
+        try {
+            await axios.post(`/users/logout`);
+            localStorage.removeItem('token');
+            setUser({ email: '', name: '', _id: '' });
+            setReady(true);
+        } catch (error) {
+            console.error('Error logging out:', error);
+            setReady(true);
+        }
+    };
+
+    const handleMissingToken = () => {
+        setUser({ email: '', name: '', _id: '' });
+        setReady(true);
+        navigate('/login');
+    };
+
     function parseJwt(token) {
         try {
             return JSON.parse(atob(token.split('.')[1]));
@@ -97,6 +99,9 @@ export function UserContextProvider({ children }) {
             return null;
         }
     }
+
+    // console.log('user', user);
+    // console.log('ready', ready);
     
     return (
         <UserContext.Provider value={{ user, setUser, ready }}>
@@ -104,4 +109,3 @@ export function UserContextProvider({ children }) {
         </UserContext.Provider>
     );
 }
-
