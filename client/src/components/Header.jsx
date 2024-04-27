@@ -49,9 +49,11 @@ export default function Header() {
                 dispatch({ type: 'SET_ALERT', payload: {message: 'Logged out successfully', alertType: 'primaryGreen'} });
                 // document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 setShowDropdown(false);
+                localStorage.setItem('token', null);
                 setUser({ email: '', name: '', _id: '' });
                 navigate('/login');
             }).catch(err => {
+                localStorage.setItem('token', null);
                 setUser({ email: '', name: '', _id: '' });
                 navigate('/login');
             }); 

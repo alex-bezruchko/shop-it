@@ -1,4 +1,4 @@
-import {Link, Navigate} from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { UserContext } from "../components/UserContext";
 import { useDispatch } from 'react-redux';
@@ -9,12 +9,12 @@ import axios from 'axios';
 
 export default function LoginPage() {
     const dispatch = useDispatch();
+    const { setUser } = useContext(UserContext);
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [redirect, setRedirect] = useState(false);
     const [errors, setErrors] = useState([]);
-    const { setUser } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
 
     async function handleSubmitLogin(e) {
@@ -27,8 +27,10 @@ export default function LoginPage() {
             setLoading(true)
             try {
                 setErrors([])
-                const {data} = await axios.post(`/users/login`, body, {withCredentials: true});
-                setUser(data);
+                const response = await axios.post(`/users/login`, body, {withCredentials: true});
+                console.log('response', response)
+                setUser(response.data.user);
+                localStorage.setItem('token', response.data.token);
                 setLoading(false)
                 setRedirect(true);
                 dispatch({ type: 'REMOVE_ALERT', payload: {} });

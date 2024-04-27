@@ -27,38 +27,40 @@ axios.defaults.headers = true;
 
 // Wrap lazy-loaded components with Suspense and specify a fallback UI
 const SuspenseLoader = ({ children }) => (
-  <Suspense fallback={<div><img src="/loading.gif" className='w-8 mx-auto mb-6'/></div>}>
+  <Suspense fallback={<div><img src="/loading.gif" className='w-8 mx-auto my-6'/></div>}>
     {children}
   </Suspense>
 );
 
 function App() {
   return (
-    <Provider store={store}>
-      <UserContextProvider>
-        <PlaceProvider>
-          <RequestContextProvider>
-            <LoadScript googleMapsApiKey={googleApiKey}>
-              <Routes>
-                <Route path="/" element={<Layout/>}>
-                  <Route index element={<SuspenseLoader><HomePage/></SuspenseLoader>}/>
-                  <Route path="/login" element={<SuspenseLoader><LoginPage/></SuspenseLoader>}/>
-                  <Route path="/register" element={<SuspenseLoader><RegisterPage /></SuspenseLoader>}/>
-                  <Route path="/password-request" element={<SuspenseLoader><ResetPasswordPage /></SuspenseLoader>} />
-                  <Route path="/password-reset" element={<SuspenseLoader><NewPasswordPage /></SuspenseLoader>} />
-                  <Route path="/account/:subpage?" element={<SuspenseLoader><AccountPage /></SuspenseLoader>} />
-                  <Route path="/account/:subpage?/:listId" element={<SuspenseLoader><AccountPage /></SuspenseLoader>} />
-                  <Route path="/friends/:subpage?" element={<SuspenseLoader><FriendsPage /></SuspenseLoader>} />
-                  <Route path="/friends/:subpage?/:friendId" element={<SuspenseLoader><FriendsPage /></SuspenseLoader>} />
-                  <Route path="/places/:subpage?" element={<SuspenseLoader><PlacesPage /></SuspenseLoader>} />
-                  <Route path="*" element={<SuspenseLoader><NotFoundPage /></SuspenseLoader>} />
-                </Route>
-              </Routes>
-            </LoadScript>
-          </RequestContextProvider>
-        </PlaceProvider>
-      </UserContextProvider>
-    </Provider>
+    <React.StrictMode>
+
+      <Provider store={store}>
+        <UserContextProvider>
+          <PlaceProvider>
+            <RequestContextProvider>
+              <LoadScript googleMapsApiKey={googleApiKey}>
+                <Routes>
+                  <Route path="/" element={<Layout/>}>
+                    <Route index element={<SuspenseLoader><HomePage/></SuspenseLoader>}/>
+                    <Route path="/login" element={<SuspenseLoader><LoginPage/></SuspenseLoader>}/>
+                    <Route path="/register" element={<SuspenseLoader><RegisterPage /></SuspenseLoader>}/>
+                    <Route path="/password-request" element={<SuspenseLoader><ResetPasswordPage /></SuspenseLoader>} />
+                    <Route path="/password-reset" element={<SuspenseLoader><NewPasswordPage /></SuspenseLoader>} />
+                    <Route path="/account/:subpage?/:listId?" element={<SuspenseLoader><AccountPage /></SuspenseLoader>} />
+                    <Route path="/friends/:subpage?" element={<SuspenseLoader><FriendsPage /></SuspenseLoader>} />
+                    <Route path="/friends/:subpage?/:friendId" element={<SuspenseLoader><FriendsPage /></SuspenseLoader>} />
+                    <Route path="/places/:subpage?" element={<SuspenseLoader><PlacesPage /></SuspenseLoader>} />
+                    <Route path="*" element={<SuspenseLoader><NotFoundPage /></SuspenseLoader>} />
+                  </Route>
+                </Routes>
+              </LoadScript>
+            </RequestContextProvider>
+          </PlaceProvider>
+        </UserContextProvider>
+      </Provider>
+    </React.StrictMode>
   )
 }
 

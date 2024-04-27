@@ -89,7 +89,7 @@ export default function UsersLists({ sendTo, listLoading, isLoading }) {
                                 </button>
                             </div>
                             {filteredLists.length === 0 ? (
-                                <h2 className="flex text-center text-xl nunito justify-center mt-2">
+                                <h2 className="flex text-center text-xl nunito justify-center mt-6">
                                     No lists found.
                                 </h2>
                             ) : (

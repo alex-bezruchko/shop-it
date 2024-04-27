@@ -228,15 +228,19 @@ exports.login = async (req, res) => {
         const passOk = bcrypt.compareSync(password, user.password);
 
         if (passOk) {
-            const token = jwt.sign({ email: user.email, id: user._id }, process.env.JWT_SECRET);
-            // Set the cookie with an expiration time and additional attributes
+            const token = jwt.sign(
+                { email: user.email, id: user._id, name: user.name },
+                process.env.JWT_SECRET,
+                { expiresIn: '7d' } // Token expires in 7 days
+            );
+
+            // Set the cookie with the token
             res.cookie('token', token, { 
                 httpOnly: true, 
-                maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-                // sameSite: 'strict', // Prevent CSRF attacks
                 domain: process.env.DOMAIN,
-                secure: process.env.NODE_ENV === 'production' // Set to true in production
-            }).json(user);
+                secure: process.env.NODE_ENV === 'production',
+                maxAge: 7 * 24 * 60 * 60 * 1000 // Cookie expires in 7 days
+            }).json({ user, token });
         } else {
             res.status(422).json({ message: 'Password incorrect' });
         }
