@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState, lazy, Suspense } from "react";
+import React, { useEffect, useContext, useState, lazy, Suspense, useMemo } from "react";
 import { UserContext } from "../components/UserContext";
 import { Navigate, Link, useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -35,17 +35,18 @@ export default function AccountPage() {
                 setListLoading(false);
             });
         }
-    }, [user]);
+    }, []);
     
-    let { subpage = 'profile'} = useParams();
-    if (subpage === undefined) {
-        subpage = 'profile';
-    }
+    const { subpage: currentSubpage = 'profile' } = useParams(); // Destructure subpage directly and provide a default value
+
+    // Memoize subpage to prevent unnecessary re-renders
+    const subpage = useMemo(() => currentSubpage, [currentSubpage]);
+    // Memoize derived values
 
    // Handle navigation based on user's authentication state
    if (!ready) {
     // User context not ready yet
-        let htmlString = '<div><img src="/loading.gif" class="w-8 mx-auto mb-6"></div>'
+        let htmlString = '<div><img src="/loading.gif" class="w-8 mx-auto my-6"></div>'
         return (
             <div dangerouslySetInnerHTML={{ __html: htmlString }} />
         )
@@ -63,7 +64,6 @@ export default function AccountPage() {
     }
 
     async function handleRoute(id) {
-        subpage = 'current';
         navigate(`/account/current/${id}`);
     }
 
