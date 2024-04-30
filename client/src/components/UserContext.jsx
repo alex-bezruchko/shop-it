@@ -50,21 +50,29 @@ export function UserContextProvider({ children }) {
             if (token && token !== null) {
                 try {
                     const decodedToken = parseJwt(token);
-                    const isExpired = decodedToken.exp < Date.now() / 1000;
-                    if (isExpired) {
-                        await handleExpiredToken();
+                    if (decodedToken) {
+                        const isExpired = decodedToken.exp < Date.now() / 1000;
+                        if (isExpired) {
+                            await handleExpiredToken();
+                        } else {
+                            setUser({
+                                email: decodedToken.email,
+                                name: decodedToken.name,
+                                _id: decodedToken.id
+                            });
+                            setReady(true);
+                        }
                     } else {
-                        setUser({
-                            email: decodedToken.email,
-                            name: decodedToken.name,
-                            _id: decodedToken.id
-                        });
+                        setUser({ email: '', name: '', _id: '' });
                         setReady(true);
+                        navigate('/login');    
                     }
+                    
                 } catch (error) {
                     console.error('Error decoding token:', error);
                     setUser({ email: '', name: '', _id: '' });
                     setReady(true);
+                    navigate('/login');
                 }
             } else {
                 handleMissingToken();
