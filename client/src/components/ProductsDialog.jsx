@@ -234,7 +234,7 @@ import placeholderImg from "../../public/placeholder.png"; // Import the placeho
                             </div>
                             <h2 className="text-center flex items-center justify-center w-full primaryBlue mt-0 lora text-3xl md:text-xl" onClick={formType === 'create' ? createProduct : editProduct}>{formType === 'create' ? 'New Product' : 'Edit Product'}</h2>
                             
-                            <div className="mb-2 flex flex-col">
+                            <div className="mb-2">
                                 <label htmlFor="name" className="w-full text-left text-sm nunito font-medium leading-6 text-gray-900">Name</label>
                                 <div className="w-full mt-1">
                                     <input
@@ -244,7 +244,7 @@ import placeholderImg from "../../public/placeholder.png"; // Import the placeho
                                         onChange={e => setName(e.target.value)}
                                         id="name"
                                         autoComplete="given-name"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue sm:text-sm sm:leading-6"
+                                        className="input-style"
                                     />
                                 </div>
                             </div>
@@ -271,7 +271,7 @@ import placeholderImg from "../../public/placeholder.png"; // Import the placeho
                                         onChange={e => setDescription(e.target.value)}
                                         id="description"
                                         autoComplete="given-name"
-                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset focus:ring-secondaryBlue sm:text-sm sm:leading-6"
+                                        className="input-style"
                                     />
                                 </div>
                             </div>

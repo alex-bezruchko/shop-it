@@ -415,7 +415,7 @@ export default function CurrentList({listLoading, isLoading}) {
                             
                             <h2 className="nunito text-3xl my-8 mt-4">Add more</h2>
 
-                            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6 grid-cols-1">
+                            <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-6">
                                 <div className="sm:col-span-3">
                                     <div className="flex">
                                         <input 
