@@ -71,23 +71,6 @@ export default function CurrentList({listLoading, isLoading}) {
         };
     }, [setLoadedImages]);
     
-
-    
-    // async function updateLoadingImages(ind) {
-    //     console.log('ind',ind)
-    //     let current = loadingImages;
-    //     const ifDupe = loadingImages.filter(index => index !== ind)
-    //     if (!ifDupe) {
-    //         current.push(ind)
-    //     }
-    //     setLoadingImages(current);
-    //     console.log('products', currentList.products)
-    //     if (current.length === currentList.products.length) {
-    //         console.log('we got a final now');
-    //     }
-
-    // }
-  
     async function updateShoppingList(updatedList) {
         let body = {
             name: newName,
@@ -112,7 +95,7 @@ export default function CurrentList({listLoading, isLoading}) {
     }
     
     async function addToList(product) {
-        console.log('product', product); // Logging the product correctly
+        // console.log('product', product);
         
         setCurrentList(prevList => {
             const isDuplicate = prevList.products.some(p => p.product._id === product._id);
