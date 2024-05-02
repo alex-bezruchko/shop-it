@@ -120,14 +120,14 @@ export default function ShoppingList() {
         setSelectedProducts({ ...selectedProducts, products: newList });
     }
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
             {errors.length > 0 && (
                 <div className="mx-0">
                     <ValidationErrorDisplay errors={errors}/>
                 </div>
             )}  
-            <div className="sm:col-span-3">
-                <label htmlFor="name" className="block lora text-3xl pb-3 mt-0">Name</label>
+            <div className="sm:col-span text-center">
+                <label htmlFor="name" className=" lora text-3xl pb-3 mt-0">Name</label>
                 <div className="mt-2">
                     <input 
                     type="text"
@@ -142,7 +142,7 @@ export default function ShoppingList() {
             </div>
             
             
-            <div className="flex flex-col text-center justify-center">
+            <div className="flex-col-center">
                 <label htmlFor="name" className="block lora text-3xl pt-6 pb-3">Products</label>
                 {selectedProducts.products.length < 1 && (
                     <div className="flex flex-col nunito text-center justify-center mt-1">
