@@ -108,29 +108,27 @@ export default function AccountPage() {
             </div>
             
             <div className="flex flex-col w-full md:w-2/3 flex justify-center mt-0 mb-1 mx-auto">
-                <div className="w-full">
-                    {subpage === 'profile' && (
-                        <div className="flex flex-col text-center">
-                            <SuspenseLoader>
-                                <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} isLoading={listLoading} listLoading={updateLoading} />
-                            </SuspenseLoader>
-                        </div>
-                    )}
-                    {subpage === 'new' && (
-                        <div className="flex flex-col text-center">
-                            <SuspenseLoader>
-                                <ShoppingList />
-                            </SuspenseLoader>
-                        </div>
-                    )}
-                    {subpage === 'current' && (
-                        <div className="flex flex-col text-center">
-                            <SuspenseLoader>
-                                <CurrentList isLoading={listLoading} listLoading={updateLoading}/>
-                            </SuspenseLoader>
-                        </div>
-                    )}
-                </div>
+                {subpage === 'profile' && (
+                    <div className="flex-col-center">
+                        <SuspenseLoader>
+                            <UsersLists sendTo={handleRoute} currentLink={updateCurrentLink} isLoading={listLoading} listLoading={updateLoading} />
+                        </SuspenseLoader>
+                    </div>
+                )}
+                {subpage === 'new' && (
+                    <div className="flex-col-center">
+                        <SuspenseLoader>
+                            <ShoppingList />
+                        </SuspenseLoader>
+                    </div>
+                )}
+                {subpage === 'current' && (
+                    <div className="flex-col-center">
+                        <SuspenseLoader>
+                            <CurrentList isLoading={listLoading} listLoading={updateLoading}/>
+                        </SuspenseLoader>
+                    </div>
+                )}
             </div>
         </div>
     )

@@ -233,7 +233,7 @@ export default function FriendDetailPage({listLoading}) {
                 <img src="/loading.gif" className='size-10 mx-auto mb-6'/>
             </div>
           ) : (
-            <div className="flex flex-col text-center justify-center">
+            <div className="flex-col-center">
                 <div className="w-full">
                     <div className='flex  mb-2'>
                       <h2 className="lora text-3xl w-full text-center pb-1 border-b-2 border-transparent">{currentList.name}</h2>
