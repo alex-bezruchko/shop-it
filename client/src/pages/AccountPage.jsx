@@ -78,7 +78,7 @@ export default function AccountPage() {
     return (
         <div>
              <div className="flex justify-center">
-                <nav className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-evenly sm:justify-between mt-6 mb-6 text-md">
+                <nav className="w-full md:w-2/3  flex justify-evenly sm:justify-between mt-6 mb-6 text-md">
                     <Link 
                         className={linkClasses('profile')}
                         to={'/account'}>
@@ -107,7 +107,7 @@ export default function AccountPage() {
                 </nav>
             </div>
             
-            <div className="flex flex-col w-full md:w-2/3 lg:w-2/3 xl:w-2/3 flex justify-center sm:justify-center mt-0 mb-1 mx-auto">
+            <div className="flex flex-col w-full md:w-2/3 flex justify-center mt-0 mb-1 mx-auto">
                 <div className="w-full">
                     {subpage === 'profile' && (
                         <div className="flex flex-col text-center">
