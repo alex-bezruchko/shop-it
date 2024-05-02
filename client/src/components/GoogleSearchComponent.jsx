@@ -147,7 +147,7 @@ const GoogleSearchComponent = () => {
       });
       const { latitude, longitude } = position.coords;
   
-      const response = await axios.post('http://localhost:4000/get-postal-code', { latitude, longitude });
+      const response = await axios.post('get-postal-code', { latitude, longitude });
       const { postalCode } = response.data;
   
       if (postalCode) {
