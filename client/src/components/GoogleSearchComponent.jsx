@@ -17,6 +17,7 @@ const GoogleSearchComponent = () => {
   const center = useSelector(state => state.coord);
   const query = useSelector(state => state.query);
   const [searchPerformed, setSearchPerformed] = useState(false);
+  const [zipLoading, setZipLoading] = useState(false);
 
   const googleApiKey = import.meta.env.VITE_GOOGLE_MAPS_API;
   const [loading, setLoading] = useState(false);
@@ -47,6 +48,7 @@ const GoogleSearchComponent = () => {
     });
   };
   const setQuery = (newQuery) => {
+    console.log('newQuery', newQuery)
     dispatch({
       type: "SET_QUERY",
       payload: newQuery,
@@ -137,6 +139,29 @@ const GoogleSearchComponent = () => {
     setSearchPerformed(true)
     
   };
+  const getUserPostalCode = async () => {
+    setZipLoading(true);
+    try {
+      const position = await new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+      const { latitude, longitude } = position.coords;
+  
+      const response = await axios.post('http://localhost:4000/get-postal-code', { latitude, longitude });
+      const { postalCode } = response.data;
+  
+      if (postalCode) {
+        setZipLoading(false);
+        setQuery({ ...query, zip: postalCode });
+      } else {
+        setZipLoading(false);
+        console.error('Postal code not found');
+      }
+    } catch (error) {
+      setZipLoading(false);
+      console.error('Error getting user location:', error);
+    }
+  };
 
   function isPlaceFavorite(placeClicked) {
     let fav = false;
@@ -223,16 +248,35 @@ const GoogleSearchComponent = () => {
               // onChange={(e) => setQuery(prevQuery => ({...prevQuery, name: e.target.value}))}
 
             />
-            <input
-              type="text"
-              placeholder="Zip Code"
-              className="w-32 p-2 border border-gray-300 nunito rounded mr-2 mb-2"
-              value={query.zip}
-              onChange={(e) => setQuery({...query, zip: e.target.value})}
-              // onChange={(e) => setQuery(prevQuery => ({...prevQuery, name: e.target.value}))}
-            />
+            <div className="w-full flex items-center">
+              <input
+                type="text"
+                placeholder="Zip Code"
+                className="w-full p-2 py-4 border border-gray-300 nunito rounded mr-2 mb-0 h-full"
+                value={query.zip}
+                onChange={(e) => setQuery({...query, zip: e.target.value})}
+                // onChange={(e) => setQuery(prevQuery => ({...prevQuery, name: e.target.value}))}
+              />
+             
+                    <button
+                    className="bg-primaryBlue text-white rounded py-1 nunito w-full mx-auto"
+                    onClick={() => {
+                      getUserPostalCode();
+                    }}
+                    >
+                      {zipLoading ? (
+                          <img src="/loading.gif" className='w-4 mx-auto py-1'/>
+                      ) : (
+                        <span>
+                          Use My Location
+                        </span>
+                      )}
+                    </button>
+              
+                
+              </div>
             <button
-              className="primaryBlue nunito mt-2 w-full mx-auto"
+              className="primaryBlue nunito mt-4 w-full mx-auto"
               onClick={handleSearch}
             >
               Search
@@ -293,7 +337,7 @@ const GoogleSearchComponent = () => {
         </div>
         <div className="w-full mx-auto h-80">
           {loading && (
-              <img src="/loading.gif" className='size-10 mx-auto my-6'/>
+              <img src="/loading.gif" className='w-8 mx-auto my-6'/>
           )} 
           <GoogleMap
             mapContainerClassName="w-full h-full mt-5"

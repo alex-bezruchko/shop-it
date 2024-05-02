@@ -42,6 +42,42 @@ app.use('/products', productsRoutes);
 app.use('/categories', categoriesRoutes);
 app.use('/shoppinglists', shoppingListRoutes);
 
+app.post('/get-postal-code', async (req, res) => {
+  const { latitude, longitude } = req.body;
+  const key = process.env.GOOGLE_MAPS_API;
+
+  try {
+    const geocodeResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${key}`);
+    const geocodeData = await geocodeResponse.json();
+
+    if (geocodeData.status === "OK" && geocodeData.results.length > 0) {
+      let postalCode = '';
+
+      // Extract postal code from the geocoding response
+      for (let i = 0; i < geocodeData.results[0].address_components.length; i++) {
+        let types = geocodeData.results[0].address_components[i].types;
+        for (let typeIdx = 0; typeIdx < types.length; typeIdx++) {
+          if (types[typeIdx] === 'postal_code') {
+            postalCode = geocodeData.results[0].address_components[i].long_name;
+            break;
+          }
+        }
+        if (postalCode !== '') {
+          break;
+        }
+      }
+
+      res.json({ postalCode });
+    } else {
+      console.error('Failed to fetch postal code:', geocodeData.status);
+      res.status(500).json({ error: 'Failed to fetch postal code' });
+    }
+  } catch (error) {
+    console.error('Error fetching postal code:', error);
+    res.status(500).json({ error: 'An error occurred while fetching postal code' });
+  }
+});
+
 app.get('/places', async (req, res) => {
     const { query, zipCode } = req.query;
   
