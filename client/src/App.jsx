@@ -40,7 +40,6 @@ function App() {
         <UserContextProvider>
           <PlaceProvider>
             <RequestContextProvider>
-              <LoadScript googleMapsApiKey={googleApiKey}>
                 <Routes>
                   <Route path="/" element={<Layout/>}>
                     <Route index element={<SuspenseLoader><HomePage/></SuspenseLoader>}/>
@@ -51,11 +50,13 @@ function App() {
                     <Route path="/account/:subpage?/:listId?" element={<SuspenseLoader><AccountPage /></SuspenseLoader>} />
                     <Route path="/friends/:subpage?" element={<SuspenseLoader><FriendsPage /></SuspenseLoader>} />
                     <Route path="/friends/:subpage?/:friendId" element={<SuspenseLoader><FriendsPage /></SuspenseLoader>} />
-                    <Route path="/places/:subpage?" element={<SuspenseLoader><PlacesPage /></SuspenseLoader>} />
+                    {/* Wrap the PlacesPage with LoadScript */}
+                    <Route path="/places/:subpage?" element={<SuspenseLoader><LoadScript googleMapsApiKey={googleApiKey}><PlacesPage /></LoadScript></SuspenseLoader>} />
+
+
                     <Route path="*" element={<SuspenseLoader><NotFoundPage /></SuspenseLoader>} />
                   </Route>
                 </Routes>
-              </LoadScript>
             </RequestContextProvider>
           </PlaceProvider>
         </UserContextProvider>
