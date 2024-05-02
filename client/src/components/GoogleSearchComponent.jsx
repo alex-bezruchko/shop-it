@@ -259,7 +259,8 @@ const GoogleSearchComponent = () => {
               />
              
                     <button
-                    className="bg-primaryBlue text-white rounded py-1 nunito w-full mx-auto"
+                    className={`rounded py-[0.175rem] nunito w-full mx-auto border border-1 ${zipLoading ? 'border-primaryBlue bg-white text-primaryBlue' : 'border-white bg-primaryBlue text-white'}`}
+
                     onClick={() => {
                       getUserPostalCode();
                     }}
