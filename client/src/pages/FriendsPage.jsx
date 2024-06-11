@@ -1,13 +1,13 @@
 import { useEffect, useContext, useState } from "react";
-import { UserContext } from "../components/UserContext";
+import { UserContext } from "../components/contextComponents/UserContext";
 import { Navigate, Link, useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import FriendsSearch from "../components/FriendsSearch";
-import PendingRequests from "../components/PendingRequests";
-import CurrentFriendsList from "../components/CurrentFriendsList";
+import PendingRequests from "../components/contextComponents/PendingRequests";
+import CurrentFriendsList from "../components/listsComponents/CurrentFriendsList";
 import FriendDetailPage from "./FriendDetailsPage";
-import { useRequestContext } from './../components/RequestContext'; // Correct import
+import { useRequestContext } from '../components/contextComponents/RequestContext'; // Correct import
 
 export default function FriendsPage() {
     const navigate = useNavigate();

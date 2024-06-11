@@ -1,6 +1,6 @@
-import Alert from "../components/Alert.jsx";
-import Header from "./../components/Header.jsx";
-import Footer from "./../components/Footer.jsx";
+import Alert from "../components/pageComponents/Alert.jsx";
+import Header from "./../components/pageComponents/Header.jsx";
+import Footer from "./../components/pageComponents/Footer.jsx";
 import {Outlet} from "react-router-dom";
 
 export default function Layout() {

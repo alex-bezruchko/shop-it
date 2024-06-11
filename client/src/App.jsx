@@ -4,9 +4,9 @@ import {Route, Routes} from 'react-router-dom';
 import axios from 'axios';
 import { Provider } from 'react-redux';
 import store from './store';
-import {UserContextProvider} from './components/UserContext.jsx';
-import { PlaceProvider } from './components/PlaceContext.jsx';
-import { RequestContextProvider } from './components/RequestContext.jsx'; // Import RequestContextProvider
+import {UserContextProvider} from './components/contextComponents/UserContext.jsx';
+import { PlaceProvider } from './components/contextComponents/PlaceContext.jsx';
+import { RequestContextProvider } from './components/contextComponents/RequestContext.jsx'; // Import RequestContextProvider
 import Layout from './layouts/Layout.jsx';
 
 const AccountPage = lazy(() => import('./pages/AccountPage.jsx'));

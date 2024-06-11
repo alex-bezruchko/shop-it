@@ -1,12 +1,12 @@
 import { useState, useContext, useEffect, useCallback} from "react";
-import { UserContext } from "./UserContext";
+import { UserContext } from "../contextComponents/UserContext";
 import axios from 'axios';
 import { useParams, Link } from "react-router-dom";
-import ProductList from "../components/ProductList";
-import ProductsDialog from "../components/ProductsDialog";
-import ValidationErrorDisplay from "./ValidationErrors";
-import { Validation } from "./Validation";
-import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
+import ProductList from "./ProductList";
+import ProductsDialog from "../pageComponents/ProductsDialog";
+import ValidationErrorDisplay from "../utilsComponents/ValidationErrors";
+import { Validation } from "../utilsComponents/Validation";
+import placeholderImg from "../../../public/placeholder.png"; // Import the placeholder image
 
 export default function CurrentList({listLoading, isLoading}) {
 

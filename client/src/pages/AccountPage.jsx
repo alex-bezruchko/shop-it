@@ -1,13 +1,13 @@
 import React, { useEffect, useContext, useState, lazy, Suspense, useMemo } from "react";
-import { UserContext } from "../components/UserContext";
+import { UserContext } from "../components/contextComponents/UserContext";
 import { Navigate, Link, useParams, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { fetchProductsSuccess } from '../actions/productActions'; // Import the action creator
 
-const ShoppingList =  lazy(() => import("../components/ShoppingList"));
-const CurrentList =  lazy(() => import("../components/CurrentList"));
-const UsersLists =  lazy(() => import("../components/UsersLists"));
+const ShoppingList =  lazy(() => import("../components/listsComponents/ShoppingList"));
+const CurrentList =  lazy(() => import("../components/listsComponents/CurrentList"));
+const UsersLists =  lazy(() => import("../components/listsComponents/UsersLists"));
 
 // Wrap lazy-loaded components with Suspense and specify a fallback UI
 const SuspenseLoader = ({ children }) => (

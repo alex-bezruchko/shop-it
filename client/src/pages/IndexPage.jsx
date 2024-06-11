@@ -1,6 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import { useContext } from "react"; // Importing useState
-import { UserContext } from "./../components/UserContext.jsx";
+import { UserContext } from "./../contextComponents/UserContext.jsx";
 
 export default function IndexPage() {
     const { user } = useContext(UserContext);

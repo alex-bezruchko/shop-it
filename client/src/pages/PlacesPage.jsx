@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import { UserContext } from "../components/UserContext";
+import { UserContext } from "../components/contextComponents/UserContext";
 import { Navigate, Link, useParams } from "react-router-dom";
 import GoogleSearchComponent from "../components/GoogleSearchComponent";
-import FavoritesList from "../components/PlacesList";
+import FavoritesList from "../components/listsComponents/PlacesList";
 
 export default function PlacesPage() {
     const { ready, user } = useContext(UserContext);

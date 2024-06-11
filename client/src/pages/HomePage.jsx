@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
+import placeholderImg from "./../../public/placeholder.png";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);

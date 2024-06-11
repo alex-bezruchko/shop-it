@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { UserContext } from "./UserContext";
+import { UserContext } from '../contextComponents/UserContext';
 import { useDispatch } from 'react-redux';
 
 import axios from 'axios';

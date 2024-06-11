@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { removeAlert } from './../actions/alertActions';
+import { removeAlert } from './../../actions/alertActions';
 
 const AlertContainer = ({ alert, removeAlert }) => {
   const { message, alertType } = alert;

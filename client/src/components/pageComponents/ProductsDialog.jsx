@@ -4,9 +4,9 @@ import { useDispatch } from 'react-redux';
 // import CustomSelect from "./CustomSelect";
 // import ImageSearch from "./ImageSearch";
 // import FileUpload from './FileUpload';
-const CustomSelect = lazy(() => import("./CustomSelect"));
-const ImageSearch = lazy(() => import("./ImageSearch"));
-const FileUpload = lazy(() => import('./FileUpload'));
+const CustomSelect = lazy(() => import("../utilsComponents/CustomSelect"));
+const ImageSearch = lazy(() => import("../ImageSearch"));
+const FileUpload = lazy(() => import('../utilsComponents/FileUpload'));
 
 // Wrap lazy-loaded components with Suspense and specify a fallback UI
 const SuspenseLoader = ({ children }) => (
@@ -15,9 +15,9 @@ const SuspenseLoader = ({ children }) => (
     </Suspense>
 );
 
-import { Validation } from './Validation';
-import ValidationErrorDisplay from "./../components/ValidationErrors";
-import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
+import { Validation } from '../utilsComponents/Validation';
+import ValidationErrorDisplay from "../utilsComponents/ValidationErrors";
+import placeholderImg from "../../../public/placeholder.png"; // Import the placeholder image
 
   export default function ProductsDialog({product, handleUpdateProducts}) {
     
