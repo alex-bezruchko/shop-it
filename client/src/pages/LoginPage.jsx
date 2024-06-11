@@ -1,9 +1,9 @@
 import { Link, Navigate } from "react-router-dom";
 import { useContext, useState } from "react";
-import { UserContext } from "../contextComponents/UserContext";
+import { UserContext } from "../components/contextComponents/UserContext"
 import { useDispatch } from 'react-redux';
-import { Validation } from "../components/Validation";
-import ValidationErrorDisplay from "./../components/ValidationErrors";
+import { Validation } from "../components/utilsComponents/Validation";
+import ValidationErrorDisplay from "./../components/utilsComponents/ValidationErrors";
 
 import axios from 'axios';
 
