@@ -2,8 +2,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { Validation } from "../components/Validation";
-import ValidationErrorDisplay from "./../components/ValidationErrors";
+import { Validation } from "../components/utilsComponents/Validation";
+import ValidationErrorDisplay from "./../components/utilsComponents/ValidationErrors";
 
 export default function NewPasswordPage() {
     const dispatch = useDispatch();
