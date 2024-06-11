@@ -16,7 +16,6 @@ const SuspenseLoader = ({ children }) => (
     </Suspense>
 );
 export default function AccountPage() {
-    console.log('i got re-rendered')
     const dispatch = useDispatch();
     const { ready, user } = useContext(UserContext);
     const [currentListLink, setCurrentListLink] = useState('');

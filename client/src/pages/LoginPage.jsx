@@ -28,7 +28,6 @@ export default function LoginPage() {
             try {
                 setErrors([])
                 const response = await axios.post(`/users/login`, body, {withCredentials: true});
-                console.log('response', response)
                 setUser(response.data.user);
                 localStorage.setItem('token', response.data.token);
                 setLoading(false)
