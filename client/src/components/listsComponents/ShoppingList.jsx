@@ -1,12 +1,12 @@
 import { useState, useContext } from "react";
-import { UserContext } from "./UserContext";
+import { UserContext } from "../contextComponents/UserContext";
 import axios from 'axios';
-import ProductList from "../components/ProductList";
+import ProductList from "./ProductList";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import ValidationErrorDisplay from "./ValidationErrors";
-import { Validation } from "./Validation";
-import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
+import ValidationErrorDisplay from "../utilsComponents/ValidationErrors";
+import { Validation } from "../utilsComponents/Validation";
+import placeholderImg from "../../../public/placeholder.png"; // Import the placeholder image
 
 export default function ShoppingList() {
     const dispatch = useDispatch();

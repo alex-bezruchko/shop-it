@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { UserContext } from "./../components/UserContext";
+import { UserContext } from "../components/contextComponents/UserContext";
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
+import placeholderImg from "../../public/placeholder.png";
+// import placeholderImg from "../../../public/placeholder.png"; // Import the placeholder image
 
 export default function FriendDetailPage({listLoading}) {
   const { user } = useContext(UserContext);

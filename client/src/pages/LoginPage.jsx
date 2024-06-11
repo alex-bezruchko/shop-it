@@ -1,6 +1,6 @@
 import { Link, Navigate } from "react-router-dom";
 import { useContext, useState } from "react";
-import { UserContext } from "../components/UserContext";
+import { UserContext } from "../contextComponents/UserContext";
 import { useDispatch } from 'react-redux';
 import { Validation } from "../components/Validation";
 import ValidationErrorDisplay from "./../components/ValidationErrors";

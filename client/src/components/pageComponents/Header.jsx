@@ -1,8 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState, useEffect } from "react"; // Importing useState
 import { useDispatch } from 'react-redux';
-import { UserContext } from "./UserContext";
-import { RequestContext } from './RequestContext';
+import { UserContext } from "../contextComponents/UserContext";
+import { RequestContext } from './../contextComponents/RequestContext';
 import ProductsDialog from "./ProductsDialog";
 import axios from "axios";
 

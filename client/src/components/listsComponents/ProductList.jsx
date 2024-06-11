@@ -1,5 +1,5 @@
-import ProductsDialog from './ProductsDialog';
-import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
+import ProductsDialog from '../pageComponents/ProductsDialog';
+import placeholderImg from "../../../public/placeholder.png"; // Import the placeholder image
 import React, { useEffect, useCallback, useState } from 'react';
 
 const ProductList = ({ products, addToList, currentList, noHeader, handleUpdateProducts, deleteProduct }) => {

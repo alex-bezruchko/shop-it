@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useContext, useReducer } from "react";
 import axios from 'axios';
 import { UserContext } from './UserContext'; // Import UserContext
 import Pusher from 'pusher-js';
-import requestReducer, { initialState} from './../reducers/requestReducer';
+import requestReducer, { initialState} from './../../reducers/requestReducer';
 import { useDispatch } from 'react-redux'; // Import useDispatch from Redux
 
 export const RequestContext = createContext(); // Define the context

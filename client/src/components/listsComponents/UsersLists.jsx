@@ -1,9 +1,9 @@
 import React, { useState, useContext, useEffect, useCallback, useMemo } from "react";
-import { UserContext } from "./UserContext";
+import { UserContext } from "../contextComponents/UserContext";
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { useDispatch } from 'react-redux';
-import { removeAlert } from '../actions/alertActions';
+import { removeAlert } from '../../actions/alertActions';
 
 export default function UsersLists({ sendTo, listLoading, isLoading }) {
     const dispatch = useDispatch();

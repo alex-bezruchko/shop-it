@@ -2,10 +2,10 @@ import React, { useState, useContext, useEffect } from 'react';
 
 import { GoogleMap, Marker } from '@react-google-maps/api';
 import axios from 'axios';
-import { UserContext } from "./UserContext";
+import { UserContext } from "./../components/contextComponents/UserContext";
 import { useDispatch, useSelector } from 'react-redux';
-import { Validation } from "../components/Validation";
-import ValidationErrorDisplay from "./../components/ValidationErrors";
+import { Validation } from "./../components/utilsComponents/Validation";
+import ValidationErrorDisplay from "./../components/utilsComponents/ValidationErrors";
 
 const GoogleSearchComponent = () => {
   const dispatch = useDispatch();

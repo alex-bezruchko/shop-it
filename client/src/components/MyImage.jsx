@@ -1,6 +1,6 @@
 import React from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import placeholderImg from "../../public/placeholder.png"; // Import the placeholder image
+import placeholderImg from "../../../public/placeholder.png"; // Import the placeholder image
 
 export default function MyImage ({ image, updateImageCount, classStyle }) {
 
